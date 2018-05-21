@@ -4,11 +4,11 @@ const debug = process.env.DEBUG === 'true' || false; /* convert str to bool */
 
 const router = require('express').Router();
 
-const users = require('./api/endpoints/users');
-const pictures = require('./api/endpoints/pictures');
+const usersEP = require('./api/endpoints/user');
+const picturesEP = require('./api/endpoints/picture');
 
-router.use('/users', users);
-router.use('/pictures', pictures);
+router.use('/users', usersEP);
+router.use('/pictures', picturesEP);
 
 router.route('/').get((req, res) => {
   debug
