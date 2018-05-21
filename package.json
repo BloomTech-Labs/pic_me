@@ -20,12 +20,12 @@
   "homepage": "https://github.com/Lambda-School-Labs/pic_me#readme",
   "dependencies": {
     "cors": "^2.8.4",
+    "dotenv": "^5.0.1",
     "express": "^4.16.3",
     "passport": "^0.4.0",
     "path": "^0.12.7"
   },
   "devDependencies": {
-    "dotenv": "^5.0.1",
     "morgan": "^1.9.0",
     "nodemon": "^1.17.4"
   }
