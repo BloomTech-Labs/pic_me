@@ -1,0 +1,20 @@
+{
+  "name": "pic_me",
+  "version": "1.0.0",
+  "description": "CS6 Capstone Project",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lambda-School-Labs/pic_me.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Lambda-School-Labs/pic_me/issues"
+  },
+  "homepage": "https://github.com/Lambda-School-Labs/pic_me#readme"
+}
