@@ -1,4 +1,3 @@
-require('dotenv').config();
 const debug = process.env.DEBUG === 'true' || false; /* convert str to bool */
 
 const morgan = debug ? require('morgan') : null;
