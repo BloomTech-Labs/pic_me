@@ -6,7 +6,8 @@ const { Schema } = mongoose.Schema;
 const PhotoSchema = new Schema({
   uploadedBy: { type: Schema.Types.ObjectId, ref: 'User' },
   img: { data: Buffer, contentType: String },
-  // tags: {},
+  tags: [{ type: String }],
+  // createdOn: Date
   // path:
   // filename || originalname:
 });
