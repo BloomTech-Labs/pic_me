@@ -1,5 +1,7 @@
 const dev = process.env.DEV === 'true';
 
+const send = require('../helpers/send');
+
 // modified version of api_folder branch
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
@@ -29,7 +31,7 @@ const UserSchema = new Schema({
 UserSchema.pre('save', function(next) {
   bcrypt.hash(this.password + secret, salt, (err, hash) => {
     if (err) {
-      send(res, error.server, hashingError, err);
+      send(res, 500, { err, message: `hashing error` });
       return;
     }
 
