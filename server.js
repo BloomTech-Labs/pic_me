@@ -1,4 +1,5 @@
 const debug = process.env.DEBUG === 'true'; /* convert str to bool */
+const dev = process.env.DEV === 'true';
 
 const express = require('express');
 const path = require('path');
@@ -9,7 +10,7 @@ const router = require('./router');
 const server = express();
 
 /* dev dependencies */
-if (debug) {
+if (dev) {
   server.use(require('morgan')('combined'));
 }
 
