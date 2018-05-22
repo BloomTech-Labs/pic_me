@@ -2,21 +2,12 @@
 /* eslint-disable no-confusing-arrow */
 const User = require('./model');
 
-exports.userCreate = function (req, res, next) {
-  const user = new User({
-    email: req.body.email,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    nickNames: req.body.nickNames,
-    password: req.body.password,
-  });
-  user.save((err) => {
-    if (err) { return next(err); }
-    res.send({ message: 'New user created.' });
-  });
+exports.create = function (info) {
+  const user = new User(info);
+  return user.save();
 };
 
-exports.userUpdate = function (req, res, next) {
+exports.update = function (req, res, next) {
   User.findById(req.params.id, (err, user) => {
     if (err) { return next(err); }
     if (user === null) {
@@ -28,22 +19,22 @@ exports.userUpdate = function (req, res, next) {
   });
 };
 
-exports.userDelete = function (req, res, next) {
+exports.delete = function (req, res, next) {
   User.findByIdAndRemove(req.params.id, (err) => {
     if (err) { return next(err); }
     res.send({ message: 'User Deleted.' });
   });
 };
 
-exports.userList = function (req, res, next) {
+exports.list = function (req, res, next) {
   User.find()
     .sort([['lastName', 'ascending']])
     .exec((error, listUsers) => error
       ? next(error)
-      : res.render('user_list', { title: 'User List', userList: listUsers }));
+      : res.render('user_list', { title: 'User List', list: listUsers }));
 };
 
-exports.userUploads = function (req, res, next) {
+exports.uploads = function (req, res, next) {
   const query = User.find({}).select('uploads - id');
 
   query.exec((err, uploads) => {
@@ -52,7 +43,7 @@ exports.userUploads = function (req, res, next) {
   });
 };
 
-exports.userCollection = function (req, res, next) {
+exports.collection = function (req, res, next) {
   const query = User.find({}).select('collection - id');
 
   query.exec((err, collection) => {
@@ -60,5 +51,3 @@ exports.userCollection = function (req, res, next) {
     res.send(collection);
   });
 };
-
-
