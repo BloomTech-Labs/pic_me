@@ -1,6 +1,4 @@
-const debug = process.env.DEBUG === 'true' || false; /* convert str to bool */
-
-const morgan = debug ? require('morgan') : null;
+const debug = process.env.DEBUG === 'true'; /* convert str to bool */
 
 const express = require('express');
 const path = require('path');
@@ -10,7 +8,11 @@ const router = require('./router');
 
 const server = express();
 
-debug ? server.use(morgan('combined')) : null;
+/* dev dependencies */
+if (debug) {
+  server.use(require('morgan')('combined'));
+}
+
 server.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 server.use(express.static(path.join(__dirname, 'client/build')));
 server.use(express.json());
