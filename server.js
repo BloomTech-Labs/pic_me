@@ -1,16 +1,18 @@
-require('dotenv').config();
+const debug = process.env.DEBUG === 'true'; /* convert str to bool */
 
 const express = require('express');
 const path = require('path');
-const morgan = require('morgan');
 const cors = require('cors');
 
 const router = require('./router');
 
 const server = express();
-const debug = process.env.DEBUG === 'true' || false; /* convert str to bool */
 
-debug ? server.use(morgan('combined')) : null;
+/* dev dependencies */
+if (debug) {
+  server.use(require('morgan')('combined'));
+}
+
 server.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 server.use(express.static(path.join(__dirname, 'client/build')));
 server.use(express.json());
