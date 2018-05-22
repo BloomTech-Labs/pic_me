@@ -4,7 +4,7 @@ const dev = process.env.DEV === 'true';
 const router = require('express').Router();
 const passport = require('passport');
 
-const validate = require('../helpers/validate');
+const validate = require('../helpers/validate/validate');
 const sanitize = require('../helpers/sanitize');
 const controller = dev ? require('../test-auth-user/controller') : null; // TODO: Change second condition to production db controller
 // POSSIBLY just delete this and use db controller
@@ -30,9 +30,11 @@ router
       );
   });
 
-router.route('/login').post(passport.authenticate('local'), (req, res) => {
-  send(res, 200, `user authenticated`);
-});
+router
+  .route('/login')
+  .post(validate.login, passport.authenticate('local'), (req, res) => {
+    send(res, 200, `user authenticated`);
+  });
 
 router.route('/logout').get((req, res) => {
   req.logout();

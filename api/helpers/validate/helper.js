@@ -1,7 +1,5 @@
 module.exports = {
-  signup: (req, res, next) => {
-    const { email, password, firstName, lastName } = req.body;
-
+  checkEmailAndPassword: (res, email, password) => {
     if (!email && !password) {
       res.status(422).send({ message: `email and password not provided` });
       return;
@@ -17,6 +15,9 @@ module.exports = {
       return;
     }
 
+    return true;
+  },
+  checkFirstnameAndLastname: (res, firstName, lastName) => {
     if (!firstName && !lastName) {
       res.status(422).send({ message: `first and last names not provided` });
       return;
@@ -32,6 +33,6 @@ module.exports = {
       return;
     }
 
-    next();
+    return true;
   },
 };
