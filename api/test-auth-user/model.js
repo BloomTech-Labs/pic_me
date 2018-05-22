@@ -29,27 +29,32 @@ const UserSchema = new Schema({
 });
 
 UserSchema.pre('save', function(next) {
-  bcrypt.hash(this.password + secret, salt, (err, hash) => {
-    if (err) {
-      send(res, 500, { err, message: `hashing error` });
-      return;
-    }
+  const user = this;
+  const SALT_FACTOR = 10;
 
-    this.password = hash;
-    next();
+  if (!user.isModified('password')) return next();
+
+  bcrypt.genSalt(SALT_FACTOR, (err, salt) => {
+    bcrypt.hash(user.password, salt, (err, hash) => {
+      if (err) return next(err);
+
+      user.password = hash;
+      return next();
+    });
   });
 });
 
-UserSchema.methods.checkPassword = function(password, cb) {
-  bcrypt.compare(password + secret, this.password, (err, res) => {
-    cb(err, res);
+UserSchema.methods.comparePassword = function(pswdAttempt, cb) {
+  bcrypt.compare(pswdAttempt, this.password, (err, isMatch) => {
+    if (err) {
+      return cb(err);
+    }
+    return cb(null, isMatch);
   });
 };
 
-UserSchema.methods.checkHashedPassword = function(password) {
-  return password === this.password;
-};
-
+// User static methods
+//
 UserSchema.statics.getAllUsers = cb => {
   User.find({}, (err, users) => {
     if (err) {
@@ -61,6 +66,4 @@ UserSchema.statics.getAllUsers = cb => {
   });
 };
 
-const User = mongoose.model('User', UserSchema);
-
-module.exports = User;
+module.exports = mongoose.model('User', UserSchema);
