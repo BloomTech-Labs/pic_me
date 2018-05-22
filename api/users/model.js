@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-
+// TODO import fuse.js after you have usage plan on paper
 const { Schema } = mongoose.Schema;
 
 // TODO password hashing w/bcrypt, may add some Statics onto model
@@ -16,12 +16,15 @@ const UserSchema = new Schema({
   lastName: { type: String, lowercase: true, required: true },
   nickNames: [{ type: String }],
   password: { type: String, require: true },
-  // createdOn: Date
+  createdOn: Date,
   // credits balance: {}
   // stripe hasPaid: {}
   uploads: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
-  collection: [{ type: Schema.Types.ObjectId, ref: 'Photo' }]
+  collection: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
 });
+
+// User static methods
+//
 
 UserSchema.pre('save', (next) => {
   const user = this;

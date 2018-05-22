@@ -7,9 +7,12 @@ const PhotoSchema = new Schema({
   uploadedBy: { type: Schema.Types.ObjectId, ref: 'User' },
   img: { data: Buffer, contentType: String },
   tags: [{ type: String }],
-  // createdOn: Date
+  // ? rename uploadeOn
+  createdOn: Date,
   // path:
   // filename || originalname:
 });
+
+// Photo static methods
 
 module.exports = mongoose.model('Photo', PhotoSchema);
