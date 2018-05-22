@@ -7,4 +7,8 @@ module.exports = {
   request: _ => {
     return User.find();
   },
+  requestOne: parm => {
+    /* should be in the format { email: 'email@e.mail' } */
+    return User.findOne(parm);
+  },
 };

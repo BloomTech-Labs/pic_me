@@ -1,4 +1,6 @@
 const User = require('../test-auth-user/model');
+const controller = require('../test-auth-user/controller');
+const send = require('./send');
 
 module.exports = {
   sid: (req, res, next) => {
@@ -12,28 +14,21 @@ module.exports = {
       password /* this is the hashed password deserialized by `passport` */,
     } = req.user;
 
-    User.findOne({ email })
+    controller
+      .requestOne({ email })
       .then(user => {
-        // if (err) {
-        //   res.status(500).send({
-        //     err,
-        //     message: `error retrieving information for user`,
-        //   });
-        //   return;
-        // }
-
         if (!user) {
-          res
-            .status(500)
-            .send({ err, message: `user (${user.email}) not found` });
+          send(res, 500, { err, message: `user (${user.email}) not found` });
           return;
         }
 
         if (password !== user.password) {
-          res
-            .status(422)
-            .send({ message: `passwords did not match. please log back in` });
+          send(res, 401, {
+            message: `passwords did not match. please check password`,
+          });
           req.logout(); /* if session password does not match server password, force logout */
+          /* this happens if the user updated their password. cookie session no longer has correct password */
+          return;
         }
 
         /* user is found and password in session matches user's server-side password */
