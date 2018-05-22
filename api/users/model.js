@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 // TODO import fuse.js after you have usage plan on paper
@@ -21,41 +22,43 @@ const UserSchema = new Schema({
   // credits balance: {}
   // stripe hasPaid: {}
   uploads: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
-  collection: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
+  collection: [{ type: Schema.Types.ObjectId, ref: 'Photo' }]
 });
 
-UserSchema.pre('save', (next) => {
+// User static methods
+UserSchema.pre('save', function (next) {
   const user = this;
   const SALT_FACTOR = 10;
 
   if (!user.isModified('password')) return next();
 
   bcrypt.genSalt(SALT_FACTOR, (err, salt) => {
-    bcrypt.hash(user.password, salt, null, (err, hash) => {
+    bcrypt.hash(user.password, salt, (err, hash) => {
       if (err) return next(err);
+
       user.password = hash;
       return next();
     });
   });
 });
 
-UserSchema.methods.comparePassword = (pswdAttempt, cb) => {
-  bcrypt.compare(pswdAttempt, this.password, (err, isMatch) => {
-    if (err) { return cb(err); }
-    return cb(null, isMatch);
-  });
-};
-
-// User static methods
-//
-UserSchema.statics.getAllUsers = cb => {
+UserSchema.statics.getAllUsers = function (cb) {
   User.find({}, (err, users) => {
     if (err) {
-      cb({ err: err });
+      cb({ err });
       return;
     }
 
     cb(users);
+  });
+};
+
+UserSchema.methods.comparePassword = function (pswdAttempt, cb) {
+  bcrypt.compare(pswdAttempt, this.password, (err, isMatch) => {
+    if (err) {
+      return cb(err);
+    }
+    return cb(null, isMatch);
   });
 };
 
