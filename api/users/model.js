@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 // TODO import fuse.js after you have usage plan on paper
 const { Schema } = mongoose.Schema;
+const send = require('../helpers/send');
 
 // TODO password hashing w/bcrypt, may add some Statics onto model
 // ? Should each user have a thumbnail or avatar
@@ -23,9 +24,6 @@ const UserSchema = new Schema({
   collection: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
 });
 
-// User static methods
-//
-
 UserSchema.pre('save', (next) => {
   const user = this;
   const SALT_FACTOR = 10;
@@ -45,6 +43,19 @@ UserSchema.methods.comparePassword = (pswdAttempt, cb) => {
   bcrypt.compare(pswdAttempt, this.password, (err, isMatch) => {
     if (err) { return cb(err); }
     return cb(null, isMatch);
+  });
+};
+
+// User static methods
+//
+UserSchema.statics.getAllUsers = cb => {
+  User.find({}, (err, users) => {
+    if (err) {
+      cb({ err: err });
+      return;
+    }
+
+    cb(users);
   });
 };
 
