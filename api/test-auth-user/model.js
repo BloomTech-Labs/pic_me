@@ -2,6 +2,10 @@ const dev = process.env.DEV === 'true';
 
 // modified version of api_folder branch
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+
+const secret = process.env.SECRET;
+const salt = 11;
 
 const options = {};
 
@@ -22,4 +26,39 @@ const UserSchema = new Schema({
   password: { type: String, require: true },
 });
 
-module.exports = mongoose.model('User', UserSchema);
+UserSchema.pre('save', function(next) {
+  bcrypt.hash(this.password + secret, salt, (err, hash) => {
+    if (err) {
+      send(res, error.server, hashingError, err);
+      return;
+    }
+
+    this.password = hash;
+    next();
+  });
+});
+
+UserSchema.methods.checkPassword = function(password, cb) {
+  bcrypt.compare(password + secret, this.password, (err, res) => {
+    cb(err, res);
+  });
+};
+
+UserSchema.methods.checkHashedPassword = function(password) {
+  return password === this.password;
+};
+
+UserSchema.statics.getAllUsers = cb => {
+  User.find({}, (err, users) => {
+    if (err) {
+      cb({ err: err });
+      return;
+    }
+
+    cb(users);
+  });
+};
+
+const User = mongoose.model('User', UserSchema);
+
+module.exports = User;
