@@ -7,6 +7,7 @@ const cors = require('cors');
 const router = require('./router');
 
 const server = express();
+// TODO add mongoDB connection code below
 
 /* dev dependencies */
 if (debug) {
