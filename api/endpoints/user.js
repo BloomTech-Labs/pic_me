@@ -1,18 +1,17 @@
-const debug = process.env.DEBUG === 'true'; /* convert str to bool */
-const dev = process.env.DEV === 'true';
-
 const router = require('express').Router();
 const passport = require('passport');
 
+const { debug } = require('../../dev');
+
+/* helpers */
 const validate = require('../helpers/validate/validate');
 const sanitize = require('../helpers/sanitize');
-const controller = dev ? require('../test-auth-user/controller') : null; // TODO: Change second condition to production db controller
-// POSSIBLY just delete this and use db controller
-/* if so, delete this comment and uncomment out below */
-// const controller = require('') // TODO: FILL OUT WITH DB DIR
-
 const authenticate = require('../helpers/authenticate');
 const send = require('../helpers/send');
+
+/* controllers */
+const userCTR = require('../users/controller');
+// const photoCTR = require('../photos/controller')
 
 router
   .route('/')
@@ -22,7 +21,7 @@ router
       : send(res, 404, { message: `debug set to false` });
   })
   .post(validate.signup, sanitize.user, (req, res) => {
-    controller
+    userCTR
       .create(req.user)
       .then(savedUser => send(res, 201, savedUser))
       .catch(err =>
@@ -36,13 +35,27 @@ router
     send(res, 200, `user authenticated`);
   });
 
+router.route('/auth/twitter').get(passport.authenticate('twitter'));
+
+router
+  .route('/auth/twitter/callback')
+  .get(passport.authenticate('twitter'), (req, res) => {
+    send(res, 201, { message: `twitter authenticated successfully` });
+  });
+//   passport.authenticate('twitter',{}, (req, res) => {
+//     // console.log('token', token);
+//     // console.log('tokenSecret', tokenSecret);
+//     send(res, 201, { message: `twitter user authenticated` });
+//   }),
+// );
+
 router.route('/logout').get((req, res) => {
   req.logout();
   send(res, 200, `user logged out`);
 });
 
 router.route('/all').get(authenticate.sid, (req, res) => {
-  controller
+  userCTR
     .request()
     .then(users => res.send(users))
     .catch(err =>
