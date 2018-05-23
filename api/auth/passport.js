@@ -1,22 +1,16 @@
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
 
-const User = require('../test-auth-user/model');
+/* strategies / providers */
+const localStrategy = require('./providers/local');
+const twitterStrategy = require('./providers/twitter');
+// const googleStrategy = require('./providers/google');
 
-passport.use(
-  new LocalStrategy({ usernameField: 'email' }, (username, password, done) => {
-    User.findOne({ email: username }, function(err, user) {
-      if (err) return done(err);
-      if (!user) return done(null, false, { message: `Incorrect username` });
-      user.comparePassword(password, (err, res) => {
-        if (err) done(err);
-        if (!res) return done(null, false, { message: `Incorrect password` });
+/* user model */
+const User = require('../users/models');
 
-        return done(null, user);
-      });
-    });
-  }),
-);
+passport.use(localStrategy);
+passport.use(twitterStrategy);
+// passport.use(googleStrategy);
 
 /* sessions */
 passport.serializeUser((user, done) => {
