@@ -1,6 +1,6 @@
-const debug = process.env.DEBUG === 'true' || false; /* convert str to bool */
-
 const router = require('express').Router();
+
+const { dev, debug } = require('./dev');
 
 const usersEP = require('./api/endpoints/user');
 const picturesEP = require('./api/endpoints/picture');

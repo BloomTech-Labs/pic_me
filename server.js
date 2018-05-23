@@ -1,6 +1,3 @@
-const debug = process.env.DEBUG === 'true'; /* convert str to bool */
-const dev = process.env.DEV === 'true';
-
 const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
@@ -10,6 +7,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
+
+const { dev, debug } = require('./dev');
 
 const router = require('./router');
 const passport = require('./api/auth/passport');
