@@ -22,7 +22,7 @@ const UserSchema = new Schema({
   // credits balance: {}
   // stripe hasPaid: {}
   uploads: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
-  collection: [{ type: Schema.Types.ObjectId, ref: 'Photo' }]
+  photos: [{ type: Schema.Types.ObjectId, ref: 'Photo' }]
 });
 
 // User static methods
