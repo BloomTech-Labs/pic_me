@@ -1,23 +1,24 @@
-const dev = process.env.DEV === 'true';
-
-const send = require('../helpers/send');
-
 // modified version of api_folder branch
 const mongoose = require('mongoose');
+const findOrCreate = require('mongoose-findorcreate');
 const bcrypt = require('bcrypt');
 
-const secret = process.env.SECRET;
-const salt = 11;
+// const { dev, debug } = require('../../dev');
+
+const MLAB = JSON.parse(process.env.MLAB);
+
+// const secret = process.env.SECRET;
+// const salt = 11;
 
 const options = {};
 
-if (dev) {
-  options.user = JSON.parse(process.env.MONGODB).user;
-  options.pass = JSON.parse(process.env.MONGODB).pass;
-  options.authSource = JSON.parse(process.env.MONGODB).authSource;
-}
+// if (dev) {
+//   options.user = JSON.parse(process.env.MONGODB).user;
+//   options.pass = JSON.parse(process.env.MONGODB).pass;
+//   options.authSource = JSON.parse(process.env.MONGODB).authSource;
+// }
 
-mongoose.connect('mongodb://localhost/test-auth-user', options);
+mongoose.connect(`mongodb://${MLAB.USER}:${MLAB.PASS}@${MLAB.URI}`);
 
 const { Schema } = mongoose;
 
@@ -25,8 +26,14 @@ const UserSchema = new Schema({
   email: { type: String, lowercase: true, unique: true, required: true },
   firstName: { type: String, lowercase: true, required: true },
   lastName: { type: String, lowercase: true, required: true },
+  nickNames: [{ type: String }],
   password: { type: String, require: true },
+  createdOn: Date,
+  uploads: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
+  photos: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
 });
+
+UserSchema.plugin(findOrCreate);
 
 UserSchema.pre('save', function(next) {
   const user = this;
@@ -53,8 +60,6 @@ UserSchema.methods.comparePassword = function(pswdAttempt, cb) {
   });
 };
 
-// User static methods
-//
 UserSchema.statics.getAllUsers = cb => {
   User.find({}, (err, users) => {
     if (err) {
