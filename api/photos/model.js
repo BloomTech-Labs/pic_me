@@ -7,7 +7,7 @@ const PhotoSchema = new Schema({
   uploadedBy: { type: Schema.Types.ObjectId, ref: 'User' },
   img: { data: Buffer, contentType: String },
   tags: [{ type: String }],
-  // ? rename uploadeOn
+  // ? rename uploadedOn
   createdOn: Date,
   // path:
   // filename || originalname:
