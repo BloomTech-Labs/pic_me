@@ -1,9 +1,9 @@
 /* eslint-disable func-names */
+const findOrCreate = require('mongoose-findorcreate');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 // TODO import fuse.js after you have usage plan on paper
 const { Schema } = mongoose.Schema;
-const send = require('../helpers/send');
 
 // TODO password hashing w/bcrypt, may add some Statics onto model
 // ? Should each user have a thumbnail or avatar
@@ -40,6 +40,8 @@ UserSchema.pre('save', function (next) {
     });
   });
 });
+
+UserSchema.plugin(findOrCreate);
 
 UserSchema.statics.getAllUsers = function (cb) {
   User.find({}, (err, users) => {
