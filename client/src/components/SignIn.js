@@ -50,7 +50,7 @@ class Signin extends Component {
               </Button>
   
               <NavLink className="SignupForm__NavLink" to="/signup">
-                Don't have an account? Sign Up
+                <div>Don't have an account? Sign Up</div>
               </NavLink>
             </div>
           </form>
