@@ -8,6 +8,7 @@ exports.create = function (info) {
 };
 
 exports.request = function (parm) {
+  if (!parm) return User.find();
   return User.findOne(parm);
 };
 
