@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const debug = process.env.DEBUG === 'true' || false; /* convert str to bool */
+const { dev, debug } = require('../../dev');
 
 router.route('/').get((req, res) => {
   debug

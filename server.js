@@ -1,22 +1,48 @@
-const debug = process.env.DEBUG === 'true'; /* convert str to bool */
-
 const express = require('express');
+const session = require('express-session');
+const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo')(session);
+// const cookieParser = require('cookie-parser');
+// const flash = require('connect-flash');
+const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
 
+const { dev, debug } = require('./dev');
+
 const router = require('./router');
+const passport = require('./api/auth/passport');
+
+const MLAB = JSON.parse(process.env.MLAB);
+mongoose.connect(`mongodb://${MLAB.USER}:${MLAB.PASS}@${MLAB.URI}`);
 
 const server = express();
 // TODO add mongoDB connection code below
 
 /* dev dependencies */
-if (debug) {
+if (dev) {
   server.use(require('morgan')('combined'));
 }
 
 server.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 server.use(express.static(path.join(__dirname, 'client/build')));
 server.use(express.json());
+
+/* passport */
+server.use(express.static('public'));
+// server.use(cookieParser());
+server.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true,
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  }),
+);
+server.use(bodyParser.urlencoded({ extended: false }));
+server.use(passport.initialize());
+server.use(passport.session());
+// server.use(flash());
 
 server.use('/api', router);
 
