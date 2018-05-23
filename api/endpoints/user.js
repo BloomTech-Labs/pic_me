@@ -27,6 +27,9 @@ router
       .catch(err =>
         send(res, 500, { err, message: `server failed to save new user` }),
       );
+  })
+  .put((req, res) => {
+    // userCTR.update();
   });
 
 router

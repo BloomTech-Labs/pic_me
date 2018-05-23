@@ -3,7 +3,7 @@ const findOrCreate = require('mongoose-findorcreate');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 // TODO import fuse.js after you have usage plan on paper
-const { Schema } = mongoose.Schema;
+const { Schema } = mongoose;
 
 // TODO password hashing w/bcrypt, may add some Statics onto model
 // ? Should each user have a thumbnail or avatar
@@ -21,11 +21,11 @@ const UserSchema = new Schema({
   // credits balance: {}
   // stripe hasPaid: {}
   uploads: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
-  photos: [{ type: Schema.Types.ObjectId, ref: 'Photo' }]
+  photos: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
 });
 
 // User static methods
-UserSchema.pre('save', function (next) {
+UserSchema.pre('save', function(next) {
   const user = this;
   const SALT_FACTOR = 10;
 
@@ -43,7 +43,7 @@ UserSchema.pre('save', function (next) {
 
 UserSchema.plugin(findOrCreate);
 
-UserSchema.statics.getAllUsers = function (cb) {
+UserSchema.statics.getAllUsers = function(cb) {
   User.find({}, (err, users) => {
     if (err) {
       cb({ err });
@@ -54,7 +54,7 @@ UserSchema.statics.getAllUsers = function (cb) {
   });
 };
 
-UserSchema.methods.comparePassword = function (pswdAttempt, cb) {
+UserSchema.methods.comparePassword = function(pswdAttempt, cb) {
   bcrypt.compare(pswdAttempt, this.password, (err, isMatch) => {
     if (err) {
       return cb(err);
