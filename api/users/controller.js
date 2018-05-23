@@ -1,5 +1,3 @@
-/* eslint-disable func-names */
-/* eslint-disable no-confusing-arrow */
 const User = require('./model');
 
 exports.create = function (info) {

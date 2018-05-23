@@ -6,7 +6,7 @@ const twitterStrategy = require('./providers/twitter');
 // const googleStrategy = require('./providers/google');
 
 /* user model */
-const User = require('../users/models');
+const User = require('../users/model');
 
 passport.use(localStrategy);
 passport.use(twitterStrategy);
