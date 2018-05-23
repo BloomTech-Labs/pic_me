@@ -1,9 +1,9 @@
 /* eslint-disable func-names */
+const findOrCreate = require('mongoose-findorcreate');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 // TODO import fuse.js after you have usage plan on paper
 const { Schema } = mongoose.Schema;
-const send = require('../helpers/send');
 
 // TODO password hashing w/bcrypt, may add some Statics onto model
 // ? Should each user have a thumbnail or avatar
@@ -12,7 +12,6 @@ const send = require('../helpers/send');
 // ? CreatedOn field..
 
 const UserSchema = new Schema({
-  _id: mongoose.Schema.Types.ObjectId,
   email: { type: String, lowercase: true, unique: true, required: true },
   firstName: { type: String, lowercase: true, required: true },
   lastName: { type: String, lowercase: true, required: true },
@@ -22,7 +21,7 @@ const UserSchema = new Schema({
   // credits balance: {}
   // stripe hasPaid: {}
   uploads: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
-  collection: [{ type: Schema.Types.ObjectId, ref: 'Photo' }]
+  photos: [{ type: Schema.Types.ObjectId, ref: 'Photo' }]
 });
 
 // User static methods
@@ -41,6 +40,8 @@ UserSchema.pre('save', function (next) {
     });
   });
 });
+
+UserSchema.plugin(findOrCreate);
 
 UserSchema.statics.getAllUsers = function (cb) {
   User.find({}, (err, users) => {
