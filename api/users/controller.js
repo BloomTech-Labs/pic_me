@@ -7,6 +7,10 @@ exports.create = function (info) {
   return user.save();
 };
 
+exports.request = function (parm) {
+  return User.findOne(parm);
+};
+
 exports.update = function (req, res, next) {
   User.findById(req.params.id, (err, user) => {
     if (err) { return next(err); }

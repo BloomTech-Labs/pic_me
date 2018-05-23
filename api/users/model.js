@@ -12,7 +12,6 @@ const send = require('../helpers/send');
 // ? CreatedOn field..
 
 const UserSchema = new Schema({
-  _id: mongoose.Schema.Types.ObjectId,
   email: { type: String, lowercase: true, unique: true, required: true },
   firstName: { type: String, lowercase: true, required: true },
   lastName: { type: String, lowercase: true, required: true },
