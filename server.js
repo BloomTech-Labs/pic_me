@@ -1,7 +1,7 @@
 const express = require('express');
 const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo')(session);
 // const cookieParser = require('cookie-parser');
 // const flash = require('connect-flash');
 const bodyParser = require('body-parser');
@@ -12,6 +12,9 @@ const { dev, debug } = require('./dev');
 
 const router = require('./router');
 const passport = require('./api/auth/passport');
+
+const MLAB = JSON.parse(process.env.MLAB);
+mongoose.connect(`mongodb://${MLAB.USER}:${MLAB.PASS}@${MLAB.URI}`);
 
 const server = express();
 
