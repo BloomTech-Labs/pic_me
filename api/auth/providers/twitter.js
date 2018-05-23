@@ -2,7 +2,7 @@ const TwitterStrategy = require('passport-twitter').Strategy;
 
 const TWITTER = JSON.parse(process.env.TWITTER);
 
-const User = require('../../users/models');
+const User = require('../../users/model');
 
 module.exports = new TwitterStrategy(
   {

@@ -1,9 +1,8 @@
-/* eslint-disable func-names */
 const findOrCreate = require('mongoose-findorcreate');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 // TODO import fuse.js after you have usage plan on paper
-const { Schema } = mongoose.Schema;
+const { Schema } = mongoose;
 
 // TODO password hashing w/bcrypt, may add some Statics onto model
 // ? Should each user have a thumbnail or avatar
