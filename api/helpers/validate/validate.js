@@ -2,28 +2,29 @@ const send = require('../../helpers/send');
 const {
   checkEmailAndPassword,
   checkFirstnameAndLastname,
+  checkNicknames,
 } = require('./helper');
 
-module.exports = {
-  signup: (req, res, next) => {
-    const { email, password, firstName, lastName } = req.body;
+exports.signup = (req, res, next) => {
+  const { email, password, firstName, lastName, nickNames } = req.body;
 
-    if (!checkEmailAndPassword(res, email, password)) return;
-    if (!checkFirstnameAndLastname(res, firstName, lastName)) return;
+  if (!checkEmailAndPassword(res, email, password)) return;
+  if (!checkFirstnameAndLastname(res, firstName, lastName)) return;
+  if (!checkNicknames(res, nickNames)) return;
 
-    next();
-  },
-  login: (req, res, next) => {
-    /* check if there is a user logged in already */
-    if (req.user) {
-      send(res, 422, { message: `user (${req.user.email}) already logged in` });
-      return;
-    }
+  next();
+};
 
-    const { email, password } = req.body;
+exports.login = (req, res, next) => {
+  /* check if there is a user logged in already */
+  if (req.user) {
+    send(res, 422, { message: `user (${req.user.email}) already logged in` });
+    return;
+  }
 
-    checkEmailAndPassword(res, email, password);
+  const { email, password } = req.body;
 
-    next();
-  },
+  checkEmailAndPassword(res, email, password);
+
+  next();
 };
