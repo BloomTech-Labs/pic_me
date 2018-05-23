@@ -17,6 +17,7 @@ const MLAB = JSON.parse(process.env.MLAB);
 mongoose.connect(`mongodb://${MLAB.USER}:${MLAB.PASS}@${MLAB.URI}`);
 
 const server = express();
+// TODO add mongoDB connection code below
 
 /* dev dependencies */
 if (dev) {
