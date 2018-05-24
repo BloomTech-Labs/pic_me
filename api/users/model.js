@@ -1,4 +1,3 @@
-/* eslint-disable func-names */
 const findOrCreate = require('mongoose-findorcreate');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
