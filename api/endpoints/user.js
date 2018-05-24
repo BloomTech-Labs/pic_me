@@ -37,10 +37,10 @@ router
   .delete(authenticate.sid, (req, res) => {
     userCTR
       .delete(req.user.id)
-      .then(deletedUser => {
+      .then(_ => {
         req.logout();
 
-        send(res, 200, deletedUser);
+        send(res, 200, `user successfully deleted`);
       })
       .catch(err =>
         send(res, 500, { err, message: `server failed to delete user` }),
