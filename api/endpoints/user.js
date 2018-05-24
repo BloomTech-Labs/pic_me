@@ -33,6 +33,18 @@ router
       .catch(err =>
         send(res, 500, { err, message: `server failed to edit user` }),
       );
+  })
+  .delete(authenticate.sid, (req, res) => {
+    userCTR
+      .delete(req.user.id)
+      .then(deletedUser => {
+        req.logout();
+
+        send(res, 200, deletedUser);
+      })
+      .catch(err =>
+        send(res, 500, { err, message: `server failed to delete user` }),
+      );
   });
 
 router.route('/info').get(authenticate.sid, (req, res) => {

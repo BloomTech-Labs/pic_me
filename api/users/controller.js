@@ -14,13 +14,8 @@ exports.update = (_id, user) => {
   return User.findByIdAndUpdate(_id, user, { new: true });
 };
 
-exports.delete = function(req, res, next) {
-  User.findByIdAndRemove(req.params.id, err => {
-    if (err) {
-      return next(err);
-    }
-    res.send({ message: 'User Deleted.' });
-  });
+exports.delete = _id => {
+  return User.findByIdAndRemove({ _id });
 };
 
 exports.list = function(req, res, next) {
