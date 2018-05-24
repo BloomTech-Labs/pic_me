@@ -1,26 +1,23 @@
 const findOrCreate = require('mongoose-findorcreate');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-// TODO import fuse.js after you have usage plan on paper
 const { Schema } = mongoose;
 
-// TODO password hashing w/bcrypt, may add some Statics onto model
 // ? Should each user have a thumbnail or avatar
 // ? when deleting (if uploadedBy === user then delete...)
 // ? get all photos and filter by user nicknames to build up browsable selection
-// ? CreatedOn field..
 
 const UserSchema = new Schema({
-  email: { type: String, lowercase: true, unique: true, required: true },
-  firstName: { type: String, lowercase: true, required: true },
-  lastName: { type: String, lowercase: true, required: true },
-  nickNames: [{ type: String }],
-  password: { type: String, require: true },
-  createdOn: Date,
-  // credits balance: {}
-  // stripe hasPaid: {}
-  uploads: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
-  photos: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
+	email: { type: String, lowercase: true, unique: true, required: true },
+	firstName: { type: String, lowercase: true, required: true },
+	lastName: { type: String, lowercase: true, required: true },
+	nickNames: [{ type: String }],
+	password: { type: String, require: true },
+	// createdAt: { type: Date, default: Date.now },
+	// credits balance: {}
+	// stripe hasPaid: {}
+	uploads: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
+	photos: [{ type: Schema.Types.ObjectId, ref: 'Photo' }]
 });
 
 // User static methods

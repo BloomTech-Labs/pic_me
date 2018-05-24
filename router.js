@@ -9,6 +9,7 @@ router.use('/users', usersEP);
 router.use('/pictures', picturesEP);
 
 router.route('/').get((req, res) => {
+  // res.send({ router: 'running' });
   debug
     ? res.send({ router: 'running' })
     : res.status(404).send({ message: `debug set to false` });

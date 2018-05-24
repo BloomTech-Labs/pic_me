@@ -43,8 +43,6 @@ server.use(passport.initialize());
 server.use(passport.session());
 // server.use(flash());
 
-server.use('/api', router);
-
 server.get('/', (req, res) => {
   debug
     ? res.send({ server: `running` })
