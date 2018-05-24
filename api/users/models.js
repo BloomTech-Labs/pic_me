@@ -1,24 +1,8 @@
-// modified version of api_folder branch
 const mongoose = require('mongoose');
 const findOrCreate = require('mongoose-findorcreate');
 const bcrypt = require('bcrypt');
 
-// const { dev, debug } = require('../../dev');
-
-const MLAB = JSON.parse(process.env.MLAB);
-
-// const secret = process.env.SECRET;
-// const salt = 11;
-
-const options = {};
-
-// if (dev) {
-//   options.user = JSON.parse(process.env.MONGODB).user;
-//   options.pass = JSON.parse(process.env.MONGODB).pass;
-//   options.authSource = JSON.parse(process.env.MONGODB).authSource;
-// }
-
-mongoose.connect(`mongodb://${MLAB.USER}:${MLAB.PASS}@${MLAB.URI}`);
+// const MLAB = JSON.parse(process.env.MLAB);
 
 const { Schema } = mongoose;
 
@@ -29,10 +13,13 @@ const UserSchema = new Schema({
   nickNames: [{ type: String }],
   password: { type: String, require: true },
   createdOn: Date,
+  // credits balance: {}
+  // stripe hasPaid: {}
   uploads: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
   photos: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
 });
 
+// User static methods
 UserSchema.plugin(findOrCreate);
 
 UserSchema.pre('save', function(next) {
@@ -51,23 +38,23 @@ UserSchema.pre('save', function(next) {
   });
 });
 
+UserSchema.statics.getAllUsers = function(cb) {
+  User.find({}, (err, users) => {
+    if (err) {
+      cb({ err });
+      return;
+    }
+
+    cb(users);
+  });
+};
+
 UserSchema.methods.comparePassword = function(pswdAttempt, cb) {
   bcrypt.compare(pswdAttempt, this.password, (err, isMatch) => {
     if (err) {
       return cb(err);
     }
     return cb(null, isMatch);
-  });
-};
-
-UserSchema.statics.getAllUsers = cb => {
-  User.find({}, (err, users) => {
-    if (err) {
-      cb({ err: err });
-      return;
-    }
-
-    cb(users);
   });
 };
 
