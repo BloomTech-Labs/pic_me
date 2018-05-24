@@ -15,7 +15,7 @@ exports.signup = (req, res, next) => {
 
   if (!checkEmailAndPassword(res, email, password)) return;
   if (!checkFirstnameAndLastname(res, firstName, lastName)) return;
-  if (!checkNicknames(res, nickNames)) return;
+  // if (!checkNicknames(res, nickNames)) return;
 
   next();
 };
