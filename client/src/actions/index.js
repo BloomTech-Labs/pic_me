@@ -25,7 +25,7 @@ export const AUTH_LOGOUT_SUCCESS = 'AUTH_LOGOUT_SUCCESS';
 export const AUTH_LOGOUT_ERROR = 'AUTH_LOGOUT_ERROR';
 export const AUTH_LOGOUT_FINISH = 'AUTH_LOGOUT_FINISH';
 
-const ROOT = 'http://127.0.0.1:5555/api';
+const ROOT = 'http://localhost:5555/api';
 
 export const resetErrors = _ => {
   return dispatch => {
