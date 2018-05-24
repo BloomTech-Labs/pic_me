@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
+import Bread from './Bread';
+
 class Settings extends Component {
     render() {
         return (
             <div>
+                <Bread />
                 <Form>
                 <FormGroup row>
                     <Label for="email" sm={2}>Email:</Label>
