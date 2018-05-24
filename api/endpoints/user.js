@@ -6,7 +6,7 @@ const { debug } = require('../../dev');
 /* helpers */
 const validate = require('../helpers/validate/validate');
 const sanitize = require('../helpers/sanitize');
-// const authenticate = require('../helpers/authenticate');
+const authenticate = require('../helpers/authenticate');
 const send = require('../helpers/send');
 
 /* controllers */
@@ -50,27 +50,32 @@ router
 /* this route is used to update sensitive settings, such as passwords and email */
 router
   .route('/settings')
-  .put(validate.settingsData, sanitize.settingsData, (req, res) => {
-    userCTR
-      .requestById(req.user.id)
-      .then(user => {
-        const { email, password } = req.settings;
+  .put(
+    authenticate.sid,
+    validate.settingsData,
+    sanitize.settingsData,
+    (req, res) => {
+      userCTR
+        .requestById(req.user.id)
+        .then(user => {
+          const { email, password } = req.settings;
 
-        if (email) user.email = email;
-        if (password) user.password = password;
+          if (email) user.email = email;
+          if (password) user.password = password;
 
-        user
-          .save()
-          .then(savedUser => {
-            // req.logout();
-            send(res, 200, sanitize.response(savedUser));
-          })
-          .catch(err =>
-            send(res, 500, { err, message: `error updating user settings` }),
-          );
-      })
-      .catch(err => res.send(err));
-  });
+          user
+            .save()
+            .then(savedUser => {
+              // req.logout();
+              send(res, 200, sanitize.response(savedUser));
+            })
+            .catch(err =>
+              send(res, 500, { err, message: `error updating user settings` }),
+            );
+        })
+        .catch(err => res.send(err));
+    },
+  );
 
 router.route('/info').get((req, res) => {
   send(res, 200, sanitize.response(req.user));
