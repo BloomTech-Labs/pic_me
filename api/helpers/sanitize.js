@@ -1,5 +1,5 @@
 exports.user = (req, res, next) => {
-  req.user = {
+  req.newUser = {
     email: req.body.email,
     password: req.body.password,
     firstName: req.body.firstName,
@@ -8,4 +8,28 @@ exports.user = (req, res, next) => {
   };
 
   next();
+};
+
+exports.update = (req, res, next) => {
+  req.editedUser = {};
+
+  Object.keys(req.body.user).forEach(
+    field => (req.editedUser[field] = req.body.user[field]),
+  );
+
+  next();
+};
+
+exports.settingsData = (req, res, next) => {
+  const { email, password } = req.body.user;
+  req.settings = {};
+
+  if (email) req.settings.email = email;
+  if (password) req.settings.password = password;
+
+  next();
+};
+
+exports.response = user => {
+  return { ...user._doc, password: undefined };
 };

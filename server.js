@@ -17,7 +17,6 @@ const MLAB = JSON.parse(process.env.MLAB);
 mongoose.connect(`mongodb://${MLAB.USER}:${MLAB.PASS}@${MLAB.URI}`);
 
 const server = express();
-// TODO add mongoDB connection code below
 
 /* dev dependencies */
 if (dev) {
@@ -47,9 +46,7 @@ server.use(passport.session());
 server.use('/api', router);
 
 server.get('/', (req, res) => {
-  debug
-    ? res.send({ server: `running` })
-    : res.status(404).send({ message: `debug set to false` });
+  debug ? res.send({ server: `running` }) : null;
 });
 
 module.exports = server;
