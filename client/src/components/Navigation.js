@@ -59,7 +59,7 @@ class Navigation extends Component {
                                 <NavLink href="/signup">Sign Up</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/signin">Sign In</NavLink>
+                                <NavLink href="/login">Log In</NavLink>
                             </NavItem>
                         </Nav>
                     </Collapse>
