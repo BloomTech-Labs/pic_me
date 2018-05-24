@@ -16,9 +16,7 @@ const userCTR = require('../users/controller');
 router
   .route('/')
   .get((req, res) => {
-    debug
-      ? send(res, 200, { users: `running` })
-      : send(res, 404, { message: `debug set to false` });
+    debug ? send(res, 200, { users: `running` }) : null;
   })
   .post(validate.signup, sanitize.user, (req, res) => {
     userCTR
