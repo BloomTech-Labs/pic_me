@@ -1,6 +1,8 @@
 const send = require('../../helpers/send');
 const {
   checkEmailAndPassword,
+  checkEmailOrPassword,
+  // checkForSameEmailOrPassword,
   checkFirstnameAndLastname,
   checkNicknames,
   // checkIdAndLoggedInId,
@@ -44,6 +46,15 @@ exports.login = (req, res, next) => {
 exports.update = (req, res, next) => {
   if (!checkUser(res, req.body.user)) return;
   if (!checkForChangedFields(res, req, req.body.user)) return;
+
+  next();
+};
+
+exports.settingsData = (req, res, next) => {
+  const { email, password } = req.body.user;
+
+  if (!checkEmailOrPassword(res, email, password)) return;
+  // if (!checkForSameEmailOrPassword(res, req.user, email, password)) return;
 
   next();
 };

@@ -20,6 +20,16 @@ exports.update = (req, res, next) => {
   next();
 };
 
+exports.settingsData = (req, res, next) => {
+  const { email, password } = req.body.user;
+  req.settings = {};
+
+  if (email) req.settings.email = email;
+  if (password) req.settings.password = password;
+
+  next();
+};
+
 exports.response = user => {
   return { ...user._doc, password: undefined };
 };

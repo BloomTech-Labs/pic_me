@@ -22,6 +22,15 @@ exports.checkEmailAndPassword = (res, email, password) => {
   return true;
 };
 
+exports.checkEmailOrPassword = (res, email, password) => {
+  if (!email && !password) {
+    send(res, 422, message.emailPasswordNotProvided);
+    return;
+  }
+
+  return true;
+};
+
 exports.checkFirstnameAndLastname = (res, firstName, lastName) => {
   if (!firstName && !lastName) {
     send(res, 422, message.firstLastNameNotProvided);
@@ -127,3 +136,36 @@ exports.checkForChangedFields = (res, req, user) => {
 
   send(res, 422, message.noUserFieldsChanged);
 };
+
+// exports.checkForSameEmailOrPassword = (res, user, email, password) => {
+//   if (user.email === email) {
+//     send(res, 422, message.tryingToChangeToSameEmail);
+//     return;
+//   }
+
+//   let isSamePassword = false;
+
+//   const checkSamePassword = new Promise((resolve, reject) => {
+//     user.comparePassword(password, function(err, isMatch) {
+//       if (err) {
+//         send(res, 500, { err, message: `error comparing passwords` });
+//         reject(err);
+//       }
+
+//       if (isMatch) {
+//         send(res, 422, message.tryingToChangeToSamePassword);
+//         resolve(true);
+//       }
+
+//       resolve(false);
+//     });
+//   });
+
+//   checkSamePassword
+//     .then(value => (isSamePassword = value))
+//     .catch(reason =>
+//       send(res, 500, { err: reason, message: `error checking password` }),
+//     );
+
+//   return isSamePassword;
+// };

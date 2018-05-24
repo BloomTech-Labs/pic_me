@@ -10,6 +10,14 @@ exports.request = function(parm) {
   return User.findOne(parm);
 };
 
+exports.requestById = _id => {
+  return User.findById(_id, (err, user) => {
+    if (err) return err;
+
+    return user;
+  });
+};
+
 exports.update = (_id, user) => {
   return User.findByIdAndUpdate(_id, user, { new: true });
 };
