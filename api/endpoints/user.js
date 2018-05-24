@@ -22,15 +22,24 @@ router
   })
   .post(validate.signup, sanitize.user, (req, res) => {
     userCTR
-      .create(req.user)
+      .create(req.newUser)
       .then(savedUser => send(res, 201, savedUser))
       .catch(err =>
         send(res, 500, { err, message: `server failed to save new user` }),
       );
   })
-  .put((req, res) => {
-    // userCTR.update();
+  .put(authenticate.sid, validate.update, sanitize.update, (req, res) => {
+    userCTR
+      .update(req.user.id, req.editedUser)
+      .then(editedUser => send(res, 200, sanitize.response(editedUser)))
+      .catch(err =>
+        send(res, 500, { err, message: `server failed to edit user` }),
+      );
   });
+
+router.route('/info').get(authenticate.sid, (req, res) => {
+  send(res, 200, sanitize.response(req.user));
+});
 
 router
   .route('/login')

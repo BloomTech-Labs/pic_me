@@ -3,6 +3,9 @@ const {
   checkEmailAndPassword,
   checkFirstnameAndLastname,
   checkNicknames,
+  // checkIdAndLoggedInId,
+  checkUser,
+  checkForChangedFields,
 } = require('./helper');
 
 exports.signup = (req, res, next) => {
@@ -25,6 +28,22 @@ exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
   checkEmailAndPassword(res, email, password);
+
+  next();
+};
+
+// exports.user = (req, res, next) => {
+//   // const { id } = req.body;
+//   // const loggedInId = req.user.id;
+
+//   // if (!checkIdAndLoggedInId(res, id, loggedInId)) return;
+
+//   next();
+// };
+
+exports.update = (req, res, next) => {
+  if (!checkUser(res, req.body.user)) return;
+  if (!checkForChangedFields(res, req, req.body.user)) return;
 
   next();
 };
