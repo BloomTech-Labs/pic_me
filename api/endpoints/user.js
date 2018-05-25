@@ -73,7 +73,9 @@ router
               send(res, 500, { err, message: `error updating user settings` }),
             );
         })
-        .catch(err => res.send(err));
+        .catch(err =>
+          send(res, 500, { err, message: `error finding user by id` }),
+        );
     },
   );
 
@@ -109,7 +111,7 @@ router.route('/logout').get(authenticate.sid, (req, res) => {
 router.route('/all').get(authenticate.sid, (req, res) => {
   userCTR
     .request()
-    .then(users => res.send(users))
+    .then(users => send(res, 200, users))
     .catch(err =>
       send(res, 500, { err, message: `server error retrieving users` }),
     );
