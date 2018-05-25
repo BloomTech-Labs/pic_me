@@ -25,7 +25,8 @@ export const AUTH_LOGOUT_SUCCESS = 'AUTH_LOGOUT_SUCCESS';
 export const AUTH_LOGOUT_ERROR = 'AUTH_LOGOUT_ERROR';
 export const AUTH_LOGOUT_FINISH = 'AUTH_LOGOUT_FINISH';
 
-const ROOT = 'http://localhost:5555/api';
+// const ROOT = 'https://labpicme.herokuapp.com/api';
+const ROOT = `/api`;
 
 export const resetErrors = _ => {
   return dispatch => {
