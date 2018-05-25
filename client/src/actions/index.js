@@ -25,7 +25,7 @@ export const AUTH_LOGOUT_SUCCESS = 'AUTH_LOGOUT_SUCCESS';
 export const AUTH_LOGOUT_ERROR = 'AUTH_LOGOUT_ERROR';
 export const AUTH_LOGOUT_FINISH = 'AUTH_LOGOUT_FINISH';
 
-const ROOT = 'http://127.0.0.1:5000/api';
+const ROOT = 'http://localhost:5555/api';
 
 export const resetErrors = _ => {
   return dispatch => {
@@ -51,7 +51,14 @@ export const authenticateUser = _ => {
   };
 };
 
-export const register = (email, password, confirmPassword, firstName, lastName, history) => {
+export const register = (
+  email,
+  password,
+  confirmPassword,
+  firstName,
+  lastName,
+  history,
+) => {
   return dispatch => {
     dispatch({ type: AUTH_SIGNUP_START });
 
@@ -72,19 +79,21 @@ export const register = (email, password, confirmPassword, firstName, lastName, 
 
     axios
       .post(`${ROOT}/users`, { email, password, firstName, lastName })
-      .then(({ response }) => {
-        dispatch({ type: AUTH_SIGNUP_SUCCESS, payload: response.data });
+      .then(({ data }) => {
+        dispatch({ type: AUTH_SIGNUP_SUCCESS, payload: data.email });
         dispatch({ type: AUTH_LOGIN_START });
         axios
-          .post(`${ROOT}/users/login`, { email, password, firstName, lastName })
+          .post(`${ROOT}/users/login`, { email, password })
           .then(({ data }) => {
-            localStorage.setItem(data.token);
+            // console.log(cookies.getAll());
+            // localStorage.setItem(data.token);
             dispatch({ type: AUTH_LOGIN_SUCCESS, payload: email });
             dispatch({ type: AUTH_LOGIN_FINISH });
             dispatch({ type: AUTH_SIGNUP_FINISH });
             history.push('/');
           })
           .catch(err => {
+            console.log(err);
             dispatch({
               type: AUTH_LOGIN_ERROR,
               payload: err.response.data.message,
@@ -131,11 +140,36 @@ export const logout = history => {
   return dispatch => {
     dispatch({ type: AUTH_LOGOUT_START });
 
-    localStorage.removeItem();
+    axios
+      .get(`${ROOT}/users/logout`)
+      .then(response => console.log(response))
+      .catch(err => console.log(err));
+
+    // localStorage.removeItem();
     dispatch({ type: AUTH_LOGOUT_SUCCESS });
 
     dispatch({ type: AUTH_LOGOUT_FINISH });
 
-    history.push('/login');
+    // history.push('/login');
+  };
+};
+
+export const getAllUsers = _ => {
+  return dispatch => {
+    axios
+      .get(`${ROOT}/users/all`)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => console.log(err));
+  };
+};
+
+export const getInfo = _ => {
+  return dispatch => {
+    axios
+      .get(`${ROOT}/users/info`)
+      .then(response => console.log(response))
+      .catch(err => console.log(err));
   };
 };
