@@ -7,7 +7,7 @@ const multerS3 = require('multer-s3-transform');
 const aws = require('aws-sdk');
 const sharp = require('sharp');
 const Schema = mongoose.Schema;
-// const image = require('../photos/model');
+const image = require('../photos/model');
 const MLAB = JSON.parse(process.env.MLAB);
 mongoose.connect(`mongodb://${MLAB.USER}:${MLAB.PASS}@${MLAB.URI}`);
 

@@ -13,12 +13,14 @@ const UserSchema = new Schema({
 	lastName: { type: String, lowercase: true, required: true },
 	nickNames: [{ type: String }],
 	password: { type: String, require: true },
-	// createdAt: { type: Date, default: Date.now },
+	uploads: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
+	photos: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
 	// credits balance: {}
 	// stripe hasPaid: {}
-	uploads: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
-	photos: [{ type: Schema.Types.ObjectId, ref: 'Photo' }]
-});
+}, 
+	{
+		timestamps: true
+	});
 
 // User static methods
 UserSchema.pre('save', function(next) {

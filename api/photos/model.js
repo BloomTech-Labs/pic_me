@@ -2,13 +2,14 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const PhotoSchema = new Schema({
-	// uploadedBy: { type: Schema.Types.ObjectId, ref: 'User' },
-	img: { data: Buffer, contentType: String },
+	owner: { type: Schema.Types.ObjectId, ref: 'User' },
 	tags: [{ type: String }],
-	createdAt: { type: Date, default: Date.now }, 
-});
+	img: { data: Buffer, contentType: String },
+},
+	{
+		timestamps: true
+	});
 
 // Photo static methods
-// get all photos
-// get photos by tag
+
 module.exports = mongoose.model('Photo', PhotoSchema);
