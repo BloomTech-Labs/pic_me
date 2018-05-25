@@ -27,7 +27,7 @@ server.use(express.static(path.join(__dirname, 'client/build')));
 server.use(express.json());
 
 /* passport */
-// server.use(express.static('public'));
+server.use(express.static('public'));
 server.use(
   session({
     secret: process.env.SECRET,
