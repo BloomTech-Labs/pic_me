@@ -2,7 +2,6 @@ const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
-// const cookieParser = require('cookie-parser');
 // const flash = require('connect-flash');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -23,13 +22,12 @@ if (dev) {
   server.use(require('morgan')('combined'));
 }
 
-server.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+server.use(cors({ origin: JSON.parse(process.env.CORS), credentials: true }));
 server.use(express.static(path.join(__dirname, 'client/build')));
 server.use(express.json());
 
 /* passport */
 server.use(express.static('public'));
-// server.use(cookieParser());
 server.use(
   session({
     secret: process.env.SECRET,
