@@ -22,7 +22,7 @@ if (dev) {
   server.use(require('morgan')('combined'));
 }
 
-server.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+server.use(cors({ origin: JSON.parse(process.env.CORS), credentials: true }));
 server.use(express.static(path.join(__dirname, 'client/build')));
 server.use(express.json());
 
