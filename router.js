@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { dev, debug } = require('./dev');
+const { debug } = require('./dev');
 
 const usersEP = require('./api/endpoints/user');
 const picturesEP = require('./api/endpoints/picture');
