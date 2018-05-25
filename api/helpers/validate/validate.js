@@ -11,7 +11,7 @@ const {
 } = require('./helper');
 
 exports.signup = (req, res, next) => {
-  const { email, password, firstName, lastName, nickNames } = req.body;
+  const { email, password, firstName, lastName } = req.body;
 
   if (!checkEmailAndPassword(res, email, password)) return;
   if (!checkFirstnameAndLastname(res, firstName, lastName)) return;
