@@ -21,7 +21,7 @@ router
   .post(validate.signup, sanitize.user, (req, res) => {
     userCTR
       .create(req.newUser)
-      .then(savedUser => send(res, 201, savedUser))
+      .then(savedUser => send(res, 201, sanitize.response(savedUser)))
       .catch(err =>
         send(res, 500, { err, message: `server failed to save new user` }),
       );
