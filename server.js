@@ -2,7 +2,6 @@ const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
-// const flash = require('connect-flash');
 const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
@@ -39,7 +38,6 @@ server.use(
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(passport.initialize());
 server.use(passport.session());
-// server.use(flash());
 
 server.use('/api', router);
 
