@@ -47,4 +47,8 @@ server.get('/', (req, res) => {
   debug ? res.send({ server: `running` }) : null;
 });
 
+server.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+});
+
 module.exports = server;
