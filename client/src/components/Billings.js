@@ -6,7 +6,12 @@ class Billings extends Component {
   render() {
     return (
       <div className="Billings">
-        <MyStoreCheckout />
+        <div
+          className="BillingCheckoutForm"
+          style={{ margin: '0 auto', padding: '10px', maxWidth: '700px' }}
+        >
+          <MyStoreCheckout fontSize="14px" />
+        </div>
       </div>
     );
   }

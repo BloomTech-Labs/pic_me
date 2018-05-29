@@ -72,7 +72,7 @@ class CheckoutForm extends React.Component {
             onChange={handleChange}
             onFocus={handleFocus}
             onReady={handleReady}
-            {...createOptions('24px')}
+            {...createOptions(this.props.fontSize)}
           />
         </label>
         {/* <CardElement /> */}
@@ -80,7 +80,14 @@ class CheckoutForm extends React.Component {
         {/* <CardExpiryElement /> */}
         {/* <CardCVCElement /> */}
         {/* <PostalCodeElement /> */}
-        <button>Pay</button>
+        <button
+          style={{
+            alignSelf: 'center',
+            width: '100px',
+          }}
+        >
+          Pay
+        </button>
       </form>
     );
   }
