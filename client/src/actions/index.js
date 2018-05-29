@@ -32,7 +32,8 @@ export const CHANGE_SETTINGS_SUCCESS = "CHANGE_SETTINGS_SUCCESS";
 export const FORGOTPASSWORD="FORGOTPASSWORD";
 export const RESETPASSWORD="RESETPASSWORD";
 
-const ROOT = 'http://localhost:5555/api';
+// const ROOT = 'https://labpicme.herokuapp.com/api';
+const ROOT = `/api`;
 
 export const resetErrors = _ => {
   return dispatch => {
@@ -195,7 +196,6 @@ export const getInfo = _ => {
       .catch(err => console.log(err));
   };
 };
-
 
 export const settings = (email, confirmPassword, password, firstName, lastName, nickNames) => {
   return dispatch => {

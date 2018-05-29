@@ -21,12 +21,12 @@ router
   .post(validate.signup, sanitize.user, (req, res) => {
     userCTR
       .create(req.newUser)
-      .then(savedUser => send(res, 201, savedUser))
+      .then(savedUser => send(res, 201, sanitize.response(savedUser)))
       .catch(err =>
         send(res, 500, { err, message: `server failed to save new user` }),
       );
   })
-  .put(validate.update, sanitize.update, (req, res) => {
+  .put(authenticate.sid, validate.update, sanitize.update, (req, res) => {
     userCTR
       .update(req.user.id, req.editedUser)
       .then(editedUser => send(res, 200, sanitize.response(editedUser)))
@@ -34,7 +34,7 @@ router
         send(res, 500, { err, message: `server failed to edit user` }),
       );
   })
-  .delete((req, res) => {
+  .delete(authenticate.sid, (req, res) => {
     userCTR
       .delete(req.user.id)
       .then(_ => {
@@ -73,11 +73,13 @@ router
               send(res, 500, { err, message: `error updating user settings` }),
             );
         })
-        .catch(err => res.send(err));
+        .catch(err =>
+          send(res, 500, { err, message: `error finding user by id` }),
+        );
     },
   );
 
-router.route('/info').get((req, res) => {
+router.route('/info').get(authenticate.sid, (req, res) => {
   send(res, 200, sanitize.response(req.user));
 });
 
@@ -101,15 +103,15 @@ router
 //   }),
 // );
 
-router.route('/logout').get((req, res) => {
+router.route('/logout').get(authenticate.sid, (req, res) => {
   req.logout();
   send(res, 200, `user logged out`);
 });
 
-router.route('/all').get((req, res) => {
+router.route('/all').get(authenticate.sid, (req, res) => {
   userCTR
     .request()
-    .then(users => res.send(users))
+    .then(users => send(res, 200, users))
     .catch(err =>
       send(res, 500, { err, message: `server error retrieving users` }),
     );
