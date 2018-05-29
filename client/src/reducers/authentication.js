@@ -1,6 +1,5 @@
 import {
   //
-  AUTH_LOGIN_START,
   AUTH_LOGIN_SUCCESS,
   AUTH_LOGIN_ERROR,
   AUTH_LOGIN_FINISH,
@@ -12,38 +11,46 @@ import {
   //
   AUTH_LOGOUT_SUCCESS,
   AUTH_ERROR_RESET,
-} from '../actions';
+  AUTH_LOGIN_START,
+  //
+  AUTH_ERROR,
+  FORGOTPASSWORD,
+  RESETPASSWORD,
+  CHANGE_SETTINGS_SUCCESS,
+  CHANGE_SETTINGS_START,
+} from "../actions";
 
 const initialState = {
-  user: '',
-  authenticating: false,
-  error: '',
+  user: "",
+  authenticated: false,
+  error: ""
 };
 
-export default (auth = initialState, action) => {
+export default (auth = {initialState}, action) => {
   switch (action.type) {
     case AUTH_SIGNUP_START:
       return {
         ...auth,
-        authenticating: true,
+        authenticated: true
       };
 
     case AUTH_SIGNUP_SUCCESS:
       return {
         ...auth,
-        // authenticating: false,
+        user: action.payload,
+        authenticated: true,
       };
 
     case AUTH_SIGNUP_ERROR:
       return {
         ...auth,
-        error: action.payload,
+        error: action.payload
       };
 
     case AUTH_SIGNUP_FINISH:
       return {
         ...auth,
-        authenticating: false,
+        authenticated: true
       };
 
     //
@@ -51,41 +58,71 @@ export default (auth = initialState, action) => {
     case AUTH_LOGIN_START:
       return {
         ...auth,
-        authenticating: true,
-      };
-
+        authenticated: true
+      }
     case AUTH_LOGIN_SUCCESS:
       return {
         ...auth,
         user: action.payload,
-        // authenticated: true,
+        authenticated: true
       };
 
     case AUTH_LOGIN_ERROR:
       return {
         ...auth,
         error: action.payload,
+        authenticated: false
       };
 
     case AUTH_LOGIN_FINISH:
       return {
         ...auth,
-        authenticating: false,
+        authenticated: true
       };
 
     //
     case AUTH_LOGOUT_SUCCESS:
       return {
         ...auth,
-        user: '',
+        authenticated: false,
+        user: ""
       };
 
     case AUTH_ERROR_RESET:
       return {
         ...auth,
-        error: '',
+        error: ""
+      };
+    
+    case AUTH_ERROR:
+      return {
+        ...auth,
+        error: action.payload
       };
 
+    case FORGOTPASSWORD:
+    return { 
+      ...auth, 
+      emailSent: true 
+    };
+    case RESETPASSWORD:
+    return { 
+      ...auth, 
+      resetPassword: true 
+    };
+    case CHANGE_SETTINGS_START:
+    return {
+      ...auth,
+      authenticated: true,
+      user: action.payload,
+    }
+    case CHANGE_SETTINGS_SUCCESS:
+    return {
+      ...auth,
+      authenticated: true,
+      user: action.payload,
+    }
+    
     default:
       return auth;
   }
