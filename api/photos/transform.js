@@ -27,6 +27,7 @@ const upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: 'firespray31',
+    // acl permissions
     contentType: multerS3.AUTO_CONTENT_TYPE,
     // should transform
     shouldTransform: true,
@@ -54,9 +55,12 @@ const upload = multer({
     // }
   })
 })
-
 server.post('/upload', upload.array('images', 10), (req, res, next) => {
-  console.log(req.files);
+  // Todo Need to access the location key on the transform object
+  // * Add logic to convert non jpg to jpg format or disallow the upload
+  // ? How will tags be handled
+  // * Add a url parameter to photoschema that points to image's s3 location
+  console.log(req.files[0]['transforms']);
   res.json(`Uploaded ${req.files.length} files!`);
 })  
 
