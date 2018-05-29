@@ -1,55 +1,129 @@
 import React, { Component } from "react";
-import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
-
-import Bread from './Bread';
+import { connect } from "react-redux";
+import { reduxForm, Field } from "redux-form";
+import { settings } from "../actions";
+import Bread from "./Bread";
 
 class Settings extends Component {
-    render() {
-        return (
-            <div>
-                <Bread />
-                <Form>
-                <FormGroup row>
-                    <Label for="email" sm={2}>Email:</Label>
-                    <Col sm={10}>
-                        <Input type="email" name="email" id="email" placeholder="user@gmail.com" />
-                    </Col>
-                </FormGroup>
-                <FormGroup row>
-                    <Label for="firstName" sm={2}>First Name:</Label>
-                    <Col sm={10}>
-                        <Input type="text" name="firstName" id="first" placeholder="Geoffrey" />
-                    </Col>
-                </FormGroup>
-                <FormGroup row>
-                    <Label for="lastName" sm={2}>Last Name:</Label>
-                    <Col sm={10}>
-                        <Input type="text" name="lastName" id="last" placeholder="User" />
-                    </Col>
-                </FormGroup>
-                <FormGroup row>
-                    <Label for="nickName" sm={2}>Nick Name:</Label>
-                    <Col sm={10}>
-                        <Input type="text" name="nickName" id="nick" placeholder="Geo, Geoffrey" />
-                    </Col>
-                </FormGroup>
-                <FormGroup row>
-                    <Label for="oldPassword" sm={2}>Old Password:</Label>
-                    <Col sm={10}>
-                        <Input type="password" name="password" id="oldPassword" placeholder="********" />
-                    </Col>
-                </FormGroup>
-                <FormGroup row>
-                    <Label for="newPassword" sm={2}>New Password:</Label>
-                    <Col sm={10}>
-                        <Input type="password" name="password" id="newPassword" placeholder="********" />
-                    </Col>
-                </FormGroup>
-                <Button>Submit</Button>
-            </Form>  
+  componentWillMount(){
+    this.props.settings();
+  }
+
+  submitFormHandler = ({
+    email,
+    password,
+    confirmPassword,
+    firstName,
+    lastName, 
+    nickNames,
+  }) => {
+    this.props.settings(
+      email,
+      password,
+      confirmPassword,
+      firstName,
+      lastName,
+      nickNames,
+      this.props.history,
+    );
+  };
+
+  render() {
+    return (
+      <div className="Settings">
+        <Bread />
+        <form onSubmit={this.props.handleSubmit(this.submitFormHandler)}>
+          <div className="form-group row">
+            <label className="col-sm-2 col-form-label">email: </label>
+            <div className="col-sm-10">
+              <Field
+                className="form-control"
+                name="email"
+                component="input"
+                type="text"
+                placeholder="email"
+              />
             </div>
-        );
-    }
+
+            <label className="col-sm-2 col-form-label">password: </label>
+            <div className="col-sm-10">
+              <Field
+                className="form-control"
+                name="password"
+                component="input"
+                type="password"
+                placeholder="password"
+              />
+            </div>
+
+            <label className="col-sm-2 col-form-label">confirm password: </label>
+            <div className="col-sm-10">
+              <Field
+                className="form-control"
+                name="confirmPassword"
+                component="input"
+                type="password"
+                placeholder="confirm password"
+              />
+            </div>
+
+            <label className="col-sm-2 col-form-label">first name: </label>
+            <div className="col-sm-10">
+              <Field
+                className="form-control"
+                name="firstName"
+                component="input"
+                type="text"
+                placeholder="first name"
+              />
+            </div>
+
+            <label className="col-sm-2 col-form-label">last name</label>
+            <div className="col-sm-10">
+              <Field
+                className="form-control"
+                name="lastName"
+                component="input"
+                type="text"
+                placeholder="last name"
+              />
+            </div>
+
+            <label className="col-sm-2 col-form-label">nick names</label>
+            <div className="col-sm-10">
+              <Field
+                className="form-control"
+                name="nickNames"
+                component="input"
+                type="text"
+                placeholder="nick names"
+              />
+            </div>
+              <button action="submit" className="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    );
+  }
 }
 
-export default Settings;
+const mapStateToProps = state => ({
+  authenticated: state.auth.authenticated,
+  error: state.auth.error
+});
+
+Settings = connect(mapStateToProps, {
+  settings
+})(Settings);
+
+export default reduxForm({
+  form: "settings",
+  fields: [
+    "email",
+    "password",
+    "confirmPassword",
+    "firstName",
+    "lastName",
+    "nickNames",
+  ]
+})(Settings);

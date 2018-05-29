@@ -18,6 +18,7 @@ export const AUTH_LOGIN_START = 'AUTH_LOGIN_START';
 export const AUTH_LOGIN_SUCCESS = 'AUTH_LOGIN_SUCCESS';
 export const AUTH_LOGIN_ERROR = 'AUTH_LOGIN_ERROR';
 export const AUTH_LOGIN_FINISH = 'AUTH_LOGIN_FINISH';
+export const LOGIN = "LOGIN";
 
 // logout
 export const AUTH_LOGOUT_START = 'AUTH_LOGOUT_START';
@@ -25,11 +26,27 @@ export const AUTH_LOGOUT_SUCCESS = 'AUTH_LOGOUT_SUCCESS';
 export const AUTH_LOGOUT_ERROR = 'AUTH_LOGOUT_ERROR';
 export const AUTH_LOGOUT_FINISH = 'AUTH_LOGOUT_FINISH';
 
+export const CHANGE_SETTINGS_START = "CHANGE_SETTINGS_START";
+export const CHANGE_SETTINGS_SUCCESS = "CHANGE_SETTINGS_SUCCESS";
+
+// password
+export const FORGOTPASSWORD="FORGOTPASSWORD";
+export const RESETPASSWORD="RESETPASSWORD";
+
 const ROOT = 'http://localhost:5555/api';
 
 export const resetErrors = _ => {
   return dispatch => {
     dispatch({ type: AUTH_ERROR_RESET });
+  };
+};
+
+export const authError = (error) => {
+  return (dispatch) => {
+    dispatch({ type: AUTH_ERROR, payload: error });
+    setTimeout(() => {
+      dispatch({ type: AUTH_ERROR });
+    }, 4000);
   };
 };
 
@@ -62,20 +79,20 @@ export const register = (
   return dispatch => {
     dispatch({ type: AUTH_SIGNUP_START });
 
-    // if (!email || !password || !confirmPassword || !firstName || !lastName) {
-    //   dispatch({
-    //     type: AUTH_SIGNUP_ERROR,
-    //     payload: 'Please provide all fields',
-    //   });
-    //   dispatch({ type: AUTH_SIGNUP_FINISH });
-    //   return;
-    // }
+    if (!email || !password || !confirmPassword || !firstName || !lastName) {
+      dispatch({
+        type: AUTH_SIGNUP_ERROR,
+        payload: 'Please provide all fields',
+      });
+      dispatch({ type: AUTH_SIGNUP_FINISH });
+      return;
+    }
 
-    // if (password !== confirmPassword) {
-    //   dispatch({ type: AUTH_SIGNUP_ERROR, payload: 'Passwords do not match' });
-    //   dispatch({ type: AUTH_SIGNUP_FINISH });
-    //   return;
-    // }
+    if (password !== confirmPassword) {
+      dispatch({ type: AUTH_SIGNUP_ERROR, payload: 'Passwords do not match' });
+      dispatch({ type: AUTH_SIGNUP_FINISH });
+      return;
+    }
 
     axios
       .post(`${ROOT}/users`, { email, password, firstName, lastName })
@@ -84,13 +101,13 @@ export const register = (
         dispatch({ type: AUTH_LOGIN_START });
         axios
           .post(`${ROOT}/users/login`, { email, password })
-          .then(({ data }) => {
+          .then(({ response }) => {
             // console.log(cookies.getAll());
             // localStorage.setItem(data.token);
-            dispatch({ type: AUTH_LOGIN_SUCCESS, payload: email });
-            dispatch({ type: AUTH_LOGIN_FINISH });
-            dispatch({ type: AUTH_SIGNUP_FINISH });
-            history.push('/');
+            dispatch({ type: AUTH_LOGIN_SUCCESS, payload: email});
+            // dispatch({ type: AUTH_LOGIN_FINISH });
+            // dispatch({ type: AUTH_SIGNUP_FINISH });
+            history.push('/feature');
           })
           .catch(err => {
             console.log(err);
@@ -119,40 +136,53 @@ export const login = (email, password, history) => {
 
     axios
       .post(`${ROOT}/users/login`, { email, password })
-      .then(({ data }) => {
-        dispatch({ type: AUTH_ERROR_RESET });
-        localStorage.setItem('token', data.token);
+      .then(response => {
+        // dispatch({ type: AUTH_ERROR_RESET });
+        // - Update state to indicate user is authenticated
         dispatch({ type: AUTH_LOGIN_SUCCESS, payload: email });
-        dispatch({ type: AUTH_LOGIN_FINISH });
-        history.push('/');
+        localStorage.setItem('token', response.data.token);
+        history.push('/feature');
       })
       .catch(err => {
         dispatch({
           type: AUTH_LOGIN_ERROR,
           payload: err.response.data.message,
         });
-        dispatch({ type: AUTH_LOGIN_FINISH });
+        // dispatch({ type: AUTH_LOGIN_FINISH });
       });
   };
 };
 
-export const logout = history => {
+export const logout = () => {
   return dispatch => {
-    dispatch({ type: AUTH_LOGOUT_START });
-
+    // dispatch({ type: AUTH_LOGOUT_START });
     axios
       .get(`${ROOT}/users/logout`)
-      .then(response => console.log(response))
+      .then(response => {
+        localStorage.removeItem('token', response.data.token);
+        dispatch({ type: AUTH_LOGOUT_SUCCESS});
+        // history.push('/logout');
+      })
       .catch(err => console.log(err));
-
-    // localStorage.removeItem();
-    dispatch({ type: AUTH_LOGOUT_SUCCESS });
-
-    dispatch({ type: AUTH_LOGOUT_FINISH });
-
-    // history.push('/login');
+        // dispatch({
+          // type: AUTH_LOGOUT_ERROR,
+        // });
+        // dispatch({ type: AUTH_LOGOUT_SUCCESS });
+        // dispatch({ type: AUTH_LOGOUT_FINISH });
+      };
   };
-};
+
+  export const twitter = () => {
+    return dispatch => {
+      axios
+        .get(`${ROOT}/users/auth/twitter`)
+        .then(response => {
+          console.log(response);
+          // localStorage.setItem('token', response.data.token);
+        })
+        .catch(err => console.log(err));
+    };
+  };
 
 export const getAllUsers = _ => {
   return dispatch => {
@@ -172,4 +202,52 @@ export const getInfo = _ => {
       .then(response => console.log(response))
       .catch(err => console.log(err));
   };
+};
+
+
+export const settings = (email, confirmPassword, password, firstName, lastName, nickNames) => {
+  return dispatch => {
+    dispatch({ type: CHANGE_SETTINGS_START });
+    // if (password !== confirmPassword) {
+    //   dispatch({ payload: 'Passwords do not match' });
+    //   return;
+    // }
+    axios
+      .put(`${ROOT}/users/settings`,  
+        {user: {email, confirmPassword, password, firstName, lastName, nickNames}}
+      )
+      .then(response => {
+        console.log(response);
+        dispatch({ type: CHANGE_SETTINGS_SUCCESS })
+      })
+      .catch(err => console.log(err));
+  }
+};
+
+
+// export const settings = async (user) => {
+//   const apiurl = `${ROOT}/settings`;
+//   try {
+//     const token = localStorage.getItem('token');
+//     await axios.post(apiurl, user, {
+//       headers: {
+//         Authorization: token,
+//       },
+//     });
+//     return {
+//       type: CHANGE_SETTINGS,
+//     };
+//   } catch (error) {
+//     return authError(error.response.data.message);
+//   }
+// };
+
+export const forgotPassword = (email) => {
+  return dispatch => {
+    axios
+      .post(`${ROOT}/forgotpassword`, { email })
+      .then(response => {console.log(response)}
+      // .catch (error) ()
+      // return authError(error.response.data.message)
+      )}
 };

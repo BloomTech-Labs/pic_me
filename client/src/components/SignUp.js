@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { reduxForm, Field } from 'redux-form';
 import { register, resetErrors, logout } from '../actions';
 // import { getInfo, getAllUsers, logout } from '../actions';
+// import { Button } from 'reactstrap';
 
 class Signup extends Component {
   componentWillMount() {
@@ -15,7 +16,7 @@ class Signup extends Component {
     password,
     confirmPassword,
     firstName,
-    lastName,
+    lastName
   }) => {
     this.props.register(
       email,
@@ -23,7 +24,7 @@ class Signup extends Component {
       confirmPassword,
       firstName,
       lastName,
-      this.props.history,
+      this.props.history
     );
   };
 
@@ -36,9 +37,9 @@ class Signup extends Component {
         >
           <div className="SignupDescription">
             {this.props.authenticating
-              ? 'Signing up..'
-              : this.props.error === ''
-                ? 'Sign up for an account'
+              ? "Signing up.."
+              : this.props.error === ""
+                ? "Sign up for an account"
                 : this.props.error}
           </div>
 
@@ -93,18 +94,18 @@ class Signup extends Component {
               />
             </fieldset>
 
-            <button className="SignupForm__button" action="submit">
+            <button className="btn btn-primary" action="submit">
               Sign up
             </button>
 
             <NavLink className="SignupForm__NavLink" to="/login">
-              Have an account? Log in
+            {' '}Have an account? Log in
             </NavLink>
           </div>
         </form>
 
         {/* <div onClick={_ => this.props.getAllUsers()}>print all users</div> */}
-        <div onClick={_ => this.props.logout()}>logout</div>
+        <button onClick={_ => this.props.logout()}>logout</button>
         {/* <div onClick={_ => this.props.getInfo()}>info</div> */}
       </div>
     );
@@ -112,8 +113,8 @@ class Signup extends Component {
 }
 
 const mapStateToProps = state => ({
-  authenticating: state.auth.authenticating,
-  error: state.auth.error,
+  authenticated: state.auth.authenticated,
+  error: state.auth.error
 });
 
 Signup = connect(mapStateToProps, {
@@ -121,10 +122,10 @@ Signup = connect(mapStateToProps, {
   logout,
   // getAllUsers,
   register,
-  resetErrors,
+  resetErrors
 })(Signup);
 
 export default reduxForm({
-  form: 'signup',
-  fields: ['email', 'password', 'confirmPassword', 'firstName', 'lastName'],
+  form: "signup",
+  fields: ["email", "password", "confirmPassword", "firstName", "lastName"]
 })(Signup);
