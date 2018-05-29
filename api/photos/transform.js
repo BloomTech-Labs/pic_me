@@ -26,8 +26,8 @@ let s3 = new aws.S3();
 const upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: 'firespray31',
-    // acl permissions
+    bucket: process.env.BUCKET,
+    // acl permissions 'public-read'
     contentType: multerS3.AUTO_CONTENT_TYPE,
     // should transform
     shouldTransform: true,
@@ -48,7 +48,7 @@ const upload = multer({
       }
     }],
     metadata: function(req, file, cb) {
-      cb(null, {fieldName: 'images'});
+      cb(null, {fieldName: 'images', fieldName: 'tags'});
     },
   })
 })
@@ -58,18 +58,16 @@ server.get('/', (req, res) => {
   res.send({ message: 'this route worked.' });
 });
 
-// ? .array(fieldname[, maxCount]) should uploads be limited to n amount of images
 server.post('/upload', upload.array('images'), (req, res, next) => {
-  // Todo Need to access the location key on the transform object
-  // * Add logic to convert non jpg to jpg format or disallow the upload
-  // ? How will tags be handled
-  // * Add a url parameter to photoschema that points to image's s3 location
-  console.log(req.files);
-  let uploads = req.files
-  uploads.forEach(image => {
-    console.log(image.transforms[0].location);
+  const uploads = req.files
+  uploads.forEach(i => {    
+    let newImage = new image();
+    // using shift() to make postman associate proper tags with image instead
+    // of just appending all tags from uploads as an array for each upload
+    newImage.tags = req.body.tags.shift(); 
+    newImage.url = i.transforms[0].location;
+    newImage.save();
   })
-  // images.insertMany(uploads, function(error, docs) {});
   res.json(`Uploaded ${req.files.length} files!`);
 })  
 
