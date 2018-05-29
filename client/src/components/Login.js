@@ -1,39 +1,43 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import { reduxForm, Field } from 'redux-form';
-import { login, resetErrors } from '../actions';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { NavLink } from "react-router-dom";
+import { reduxForm, Field } from "redux-form";
+import { login, twitter } from "../actions";
 
 class Login extends Component {
-  componentWillMount() {
-    this.props.resetErrors();
-  }
-
-  submitFormHandler = ({ 
-    email, 
-    password, 
-  }) => {
+  submitFormHandler = ({ email, password }) => {
     this.props.login(email, password, this.props.history);
   };
-  
+
+  renderAlert() {
+    if (this.props.error) {
+      return (
+        <div className="alert alert-danger">
+          <strong>Oops!</strong> {this.props.error}
+        </div>
+      )
+    }
+  }
   render() {
     return (
       <div className="Signup">
-
+        <a href="http://localhost:5555/api/users/auth/twitter">Login with twitter</a>
         <form
           className="Signup__form"
           onSubmit={this.props.handleSubmit(this.submitFormHandler)}
         >
-          <div className="SignupDescription">
+          {/* <div className="SignupDescription">
             {this.props.authenticating
-              ? 'Logging in..'
-              : this.props.error === '' ? 'Log in' : this.props.error}
-          </div>
-
-          <div className="SignupForm">
-            <fieldset>
+              ? "Logging in.."
+              : this.props.error === ""
+                ? "Log in"
+                : this.props.error}
+          </div> */}
+          {this.renderAlert()}
+          <div>
+            <fieldset className="form-group">
               <Field
-                className="InputFields"
+                className="form-control"
                 name="email"
                 component="input"
                 type="text"
@@ -41,9 +45,9 @@ class Login extends Component {
               />
             </fieldset>
 
-            <fieldset>
+            <fieldset className="form-group">
               <Field
-                className="InputFields"
+                className="form-control"
                 name="password"
                 component="input"
                 type="password"
@@ -51,13 +55,20 @@ class Login extends Component {
               />
             </fieldset>
 
-            <button className="SignupForm__button" action="submit">
+            <button action="submit" className="btn btn-primary">
               Log in
             </button>
-
+            
+            <div>
             <NavLink className="SignupForm__NavLink" to="/signup">
-              Don't have an account? Sign up
+            Don't have an account? Sign up
             </NavLink>
+            </div>
+            <div>
+            <NavLink className="SignupForm__NavLink" to="/forgotpassword">
+            Forgot password?
+            </NavLink>
+            </div>
           </div>
         </form>
       </div>
@@ -66,12 +77,15 @@ class Login extends Component {
 }
 const mapStateToProps = state => {
   return {
-    authenticating: state.auth.authenticating,
-    error: state.auth.error,
+    authenticated: state.auth.authenticated,
+    error: state.auth.error
   };
 };
-Login = connect(mapStateToProps, { login, resetErrors })(Login);
+
+Login = connect(mapStateToProps, { 
+  login, twitter })(Login);
+
 export default reduxForm({
-  form: 'login',
-  fields: ['email', 'password'],
+  form: "login",
+  fields: ["email", "password"]
 })(Login);
