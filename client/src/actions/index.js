@@ -174,3 +174,12 @@ export const getInfo = _ => {
       .catch(err => console.log(err));
   };
 };
+
+export const sendPayment = stripeToken => {
+  return dispatch => {
+    axios
+      .post(`${ROOT}/users/payment`, { stripeToken, typeOfCharge: 'lg' })
+      .then(response => console.log(response))
+      .catch(err => console.log(err));
+  };
+};

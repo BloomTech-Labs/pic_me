@@ -8,6 +8,8 @@ import {
   // CardCVCElement,
   // PostalCodeElement,
 } from 'react-stripe-elements';
+import { connect } from 'react-redux';
+import { sendPayment } from '../../actions';
 
 const handleBlur = () => {
   console.log('[blur]');
@@ -53,6 +55,7 @@ class CheckoutForm extends React.Component {
     // tokenize, since there's only one in this group.
     this.props.stripe.createToken({ name: 'Jenny Rosen' }).then(({ token }) => {
       console.log('Received Stripe token:', token);
+      this.props.sendPayment(token.id);
     });
 
     // However, this line of code will do the same thing:
@@ -63,7 +66,10 @@ class CheckoutForm extends React.Component {
     return (
       <form
         onSubmit={this.handleSubmit}
-        style={{ display: 'flex', flexDirection: 'column' }}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+        }}
       >
         <label>
           Card details
@@ -93,4 +99,12 @@ class CheckoutForm extends React.Component {
   }
 }
 
-export default injectStripe(CheckoutForm);
+const mapStateToProps = state => {
+  return {
+    //
+  };
+};
+
+export default connect(mapStateToProps, { sendPayment })(
+  injectStripe(CheckoutForm),
+);

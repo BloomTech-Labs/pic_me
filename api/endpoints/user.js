@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
+const stripe = require('stripe')(process.env.STRIPE_SECRET);
 
 const { debug } = require('../../dev');
 
@@ -133,5 +134,26 @@ router.route('/all').get(authenticate.sid, (req, res) => {
 //     });
 //   });
 // });
+
+router.route('/payment').post(authenticate.sid, (req, res) => {
+  const token = req.body.stripeToken;
+  const typeOfCharge = req.body.typeOfCharge;
+
+  const stripeSettings = JSON.parse(process.env.STRIPE_PAYMENTS);
+
+  const amount = +stripeSettings[typeOfCharge];
+  const currency = stripeSettings.currency;
+  const description = stripeSettings.description[typeOfCharge];
+
+  stripe.charges
+    .create({
+      amount,
+      currency,
+      description,
+      source: token,
+    })
+    .then(response => send(res, 200, response))
+    .catch(err => send(res, 500, { err, message: `error charging payment` }));
+});
 
 module.exports = router;

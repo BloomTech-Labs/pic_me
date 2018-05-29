@@ -8,7 +8,13 @@ class Billings extends Component {
       <div className="Billings">
         <div
           className="BillingCheckoutForm"
-          style={{ margin: '0 auto', padding: '10px', maxWidth: '700px' }}
+          style={{
+            margin: '0 auto',
+            padding: '10px',
+            maxWidth: '400px',
+            height: '250px',
+            background: '#e9f4f8',
+          }}
         >
           <MyStoreCheckout fontSize="14px" />
         </div>
