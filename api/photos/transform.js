@@ -50,17 +50,26 @@ const upload = multer({
     metadata: function(req, file, cb) {
       cb(null, {fieldName: 'images'});
     },
-    // key: function(req, file, cb) {
-    //   cb(null, Date.now().toString())
-    // }
   })
 })
-server.post('/upload', upload.array('images', 10), (req, res, next) => {
+
+server.get('/', (req, res) => {
+  console.log('Photo upload endpoint');
+  res.send({ message: 'this route worked.' });
+});
+
+// ? .array(fieldname[, maxCount]) should uploads be limited to n amount of images
+server.post('/upload', upload.array('images'), (req, res, next) => {
   // Todo Need to access the location key on the transform object
   // * Add logic to convert non jpg to jpg format or disallow the upload
   // ? How will tags be handled
   // * Add a url parameter to photoschema that points to image's s3 location
-  console.log(req.files[0]['transforms']);
+  console.log(req.files);
+  let uploads = req.files
+  uploads.forEach(image => {
+    console.log(image.transforms[0].location);
+  })
+  // images.insertMany(uploads, function(error, docs) {});
   res.json(`Uploaded ${req.files.length} files!`);
 })  
 
