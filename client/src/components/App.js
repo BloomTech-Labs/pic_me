@@ -24,7 +24,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <StripeProvider apiKey="pk_test_12345">
+        <StripeProvider apiKey={process.env.REACT_APP_STRIPE_API}>
           <Router>
             <div>
               <Navigation />
