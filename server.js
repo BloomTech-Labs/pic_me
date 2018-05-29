@@ -39,6 +39,8 @@ server.use(bodyParser.urlencoded({ extended: false }));
 server.use(passport.initialize());
 server.use(passport.session());
 
+server.use('/api', router);
+
 server.get('/', (req, res) => {
   debug ? res.send({ server: `running` }) : null;
 });
