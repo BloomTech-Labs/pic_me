@@ -28,16 +28,35 @@ const upload = multer({
     s3: s3,
     bucket: 'firespray31',
     contentType: multerS3.AUTO_CONTENT_TYPE,
+    // should transform
+    shouldTransform: true,
+    // transforms
+    transforms: [{
+      id: 'original',
+      key: function (req, file, cb) {
+        let fileSplit = file.originalname.split('.')
+
+        let filename = fileSplit.slice(0, fileSplit.length - 1)
+        filename.push(Date.now())
+        filename = filename.join('_') + '.' + fileSplit[fileSplit.length - 1]
+
+        cb(null, filename)
+      },
+      transform: function (req, file, cb) {
+        cb(null, sharp().resize(293, 293))
+      }
+    }],
     metadata: function(req, file, cb) {
       cb(null, {fieldName: 'images'});
     },
-    key: function(req, file, cb) {
-      cb(null, Date.now().toString())
-    }
+    // key: function(req, file, cb) {
+    //   cb(null, Date.now().toString())
+    // }
   })
 })
 
-server.post('/upload', upload.array('images', 3), (req, res, next) => {
+server.post('/upload', upload.array('images', 10), (req, res, next) => {
+  console.log(req.files);
   res.json(`Uploaded ${req.files.length} files!`);
 })  
 

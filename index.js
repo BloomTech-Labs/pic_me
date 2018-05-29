@@ -1,4 +1,4 @@
-const server = require('./api/photos/uploadTest');/* switch back to ./server */
+const server = require('./api/photos/transform');/* switch back to ./server */
 // const server = require('./server'); 
 
 const { dev, debug } = require('./dev');
