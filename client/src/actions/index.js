@@ -40,7 +40,6 @@ export const resetErrors = _ => {
     dispatch({ type: AUTH_ERROR_RESET });
   };
 };
-
 export const authError = (error) => {
   return (dispatch) => {
     dispatch({ type: AUTH_ERROR, payload: error });
@@ -67,6 +66,23 @@ export const authenticateUser = _ => {
       });
   };
 };
+// export const authenticateUser = _ => {
+//   return dispatch => {
+//     dispatch({ type: AUTH_LOGIN_START });
+//     axios
+//       .get(`${ROOT}/users/validate`, {
+//         headers: { authorization: localStorage.getItem() },
+//       })
+//       .then(({ data }) => {
+//         dispatch({ type: AUTH_LOGIN_SUCCESS, payload: data.email });
+//         dispatch({ type: AUTH_LOGIN_FINISH });
+//       })
+//       .catch(err => {
+//         dispatch({ type: AUTH_LOGIN_ERROR, payload: err.response.data.error });
+//         dispatch({ type: AUTH_LOGIN_FINISH });
+//       });
+//   };
+// };
 
 export const register = (
   email,
@@ -251,4 +267,22 @@ export const forgotPassword = (email) => {
       // .catch (error) ()
       // return authError(error.response.data.message)
       )}
+};
+
+export const authenticateUser = _ => {
+  return dispatch => {
+    axios
+      .post(`${ROOT}/login/check`)
+      .then(({ data }) => {
+        if (data.message === `user verified`) {
+          dispatch({ type: AUTH_LOGIN_SUCCESS, payload: data.user.email });
+        }
+      })
+      .catch(err =>
+        dispatch({
+          type: AUTH_LOGIN_ERROR,
+          payload: err.response.data.message,
+        }),
+      );
+  };
 };

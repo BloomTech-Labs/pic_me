@@ -90,6 +90,11 @@ router
     send(res, 200, `user authenticated`);
   });
 
+router.route('/login/check').post(authenticate.sid, (req, res) => {
+  /* if authenticate sid passed, cookie is valid */
+  send(res, 200, { message: `user verified`, user: [req.user] });
+});
+
 router.route('/auth/twitter').get(passport.authenticate('twitter'));
 
 router
