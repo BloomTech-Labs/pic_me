@@ -18,7 +18,6 @@ export const AUTH_LOGIN_START = 'AUTH_LOGIN_START';
 export const AUTH_LOGIN_SUCCESS = 'AUTH_LOGIN_SUCCESS';
 export const AUTH_LOGIN_ERROR = 'AUTH_LOGIN_ERROR';
 export const AUTH_LOGIN_FINISH = 'AUTH_LOGIN_FINISH';
-export const LOGIN = "LOGIN";
 
 // logout
 export const AUTH_LOGOUT_START = 'AUTH_LOGOUT_START';
@@ -102,8 +101,6 @@ export const register = (
         axios
           .post(`${ROOT}/users/login`, { email, password })
           .then(({ response }) => {
-            // console.log(cookies.getAll());
-            // localStorage.setItem(data.token);
             dispatch({ type: AUTH_LOGIN_SUCCESS, payload: email});
             // dispatch({ type: AUTH_LOGIN_FINISH });
             // dispatch({ type: AUTH_SIGNUP_FINISH });
@@ -137,10 +134,8 @@ export const login = (email, password, history) => {
     axios
       .post(`${ROOT}/users/login`, { email, password })
       .then(response => {
-        // dispatch({ type: AUTH_ERROR_RESET });
         // - Update state to indicate user is authenticated
         dispatch({ type: AUTH_LOGIN_SUCCESS, payload: email });
-        localStorage.setItem('token', response.data.token);
         history.push('/feature');
       })
       .catch(err => {
@@ -155,11 +150,9 @@ export const login = (email, password, history) => {
 
 export const logout = () => {
   return dispatch => {
-    // dispatch({ type: AUTH_LOGOUT_START });
     axios
       .get(`${ROOT}/users/logout`)
       .then(response => {
-        localStorage.removeItem('token', response.data.token);
         dispatch({ type: AUTH_LOGOUT_SUCCESS});
         // history.push('/logout');
       })
@@ -178,7 +171,6 @@ export const logout = () => {
         .get(`${ROOT}/users/auth/twitter`)
         .then(response => {
           console.log(response);
-          // localStorage.setItem('token', response.data.token);
         })
         .catch(err => console.log(err));
     };

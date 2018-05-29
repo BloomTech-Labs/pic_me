@@ -32,7 +32,7 @@ class Navigation extends Component {
   }
 
   dynamicLinks() {
-    if (this.props.authenticated === true || localStorage.token === undefined) {
+    if (this.props.authenticated === true) {
       // show a link to log out
       return [
         <NavLink key={1} href="/logout" onClick={_ => this.props.logout()}>
