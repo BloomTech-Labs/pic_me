@@ -1,67 +1,61 @@
 const User = require('./model');
 
 exports.create = function(info) {
-	const user = new User(info);
-	return user.save();
+  const user = new User(info);
+  return user.save();
 };
 
 exports.request = function(parm) {
-	if (!parm) return User.find();
-	return User.findOne(parm);
+  if (!parm) return User.find();
+  return User.findOne(parm);
 };
 
-exports.update = function(req, res, next) {
-	User.findById(req.params.id, (err, user) => {
-		if (err) {
-			return next(err);
-		}
-		if (user === null) {
-			let err = new Error('User not found');
-			err.status = 404;
-			return next(err);
-		}
-		res.send({ message: 'Success, user now updated.' });
-	});
+exports.requestById = _id => {
+  return User.findById(_id, (err, user) => {
+    if (err) return err;
+
+    return user;
+  });
 };
 
-exports.delete = function(req, res, next) {
-	User.findByIdAndRemove(req.params.id, err => {
-		if (err) {
-			return next(err);
-		}
-		res.send({ message: 'User Deleted.' });
-	});
+exports.update = (_id, user) => {
+  return User.findByIdAndUpdate(_id, user, { new: true });
+};
+
+exports.delete = _id => {
+  return User.findByIdAndRemove({ _id });
+
 };
 
 exports.list = function(req, res, next) {
-	User.find()
-		.sort([['lastName', 'ascending']])
-		.exec(
-			(error, listUsers) =>
-				error
-					? next(error)
-					: res.render('user_list', { title: 'User List', list: listUsers })
-		);
+  User.find()
+    .sort([['lastName', 'ascending']])
+    .exec(
+      (error, listUsers) =>
+        error
+          ? next(error)
+          : res.render('user_list', { title: 'User List', list: listUsers }),
+    );
 };
 
 exports.uploads = function(req, res, next) {
-	const query = User.find({}).select('uploads - id');
+  const query = User.find({}).select('uploads - id');
 
-	query.exec((err, uploads) => {
-		if (err) {
-			return next(err);
-		}
-		res.send(uploads);
-	});
+  query.exec((err, uploads) => {
+    if (err) {
+      return next(err);
+    }
+    res.send(uploads);
+  });
 };
 
 exports.collection = function(req, res, next) {
-	const query = User.find({}).select('collection - id');
+  const query = User.find({}).select('collection - id');
 
-	query.exec((err, collection) => {
-		if (err) {
-			return next(err);
-		}
-		res.send(collection);
-	});
+  query.exec((err, collection) => {
+    if (err) {
+      return next(err);
+    }
+    res.send(collection);
+  });
 };

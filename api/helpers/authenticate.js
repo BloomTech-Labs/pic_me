@@ -7,35 +7,37 @@ exports.sid = (req, res, next) => {
     return;
   }
 
-  const {
-    email,
-    password /* this is the hashed password deserialized by `passport` */,
-  } = req.user;
+  next();
 
-  userCTR
-    .request({ email })
-    .then(user => {
-      if (!user) {
-        send(res, 500, { err, message: `user (${user.email}) not found` });
-        return;
-      }
+  // const {
+  //   email,
+  //   password /* this is the hashed password deserialized by `passport` */,
+  // } = req.user;
 
-      if (password !== user.password) {
-        send(res, 401, {
-          message: `passwords did not match. please check password`,
-        });
-        req.logout(); /* if session password does not match server password, force logout */
-        /* this happens if the user updated their password. cookie session no longer has correct password */
-        return;
-      }
+  // userCTR
+  //   .request({ email })
+  //   .then(user => {
+  //     if (!user) {
+  //       send(res, 500, { err, message: `user (${user.email}) not found` });
+  //       return;
+  //     }
 
-      /* user is found and password in session matches user's server-side password */
-      next();
-    })
-    .catch(err =>
-      res.status(500).send({
-        err,
-        message: `error retrieving information for user ${req.user}`,
-      }),
-    );
+  //     if (password !== user.password) {
+  //       send(res, 401, {
+  //         message: `passwords did not match. please check password`,
+  //       });
+  //       req.logout(); /* if session password does not match server password, force logout */
+  //       /* this happens if the user updated their password. cookie session no longer has correct password */
+  //       return;
+  //     }
+
+  //     /* user is found and password in session matches user's server-side password */
+  //     next();
+  //   })
+  //   .catch(err =>
+  //     res.status(500).send({
+  //       err,
+  //       message: `error retrieving information for user ${req.user}`,
+  //     }),
+  //   );
 };

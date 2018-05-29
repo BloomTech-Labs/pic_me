@@ -16,21 +16,72 @@ const userCTR = require('../users/controller');
 router
   .route('/')
   .get((req, res) => {
-    debug
-      ? send(res, 200, { users: `running` })
-      : send(res, 404, { message: `debug set to false` });
+    debug ? send(res, 200, { users: `running` }) : null;
   })
   .post(validate.signup, sanitize.user, (req, res) => {
     userCTR
-      .create(req.user)
-      .then(savedUser => send(res, 201, savedUser))
+      .create(req.newUser)
+      .then(savedUser => send(res, 201, sanitize.response(savedUser)))
       .catch(err =>
         send(res, 500, { err, message: `server failed to save new user` }),
       );
   })
-  .put((req, res) => {
-    // userCTR.update();
+  .put(authenticate.sid, validate.update, sanitize.update, (req, res) => {
+    userCTR
+      .update(req.user.id, req.editedUser)
+      .then(editedUser => send(res, 200, sanitize.response(editedUser)))
+      .catch(err =>
+        send(res, 500, { err, message: `server failed to edit user` }),
+      );
+  })
+  .delete(authenticate.sid, (req, res) => {
+    userCTR
+      .delete(req.user.id)
+      .then(_ => {
+        req.logout();
+
+        send(res, 200, `user successfully deleted`);
+      })
+      .catch(err =>
+        send(res, 500, { err, message: `server failed to delete user` }),
+      );
   });
+
+/* this route is used to update sensitive settings, such as passwords and email */
+router
+  .route('/settings')
+  .put(
+    authenticate.sid,
+    validate.settingsData,
+    sanitize.settingsData,
+    (req, res) => {
+      userCTR
+        .requestById(req.user.id)
+        .then(user => {
+          const { email, password } = req.settings;
+
+          if (email) user.email = email;
+          if (password) user.password = password;
+
+          user
+            .save()
+            .then(savedUser => {
+              // req.logout();
+              send(res, 200, sanitize.response(savedUser));
+            })
+            .catch(err =>
+              send(res, 500, { err, message: `error updating user settings` }),
+            );
+        })
+        .catch(err =>
+          send(res, 500, { err, message: `error finding user by id` }),
+        );
+    },
+  );
+
+router.route('/info').get(authenticate.sid, (req, res) => {
+  send(res, 200, sanitize.response(req.user));
+});
 
 router
   .route('/login')
@@ -52,7 +103,7 @@ router
 //   }),
 // );
 
-router.route('/logout').get((req, res) => {
+router.route('/logout').get(authenticate.sid, (req, res) => {
   req.logout();
   send(res, 200, `user logged out`);
 });
@@ -60,7 +111,7 @@ router.route('/logout').get((req, res) => {
 router.route('/all').get(authenticate.sid, (req, res) => {
   userCTR
     .request()
-    .then(users => res.send(users))
+    .then(users => send(res, 200, users))
     .catch(err =>
       send(res, 500, { err, message: `server error retrieving users` }),
     );
