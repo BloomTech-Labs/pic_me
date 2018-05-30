@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { authenticateUser } from '../../actions';
+import { authenticateUser } from '../actions';
 
 export default ComposedComponent => {
 	class CheckAuthentication extends Component {
 		componentWillMount() {
-			if (!this.props.user) {
-				/**
-				 * if redux state user has not been set,
-				 * reroute to limbo, I mean Mobil.
-				 */
-				this.props.history.push('/mobil');
+			if (!this.props.authenticated) {
+				this.props.history.push('/login');
 			}
 		}
 
@@ -29,6 +25,7 @@ export default ComposedComponent => {
 	const mapStateToProps = state => {
 		return {
 			user: state.auth.user,
+			authenticated: state.auth.authenticated,
 		};
 	};
 
