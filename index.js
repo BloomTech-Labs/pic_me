@@ -1,4 +1,6 @@
-const server = require('./server');
+const server = require('./server'); 
+// to test upload/transform functionality uncomment line 3
+// const server = require('./api/photos/transform');
 
 const { debug } = require('./dev');
 
