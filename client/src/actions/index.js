@@ -48,7 +48,6 @@ export const authError = error => {
 			dispatch({ type: AUTH_ERROR });
 		}, 4000);
 	};
-
 };
 
 export const register = (
@@ -283,25 +282,24 @@ export const authenticateUser = history => {
 	};
 };
 
-export const settings = (email, confirmPassword, password, firstName, lastName, nickNames) => {
-  return dispatch => {
-    dispatch({ type: CHANGE_SETTINGS_START });
-    // if (password !== confirmPassword) {
-    //   dispatch({ payload: 'Passwords do not match' });
-    //   return;
-    // }
-    axios
-      .put(`${ROOT}/users/settings`,  
-        {user: {email, confirmPassword, password, firstName, lastName, nickNames}}
-      )
-      .then(response => {
-        console.log(response);
-        dispatch({ type: CHANGE_SETTINGS_SUCCESS })
-      })
-      .catch(err => console.log(err));
-  }
-};
-
+// export const settings = (email, confirmPassword, password, firstName, lastName, nickNames) => {
+//   return dispatch => {
+//     dispatch({ type: CHANGE_SETTINGS_START });
+//     // if (password !== confirmPassword) {
+//     //   dispatch({ payload: 'Passwords do not match' });
+//     //   return;
+//     // }
+//     axios
+//       .put(`${ROOT}/users/settings`,
+//         {user: {email, confirmPassword, password, firstName, lastName, nickNames}}
+//       )
+//       .then(response => {
+//         console.log(response);
+//         dispatch({ type: CHANGE_SETTINGS_SUCCESS })
+//       })
+//       .catch(err => console.log(err));
+//   }
+// };
 
 // export const settings = async (user) => {
 //   const apiurl = `${ROOT}/settings`;
@@ -320,12 +318,12 @@ export const settings = (email, confirmPassword, password, firstName, lastName, 
 //   }
 // };
 
-export const forgotPassword = (email) => {
-  return dispatch => {
-    axios
-      .post(`${ROOT}/forgotpassword`, { email })
-      .then(response => {console.log(response)}
-      // .catch (error) ()
-      // return authError(error.response.data.message)
-      )}
-};
+// export const forgotPassword = (email) => {
+//   return dispatch => {
+//     axios
+//       .post(`${ROOT}/forgotpassword`, { email })
+//       .then(response => {console.log(response)}
+//       // .catch (error) ()
+//       // return authError(error.response.data.message)
+//       )}
+// };
