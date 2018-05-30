@@ -8,7 +8,7 @@ import logger from 'redux-logger';
 import reducer from '../reducers';
 
 // Common Components
-import Navigation from "./Navigation";
+import Navigation from './Navigation';
 
 // Gatekeeper HOC
 import Gatekeeper from './Gatekeeper';
@@ -32,7 +32,7 @@ class App extends Component {
 	render() {
 		return (
 			<Provider store={store}>
-				<StripeProvider apiKey={process.env.REACT_APP_STRIPE_API}>
+				<StripeProvider apiKey="pk_test_0srJ0Qu3Z68ZEAsuJnLERMWr">
 					<Router>
 						<div className="App">
 							<Navigation />
