@@ -11,22 +11,32 @@ class Account extends Component {
 
   accountFormHandler = ({
     email,
-    oldPassword, 
     password, 
-    confirmPassword
+    // newPassword, 
+    // confirmPassword
   }) => {
     this.props.account(
       email,
-      oldPassword, 
       password, 
-      confirmPassword
+      // TO DO: add newPassword/confirmPassword field
+      // newPassword, 
+      // confirmPassword
     );
   };
 
+  renderAlert() {
+    if (this.props.error) {
+      return (
+        <div className="alert alert-danger">
+          <strong>Oops!</strong> {this.props.error}
+        </div>
+      )
+    }
+  }
   render() {
     return (
       <div className="Account">
-
+        {this.renderAlert()}
         <form onSubmit={this.props.handleSubmit(this.accountFormHandler)}>
         <div className="form-group col-md-6">
           <label>email</label>
@@ -39,20 +49,20 @@ class Account extends Component {
         </div>
         
         <div className="form-group col-md-6">
-          <label>Old password</label>
+          <label>password</label>
           <Field
             className="form-control"
-            name="oldPassword"
+            name="password"
             component="input"
             type="password"
           />
         </div>
 
-        <div className="form-group col-md-6">
+        {/* <div className="form-group col-md-6">
           <label>New password</label>
           <Field
             className="form-control"
-            name="password"
+            name="newPassword"
             component="input"
             type="password"
           />
@@ -66,10 +76,10 @@ class Account extends Component {
             component="input"
             type="password"
           />
-        </div>
+        </div> */}
 
         <div className="form-group col-md-6">
-          <button action="submit" className="btn btn-primary">Update password</button>  
+          <button action="submit" className="btn btn-primary">Update</button>  
         </div>
         </form>
       </div>
@@ -90,8 +100,8 @@ export default reduxForm({
   form: "account", 
   fields: [
     "email",
-    "oldPassword",
     "password",
-    "confirmPassword",
+    // "newPassword",
+    // "confirmPassword",
   ]
 })(Account);

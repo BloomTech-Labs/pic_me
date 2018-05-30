@@ -18,6 +18,7 @@ import {
   RESETPASSWORD,
   CHANGE_SETTINGS_SUCCESS,
   CHANGE_SETTINGS_START,
+  CHANGE_SETTINGS_ERROR,
   ACCOUNT_DELETE,
 } from "../actions";
 
@@ -122,6 +123,11 @@ export default (auth = initialState, action) => {
       ...auth,
       authenticated: true,
       user: action.payload,
+    }
+    case CHANGE_SETTINGS_ERROR:
+    return {
+      ...auth,
+      error: action.payload,
     }
 
     case ACCOUNT_DELETE:

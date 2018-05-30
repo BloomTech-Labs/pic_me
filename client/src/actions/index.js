@@ -28,6 +28,7 @@ export const AUTH_LOGOUT_FINISH = 'AUTH_LOGOUT_FINISH';
 
 export const CHANGE_SETTINGS_START = "CHANGE_SETTINGS_START";
 export const CHANGE_SETTINGS_SUCCESS = "CHANGE_SETTINGS_SUCCESS";
+export const CHANGE_SETTINGS_ERROR = "CHANGE_SETTINGS_ERROR";
 export const ACCOUNT_DELETE="ACCOUNT_DELETE";
 
 // password
@@ -49,24 +50,6 @@ export const authError = (error) => {
     setTimeout(() => {
       dispatch({ type: AUTH_ERROR });
     }, 4000);
-  };
-};
-
-export const authenticateUser = _ => {
-  return dispatch => {
-    dispatch({ type: AUTH_LOGIN_START });
-    axios
-      .get(`${ROOT}/users/validate`, {
-        headers: { authorization: localStorage.getItem() },
-      })
-      .then(({ data }) => {
-        dispatch({ type: AUTH_LOGIN_SUCCESS, payload: data.email });
-        dispatch({ type: AUTH_LOGIN_FINISH });
-      })
-      .catch(err => {
-        dispatch({ type: AUTH_LOGIN_ERROR, payload: err.response.data.error });
-        dispatch({ type: AUTH_LOGIN_FINISH });
-      });
   };
 };
 
@@ -199,20 +182,25 @@ export const getInfo = _ => {
   };
 };
 
-export const account = (email, oldPassword, password, confirmPassword) => {
+export const account = (  
+  email,
+  password, 
+  // newPassword, 
+  // confirmPassword 
+)=> {
   return dispatch => {
     dispatch({ type: CHANGE_SETTINGS_START });
-    // if (password !== confirmPassword) {
-    //   dispatch({ payload: 'Passwords do not match' });
-    //   return;
-    // }
+      // if (newPassword !== confirmPassword) {
+      //   dispatch({ type: CHANGE_SETTINGS_ERROR, payload: 'New passwords do not match' });
+      //   return;
+      // }
     axios
-      .put(`${ROOT}/users/settings`,  
-        {user: {email, oldPassword, password, confirmPassword}}
+      .put(`${ROOT}/users/settings`, 
+      {user: {email, password}}
       )
       .then(response => {
         console.log(response);
-        dispatch({ type: CHANGE_SETTINGS_SUCCESS, payload: email })
+        dispatch({ type: CHANGE_SETTINGS_SUCCESS })
       })
       .catch(err => console.log(err));
   }

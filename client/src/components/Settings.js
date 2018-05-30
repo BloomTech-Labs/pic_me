@@ -15,7 +15,7 @@ class Settings extends Component {
         <h3>Update profile</h3>
         <hr />
         <Profile />
-        <h3>Change password</h3>
+        <h3>Change email or password</h3>
         <hr />
         <Account />
         <h3>Delete account</h3>
