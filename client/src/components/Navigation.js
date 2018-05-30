@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
 	Collapse,
 	Navbar,
@@ -124,6 +124,7 @@ const mapStateToProps = state => {
 		authenticated: state.auth.authenticated,
 		error: state.auth.error,
 	};
+
 };
 
 export default withRouter(connect(mapStateToProps, { logout })(Navigation));

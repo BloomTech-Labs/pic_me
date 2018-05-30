@@ -8,7 +8,7 @@ import logger from 'redux-logger';
 import reducer from '../reducers';
 
 // Common Components
-import Navigation from './Navigation';
+import Navigation from "./Navigation";
 
 // Gatekeeper HOC
 import Gatekeeper from './Gatekeeper';
