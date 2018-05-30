@@ -24,7 +24,6 @@ exports.update = (_id, user) => {
 
 exports.delete = _id => {
   return User.findByIdAndRemove({ _id });
-
 };
 
 exports.list = function(req, res, next) {

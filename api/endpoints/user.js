@@ -96,6 +96,19 @@ router
   .get(passport.authenticate('twitter'), (req, res) => {
     send(res, 201, { message: `twitter authenticated successfully` });
   });
+
+// router
+//   .route('/picture_upload')
+//   .post(transform_code, loggedIn_middleware, (req, res) => {
+//     send();
+//   });
+
+// router
+//   .route('/my_uploads')
+//   .get(transform_code, loggedIn_middleware, (req, res) => {
+//     send();
+//   });
+
 //   passport.authenticate('twitter',{}, (req, res) => {
 //     // console.log('token', token);
 //     // console.log('tokenSecret', tokenSecret);
