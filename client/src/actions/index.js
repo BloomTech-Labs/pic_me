@@ -7,6 +7,7 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 export const AUTH_CHECK = 'AUTH_CHECK';
 export const AUTH_ERROR_RESET = 'AUTH_ERROR_RESET';
 
+
 // signup
 export const AUTH_SIGNUP_START = 'AUTH_SIGNUP_START';
 export const AUTH_SIGNUP_SUCCESS = 'AUTH_SIGNUP_SUCCESS';
@@ -25,8 +26,10 @@ export const AUTH_LOGOUT_SUCCESS = 'AUTH_LOGOUT_SUCCESS';
 export const AUTH_LOGOUT_ERROR = 'AUTH_LOGOUT_ERROR';
 export const AUTH_LOGOUT_FINISH = 'AUTH_LOGOUT_FINISH';
 
-export const CHANGE_SETTINGS_START = 'CHANGE_SETTINGS_START';
-export const CHANGE_SETTINGS_SUCCESS = 'CHANGE_SETTINGS_SUCCESS';
+export const CHANGE_SETTINGS_START = "CHANGE_SETTINGS_START";
+export const CHANGE_SETTINGS_SUCCESS = "CHANGE_SETTINGS_SUCCESS";
+export const CHANGE_SETTINGS_ERROR = "CHANGE_SETTINGS_ERROR";
+export const ACCOUNT_DELETE="ACCOUNT_DELETE";
 
 // password
 export const FORGOTPASSWORD = 'FORGOTPASSWORD';
@@ -179,74 +182,78 @@ export const getInfo = _ => {
 	};
 };
 
+export const account = (  
+  email,
+  password, 
+  // newPassword, 
+  // confirmPassword 
+)=> {
+  return dispatch => {
+    dispatch({ type: CHANGE_SETTINGS_START });
+      // if (newPassword !== confirmPassword) {
+      //   dispatch({ type: CHANGE_SETTINGS_ERROR, payload: 'New passwords do not match' });
+      //   return;
+      // }
+    axios
+      .put(`${ROOT}/users/settings`, 
+      {user: {email, password}}
+      )
+      .then(response => {
+        console.log(response);
+        dispatch({ type: CHANGE_SETTINGS_SUCCESS })
+      })
+      .catch(err => console.log(err));
+  }
+};
+
+export const profile = (firstName, lastName, nickNames) => {
+  return dispatch => {
+    dispatch({ type: CHANGE_SETTINGS_START });
+    // if (password !== confirmPassword) {
+    //   dispatch({ payload: 'Passwords do not match' });
+    //   return;
+    // }
+    axios
+      .put(`${ROOT}/users`,  
+       {user: {firstName, lastName, nickNames}}
+      )
+      .then(response => {
+        console.log(response);
+        dispatch({ type: CHANGE_SETTINGS_SUCCESS })
+      })
+      .catch(err => console.log(err));
+  }
+};
+
+export const forgotPassword = (email) => {
+  return dispatch => {
+    axios
+      .post(`${ROOT}/forgotpassword`, { email })
+      .then(response => {console.log(response)}
+      // .catch (error) ()
+      // return authError(error.response.data.message)
+      )}
+};
+
+export const deleteaccount = (email, password) => {
+  return dispatch => {
+    axios
+      .delete(`${ROOT}/users`, 
+      {user: {email, password}})
+      .then(response => {
+        console.log(response);
+        dispatch({ type: ACCOUNT_DELETE })
+      })
+      .catch(err => console.log(err));
+  }
+};
+
 export const sendPayment = stripeToken => {
 	return dispatch => {
 		axios
 			.post(`${ROOT}/users/payment`, { stripeToken, typeOfCharge: 'lg' })
 			.then(response => console.log(response))
 			.catch(err => console.log(err));
-	};
-};
-
-export const settings = (
-	email,
-	confirmPassword,
-	password,
-	firstName,
-	lastName,
-	nickNames,
-) => {
-	return dispatch => {
-		dispatch({ type: CHANGE_SETTINGS_START });
-		// if (password !== confirmPassword) {
-		//   dispatch({ payload: 'Passwords do not match' });
-		//   return;
-		// }
-		axios
-			.put(`${ROOT}/users/settings`, {
-				user: {
-					email,
-					confirmPassword,
-					password,
-					firstName,
-					lastName,
-					nickNames,
-				},
-			})
-			.then(response => {
-				console.log(response);
-				dispatch({ type: CHANGE_SETTINGS_SUCCESS });
-			})
-			.catch(err => console.log(err));
-	};
-};
-
-// export const settings = async (user) => {
-//   const apiurl = `${ROOT}/settings`;
-//   try {
-//     const token = localStorage.getItem('token');
-//     await axios.post(apiurl, user, {
-//       headers: {
-//         Authorization: token,
-//       },
-//     });
-//     return {
-//       type: CHANGE_SETTINGS,
-//     };
-//   } catch (error) {
-//     return authError(error.response.data.message);
-//   }
-// };
-
-export const forgotPassword = email => {
-	return dispatch => {
-		axios.post(`${ROOT}/forgotpassword`, { email }).then(
-			response => {
-				console.log(response);
-			},
-			// .catch (error) ()
-			// return authError(error.response.data.message)
-		);
 	};
 };
 
@@ -281,49 +288,3 @@ export const authenticateUser = history => {
 			);
 	};
 };
-
-// export const settings = (email, confirmPassword, password, firstName, lastName, nickNames) => {
-//   return dispatch => {
-//     dispatch({ type: CHANGE_SETTINGS_START });
-//     // if (password !== confirmPassword) {
-//     //   dispatch({ payload: 'Passwords do not match' });
-//     //   return;
-//     // }
-//     axios
-//       .put(`${ROOT}/users/settings`,
-//         {user: {email, confirmPassword, password, firstName, lastName, nickNames}}
-//       )
-//       .then(response => {
-//         console.log(response);
-//         dispatch({ type: CHANGE_SETTINGS_SUCCESS })
-//       })
-//       .catch(err => console.log(err));
-//   }
-// };
-
-// export const settings = async (user) => {
-//   const apiurl = `${ROOT}/settings`;
-//   try {
-//     const token = localStorage.getItem('token');
-//     await axios.post(apiurl, user, {
-//       headers: {
-//         Authorization: token,
-//       },
-//     });
-//     return {
-//       type: CHANGE_SETTINGS,
-//     };
-//   } catch (error) {
-//     return authError(error.response.data.message);
-//   }
-// };
-
-// export const forgotPassword = (email) => {
-//   return dispatch => {
-//     axios
-//       .post(`${ROOT}/forgotpassword`, { email })
-//       .then(response => {console.log(response)}
-//       // .catch (error) ()
-//       // return authError(error.response.data.message)
-//       )}
-// };

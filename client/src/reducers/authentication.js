@@ -1,24 +1,27 @@
 import {
-	//
-	AUTH_LOGIN_SUCCESS,
-	AUTH_LOGIN_ERROR,
-	AUTH_LOGIN_FINISH,
-	//
-	AUTH_SIGNUP_START,
-	AUTH_SIGNUP_SUCCESS,
-	AUTH_SIGNUP_ERROR,
-	AUTH_SIGNUP_FINISH,
-	//
-	AUTH_LOGOUT_SUCCESS,
-	AUTH_ERROR_RESET,
-	AUTH_LOGIN_START,
-	//
-	AUTH_ERROR,
-	FORGOTPASSWORD,
-	RESETPASSWORD,
-	CHANGE_SETTINGS_SUCCESS,
-	CHANGE_SETTINGS_START,
+  //
+  AUTH_LOGIN_SUCCESS,
+  AUTH_LOGIN_ERROR,
+  AUTH_LOGIN_FINISH,
+  //
+  AUTH_SIGNUP_START,
+  AUTH_SIGNUP_SUCCESS,
+  AUTH_SIGNUP_ERROR,
+  AUTH_SIGNUP_FINISH,
+  //
+  AUTH_LOGOUT_SUCCESS,
+  AUTH_ERROR_RESET,
+  AUTH_LOGIN_START,
+  //
+  AUTH_ERROR,
+  FORGOTPASSWORD,
+  RESETPASSWORD,
+  CHANGE_SETTINGS_SUCCESS,
+  CHANGE_SETTINGS_START,
+  CHANGE_SETTINGS_ERROR,
+  ACCOUNT_DELETE,
 } from '../actions';
+
 
 const initialState = {
 	user: '',
@@ -93,7 +96,7 @@ export default (auth = initialState, action) => {
 				...auth,
 				error: '',
 			};
-
+      
 		case AUTH_ERROR:
 			return {
 				...auth,
@@ -110,12 +113,14 @@ export default (auth = initialState, action) => {
 				...auth,
 				resetPassword: true,
 			};
+
 		case CHANGE_SETTINGS_START:
 			return {
 				...auth,
 				authenticated: true,
 				user: action.payload,
 			};
+
 		case CHANGE_SETTINGS_SUCCESS:
 			return {
 				...auth,
@@ -123,6 +128,17 @@ export default (auth = initialState, action) => {
 				user: action.payload,
 			};
 
+    case CHANGE_SETTINGS_ERROR:
+      return {
+        ...auth,
+        error: action.payload,
+      };
+
+    case ACCOUNT_DELETE:
+      return {
+      ...auth,
+      };
+      
 		default:
 			return auth;
 	}
