@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
-import { authenticateUser } from '../../actions';
+import { authenticateUser } from '../actions';
 
 class Mobil extends Component {
 	componentDidMount() {
@@ -20,4 +20,4 @@ const mapStateToProps = state => {
 	};
 };
 
-return connect(mapStateToProps, { authenticateUser })(Mobil);
+export default connect(mapStateToProps, { authenticateUser })(Mobil);
