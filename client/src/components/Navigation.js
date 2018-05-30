@@ -13,7 +13,7 @@ import {
   DropdownItem
 } from "reactstrap";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { logout } from "../actions";
 
 class Navigation extends Component {
@@ -35,17 +35,17 @@ class Navigation extends Component {
     if (this.props.authenticated === true) {
       // show a link to log out
       return [
-        <NavLink key={1} href="/logout" onClick={_ => this.props.logout()}>
+        <NavLink key={1} tag={Link} to="/logout" onClick={_ => this.props.logout()}>
           Log Out
         </NavLink>
       ];
     } else {
       // show links to sign up or login
       return [
-        <NavLink key={1} href="/signup">
+        <NavLink key={1} tag={Link} to="/signup">
           Sign Up
         </NavLink>,
-        <NavLink key={2} href="/login">
+        <NavLink key={2} tag={Link} to="/login">
           Log In
         </NavLink>
       ];
@@ -88,6 +88,9 @@ class Navigation extends Component {
               <NavItem>
                 <NavLink href="/settings">Settings</NavLink>
               </NavItem>
+              {/* <NavItem>
+                <NavLink href="/profile">Profile</NavLink>
+              </NavItem> */}
             </Nav>
 
             <Nav className="ml-auto" navbar>

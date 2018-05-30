@@ -7,6 +7,7 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 export const AUTH_CHECK = 'AUTH_CHECK';
 export const AUTH_ERROR_RESET = 'AUTH_ERROR_RESET';
 
+
 // signup
 export const AUTH_SIGNUP_START = 'AUTH_SIGNUP_START';
 export const AUTH_SIGNUP_SUCCESS = 'AUTH_SIGNUP_SUCCESS';
@@ -27,6 +28,7 @@ export const AUTH_LOGOUT_FINISH = 'AUTH_LOGOUT_FINISH';
 
 export const CHANGE_SETTINGS_START = "CHANGE_SETTINGS_START";
 export const CHANGE_SETTINGS_SUCCESS = "CHANGE_SETTINGS_SUCCESS";
+export const ACCOUNT_DELETE="ACCOUNT_DELETE";
 
 // password
 export const FORGOTPASSWORD="FORGOTPASSWORD";
@@ -197,7 +199,7 @@ export const getInfo = _ => {
   };
 };
 
-export const settings = (email, confirmPassword, password, firstName, lastName, nickNames) => {
+export const account = (email, oldPassword, password, confirmPassword) => {
   return dispatch => {
     dispatch({ type: CHANGE_SETTINGS_START });
     // if (password !== confirmPassword) {
@@ -206,7 +208,26 @@ export const settings = (email, confirmPassword, password, firstName, lastName, 
     // }
     axios
       .put(`${ROOT}/users/settings`,  
-        {user: {email, confirmPassword, password, firstName, lastName, nickNames}}
+        {user: {email, oldPassword, password, confirmPassword}}
+      )
+      .then(response => {
+        console.log(response);
+        dispatch({ type: CHANGE_SETTINGS_SUCCESS, payload: email })
+      })
+      .catch(err => console.log(err));
+  }
+};
+
+export const profile = (firstName, lastName, nickNames) => {
+  return dispatch => {
+    dispatch({ type: CHANGE_SETTINGS_START });
+    // if (password !== confirmPassword) {
+    //   dispatch({ payload: 'Passwords do not match' });
+    //   return;
+    // }
+    axios
+      .put(`${ROOT}/users`,  
+       {user: {firstName, lastName, nickNames}}
       )
       .then(response => {
         console.log(response);
@@ -216,24 +237,6 @@ export const settings = (email, confirmPassword, password, firstName, lastName, 
   }
 };
 
-
-// export const settings = async (user) => {
-//   const apiurl = `${ROOT}/settings`;
-//   try {
-//     const token = localStorage.getItem('token');
-//     await axios.post(apiurl, user, {
-//       headers: {
-//         Authorization: token,
-//       },
-//     });
-//     return {
-//       type: CHANGE_SETTINGS,
-//     };
-//   } catch (error) {
-//     return authError(error.response.data.message);
-//   }
-// };
-
 export const forgotPassword = (email) => {
   return dispatch => {
     axios
@@ -242,4 +245,17 @@ export const forgotPassword = (email) => {
       // .catch (error) ()
       // return authError(error.response.data.message)
       )}
+};
+
+export const deleteaccount = (email, password) => {
+  return dispatch => {
+    axios
+      .delete(`${ROOT}/users`, 
+      {user: {email, password}})
+      .then(response => {
+        console.log(response);
+        dispatch({ type: ACCOUNT_DELETE })
+      })
+      .catch(err => console.log(err));
+  }
 };

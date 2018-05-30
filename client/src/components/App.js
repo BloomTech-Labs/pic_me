@@ -19,6 +19,9 @@ import Settings from "./Settings";
 import ForgotPassword from "./Forgotpassword";
 import Feature from "./Feature";
 
+// Settings
+// import Profile from "./Profile";
+
 const store = createStore(reducer, applyMiddleware(thunk));
 
 class App extends Component {
@@ -36,6 +39,7 @@ class App extends Component {
               <Route exact path="/logout" component={Logout} />
               <Route exact path="/forgotpassword" component={ForgotPassword} />
               <Route exact path="/feature" component={Feature} />
+              {/* <Route exact path="/profile" component={Profile} /> */}
             </Switch>
           </div>
         </Router>

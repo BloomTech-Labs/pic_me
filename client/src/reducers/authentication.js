@@ -18,6 +18,7 @@ import {
   RESETPASSWORD,
   CHANGE_SETTINGS_SUCCESS,
   CHANGE_SETTINGS_START,
+  ACCOUNT_DELETE,
 } from "../actions";
 
 const initialState = {
@@ -26,7 +27,7 @@ const initialState = {
   error: ""
 };
 
-export default (auth = {initialState}, action) => {
+export default (auth = initialState, action) => {
   switch (action.type) {
     case AUTH_SIGNUP_START:
       return {
@@ -122,6 +123,11 @@ export default (auth = {initialState}, action) => {
       authenticated: true,
       user: action.payload,
     }
+
+    case ACCOUNT_DELETE:
+    return {
+      ...auth,
+    };
     
     default:
       return auth;
