@@ -8,6 +8,10 @@ import Profile from "./Profile";
 import Deleteaccount from "./Deleteaccount";
 
 class Settings extends Component {
+	componentWillMount() {
+		console.log('auth', this.props.authenticated);
+		// this.props.settings();
+	}
   render() {
     return (
       <div>
