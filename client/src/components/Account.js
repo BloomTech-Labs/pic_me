@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
-import { account, resetErrors } from "../actions";
+import { account } from "../actions";
 // import Bread from "./Bread";
 
 class Account extends Component {
-  componentWillMount(){
-    this.props.resetErrors();
-  }
+	componentWillMount() {
+		console.log('auth', this.props.authenticated);
+	}
 
   accountFormHandler = ({
     email,
@@ -93,7 +93,7 @@ const mapStateToProps = state => ({
 });
 
 Account = connect(mapStateToProps, {
-  account, resetErrors
+  account
 })(Account);
 
 export default reduxForm({

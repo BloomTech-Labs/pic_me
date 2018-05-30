@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
-import { deleteaccount, resetErrors } from "../actions";
+import { deleteaccount } from "../actions";
 
 class Deleteaccount extends Component {
-  componentWillMount(){
-    this.props.resetErrors();
-  }
+	componentWillMount() {
+		console.log('auth', this.props.authenticated);
+	}
 
   deleteFormHandler = ({
     email,
@@ -70,7 +70,7 @@ const mapStateToProps = state => ({
 });
 
 Deleteaccount = connect(mapStateToProps, {
-  deleteaccount, resetErrors
+  deleteaccount
 })(Deleteaccount);
 
 export default reduxForm({

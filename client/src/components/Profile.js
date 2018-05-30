@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
-import { profile, resetErrors } from "../actions";
+import { profile } from "../actions";
 // import Bread from "./Bread";
 
 class Profile extends Component {
-  componentWillMount() {
-    this.props.resetErrors();
-  }
+	componentWillMount() {
+		console.log('auth', this.props.authenticated);
+	}
 
   profileFormHandler = ({ firstName, lastName, nickNames }) => {
     this.props.profile(firstName, lastName, nickNames);
@@ -65,7 +65,6 @@ const mapStateToProps = state => ({
 
 Profile = connect(mapStateToProps, {
   profile,
-  resetErrors
 })(Profile);
 
 export default reduxForm({

@@ -56,7 +56,9 @@ class Navigation extends Component {
     return (
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">PicMe</NavbarBrand>
+            <NavbarBrand tag={Link} to="/">
+              PicMe
+            </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav navbar>
@@ -66,16 +68,22 @@ class Navigation extends Component {
                 </DropdownToggle>
                 <DropdownMenu>
                   <DropdownItem>
-                    <NavLink href="/picture_upload">Upload</NavLink>
+                    <NavLink tag={Link} to="/picture_upload">
+											Upload
+										</NavLink>
                   </DropdownItem>
                   <DropdownItem>
-                    <NavLink href="/picture_browse">Browse</NavLink>
+                    <NavLink tag={Link} to="/picture_browse">
+											Browse
+										</NavLink>
                   </DropdownItem>
                   <DropdownItem>
-                    <NavLink href="/picture_my_uploads">My Uploads</NavLink>
+                    <NavLink tag={Link} to="/picture_my_uploads">
+											My Uploads
+										</NavLink>
                   </DropdownItem>
                   <DropdownItem>
-                    <NavLink href="/picture_my_collection">
+                    <NavLink tag={Link} to="/picture_my_collection">
                       My Collection
                     </NavLink>
                   </DropdownItem>
@@ -83,14 +91,15 @@ class Navigation extends Component {
               </UncontrolledDropdown>
 
               <NavItem>
-                <NavLink href="/billing">Billing</NavLink>
+                <NavLink tag={Link} to="/billing">
+									Billing
+								</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/settings">Settings</NavLink>
+                <NavLink tag={Link} to="/settings">
+									Settings
+								</NavLink>
               </NavItem>
-              {/* <NavItem>
-                <NavLink href="/profile">Profile</NavLink>
-              </NavItem> */}
             </Nav>
 
             <Nav className="ml-auto" navbar>
