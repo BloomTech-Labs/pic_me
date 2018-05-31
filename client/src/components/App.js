@@ -20,6 +20,7 @@ import Logout from './Logout';
 
 // Photo Views
 import Upload from "./Upload";
+import MyUploads from './MyUploads';
 
 // General Views
 import Landing from './Landing';
@@ -46,6 +47,7 @@ class App extends Component {
 								<Route exact path="/signup" component={SignUp} />
 								<Route exact path="/login" component={Login} />
 								<Route exact path="/picture_upload" component={Upload} />
+								<Route exact path="/picture_my_uploads" component={MyUploads} />
 								<Route exact path="/logout" component={Logout} />
 								<Route exact path="/forgotpassword" component={ForgotPassword} />
 								<Route exact path="/feature" component={Gatekeeper(Feature)} />

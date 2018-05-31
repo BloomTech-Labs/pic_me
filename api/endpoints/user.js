@@ -115,19 +115,13 @@ router
 		const ownerId = req.user.id;
 		console.log(req.files);
 		
-		// Todo add a check for duplicate uploads
+		// Todo add a check for duplicate uploads check originalname key
 		const uploadedImages = uploaded.map((i, idx) => {
 			let newImage = {};
-			// new image();
-			// using shift() to make postman associate proper tags with image instead
-			// of just appending all tags from uploads as an array for each upload
-			// newImage.tags = req.body.tags.shift();
-			// Todo handle multiple tags
 			newImage.tags = req.body.tags;
 			newImage.url = i.transforms[0].location;
 			newImage.owner = req.user.id;
 			return newImage;
-			// newImage.save();
 		});
 
 		image.insertMany(uploadedImages, function(error, docs) {
@@ -138,7 +132,8 @@ router
 
 			const pictureIds = [];
 			docs.forEach(image => {
-				pictureIds.push(image._id);
+				// pictureIds.push(image._id);
+				pictureIds.push(image.url);
 			});
 
 			user
@@ -147,10 +142,17 @@ router
 				.catch(err =>
 					send(res, 500, { err, message: `server failed to edit user` })
 				);
-			// res.send(docs);
 		});
-		// res.send();
 	});
+
+router.route('/myuploads').get(authenticate.sid, (req, res) => {
+	userCTR
+		.uploads(req.user.id)
+		.then(users => send(res, 200, users))
+		.catch(err =>
+			send(res, 500, { err, message: `server error retrieving user uploads` })
+		);
+});
 
 router
 	.route('/auth/twitter/callback')
