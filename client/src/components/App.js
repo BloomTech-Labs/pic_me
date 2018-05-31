@@ -19,7 +19,7 @@ import Login from './Login';
 import Logout from './Logout';
 
 // Photo Views
-// import Upload from "./Upload";		 /* working uploads */
+import Upload from "./Upload";		 /* working uploads */
 import MyUploads from './MyUploads'; /* just for testing purposes */
 
 // General Views
@@ -32,7 +32,7 @@ import Mobil from './Mobil';
 
 // Views for Picture
 // Will need to figure out how to reconcile dropzone w/multers3 storage
-import Upload from './picture/Upload'; 
+// import Upload from './picture/Upload'; 
 
 const store = createStore(reducer, applyMiddleware(thunk));
 
