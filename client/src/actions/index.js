@@ -161,10 +161,12 @@ export const logout = history => {
 	};
 };
 
-export const twitter = _ => {
+export const twitter = history => {
 	return dispatch => {
 		axios
-			.get(`${ROOT}/users/auth/twitter`)
+			.get(`${ROOT}/users/auth/twitter`, {
+				// headers: { 'Access-Control-Allow-Origin': '*' },
+			})
 			.then(response => {
 				console.log(response);
 			})
