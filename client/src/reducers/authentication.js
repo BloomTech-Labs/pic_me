@@ -65,7 +65,7 @@ export default (auth = initialState, action) => {
 		case AUTH_LOGIN_START:
 			return {
 				...auth,
-				authenticated: true,
+				authenticated: false,
 			};
 		case AUTH_LOGIN_SUCCESS:
 			return {
