@@ -5,7 +5,7 @@ import { authenticateUser, resetAuthAttempted } from '../actions';
 
 export default ComposedComponent => {
 	class CheckAuthentication extends Component {
-		componentWillMount() {
+		componentDidMount() {
 			if (!this.props.authenticated) {
 				this.setState({ message: `checking login` });
 				this.props.authenticateUser(this.props.history);
@@ -43,7 +43,7 @@ export default ComposedComponent => {
 		return {
 			user: state.auth.user,
 			authenticated: state.auth.authenticated,
-			error: state.auth.error,
+			// error: state.auth.error,
 			attempted: state.auth.attempted,
 		};
 	};

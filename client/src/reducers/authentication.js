@@ -72,6 +72,7 @@ export default (auth = initialState, action) => {
 				...auth,
 				user: action.payload,
 				authenticated: true,
+				error: '',
 			};
 
 		case AUTH_LOGIN_ERROR:
@@ -103,7 +104,10 @@ export default (auth = initialState, action) => {
 			};
 
 		case AUTH_ERROR_RESET:
-			return initialState;
+			return {
+				...auth,
+				error: '',
+			};
 
 		case AUTH_RESET_ATTEMPTED:
 			return {

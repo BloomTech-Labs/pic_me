@@ -150,7 +150,7 @@ export const logout = history => {
 			.get(`${ROOT}/users/logout`)
 			.then(data => {
 				dispatch({ type: AUTH_LOGOUT_SUCCESS });
-				history.go(-1);
+				history.push('/logout');
 			})
 			.catch(err => console.log(err));
 		// dispatch({
