@@ -1,12 +1,9 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import { Jumbotron } from "reactstrap";
-import * as actions from '../actions'
 
 class Logout extends Component {
-  componentWillMount(){
-    this.props.logout();
-  }
+
   render() {
     return (
       <div>
@@ -20,4 +17,4 @@ class Logout extends Component {
   }
 }
 
-export default connect(null, actions)(Logout);
+export default Logout;

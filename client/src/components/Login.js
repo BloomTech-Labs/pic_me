@@ -21,7 +21,7 @@ class Login extends Component {
   render() {
     return (
       <div className="Signup">
-        <a href="http://localhost:5555/api/users/auth/twitter">Login with twitter</a>
+        <a href="http://labpicme.herokuapp.com/api/users/auth/twitter">Login with twitter</a>
         <form
           className="Signup__form"
           onSubmit={this.props.handleSubmit(this.submitFormHandler)}

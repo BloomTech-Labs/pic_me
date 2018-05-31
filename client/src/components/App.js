@@ -26,6 +26,9 @@ import ForgotPassword from './Forgotpassword';
 import Feature from './Feature';
 import Mobil from './Mobil';
 
+// Views for Picture
+import Upload from './picture/Upload';
+
 const store = createStore(reducer, applyMiddleware(logger, thunk));
 
 class App extends Component {
@@ -54,6 +57,7 @@ class App extends Component {
 									component={ForgotPassword}
 								/>
 								<Route exact path="/feature" component={Gatekeeper(Feature)} />
+								<Route exact path="/picture_upload" component={Gatekeeper(Upload)} />
 							</Switch>
 						</div>
 					</Router>
