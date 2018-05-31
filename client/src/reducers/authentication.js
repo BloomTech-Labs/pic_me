@@ -93,7 +93,7 @@ export default (auth = initialState, action) => {
 		case AUTH_LOGOUT_START:
 			return {
 				...auth,
-				authenticated: true,
+				authenticated: false,
 			};
 
 		case AUTH_LOGOUT_SUCCESS:
