@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { reduxForm, Field } from "redux-form";
 import { login, twitter } from "../actions";
 
@@ -21,18 +21,11 @@ class Login extends Component {
   render() {
     return (
       <div className="Signup">
-        <a href="http://localhost:5555/api/users/auth/twitter">Login with twitter</a>
+        <a href="http://labpicme.herokuapp.com/api/users/auth/twitter">Login with twitter</a>
         <form
           className="Signup__form"
           onSubmit={this.props.handleSubmit(this.submitFormHandler)}
         >
-          {/* <div className="SignupDescription">
-            {this.props.authenticating
-              ? "Logging in.."
-              : this.props.error === ""
-                ? "Log in"
-                : this.props.error}
-          </div> */}
           {this.renderAlert()}
           <div>
             <fieldset className="form-group">
@@ -60,14 +53,14 @@ class Login extends Component {
             </button>
             
             <div>
-            <NavLink className="SignupForm__NavLink" to="/signup">
+            <Link className="SignupForm__Link" to="/signup">
             Don't have an account? Sign up
-            </NavLink>
+            </Link>
             </div>
             <div>
-            <NavLink className="SignupForm__NavLink" to="/forgotpassword">
+            <Link className="SignupForm__Link" to="/forgotpassword">
             Forgot password?
-            </NavLink>
+            </Link>
             </div>
           </div>
         </form>
@@ -75,6 +68,7 @@ class Login extends Component {
     );
   }
 }
+
 const mapStateToProps = state => {
   return {
     authenticated: state.auth.authenticated,

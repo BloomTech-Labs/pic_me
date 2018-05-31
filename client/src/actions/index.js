@@ -7,7 +7,6 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 export const AUTH_CHECK = 'AUTH_CHECK';
 export const AUTH_ERROR_RESET = 'AUTH_ERROR_RESET';
 
-
 // signup
 export const AUTH_SIGNUP_START = 'AUTH_SIGNUP_START';
 export const AUTH_SIGNUP_SUCCESS = 'AUTH_SIGNUP_SUCCESS';
@@ -20,16 +19,18 @@ export const AUTH_LOGIN_SUCCESS = 'AUTH_LOGIN_SUCCESS';
 export const AUTH_LOGIN_ERROR = 'AUTH_LOGIN_ERROR';
 export const AUTH_LOGIN_FINISH = 'AUTH_LOGIN_FINISH';
 
+export const AUTH_RESET_ATTEMPTED = 'AUTH_RESET_ATTEMPTED';
+
 // logout
 export const AUTH_LOGOUT_START = 'AUTH_LOGOUT_START';
 export const AUTH_LOGOUT_SUCCESS = 'AUTH_LOGOUT_SUCCESS';
 export const AUTH_LOGOUT_ERROR = 'AUTH_LOGOUT_ERROR';
 export const AUTH_LOGOUT_FINISH = 'AUTH_LOGOUT_FINISH';
 
-export const CHANGE_SETTINGS_START = "CHANGE_SETTINGS_START";
-export const CHANGE_SETTINGS_SUCCESS = "CHANGE_SETTINGS_SUCCESS";
-export const CHANGE_SETTINGS_ERROR = "CHANGE_SETTINGS_ERROR";
-export const ACCOUNT_DELETE="ACCOUNT_DELETE";
+export const CHANGE_SETTINGS_START = 'CHANGE_SETTINGS_START';
+export const CHANGE_SETTINGS_SUCCESS = 'CHANGE_SETTINGS_SUCCESS';
+export const CHANGE_SETTINGS_ERROR = 'CHANGE_SETTINGS_ERROR';
+export const ACCOUNT_DELETE = 'ACCOUNT_DELETE';
 
 // password
 export const FORGOTPASSWORD = 'FORGOTPASSWORD';
@@ -50,6 +51,12 @@ export const authError = error => {
 		setTimeout(() => {
 			dispatch({ type: AUTH_ERROR });
 		}, 4000);
+	};
+};
+
+export const resetAuthAttempted = _ => {
+	return dispatch => {
+		dispatch({ type: AUTH_RESET_ATTEMPTED });
 	};
 };
 
@@ -122,7 +129,8 @@ export const login = (email, password, history) => {
 			.then(response => {
 				// - Update state to indicate user is authenticated
 				dispatch({ type: AUTH_LOGIN_SUCCESS, payload: email });
-				history.push('/feature');
+				// history.push('/feature');
+				history.go(-1);
 			})
 			.catch(err => {
 				dispatch({
@@ -134,13 +142,15 @@ export const login = (email, password, history) => {
 	};
 };
 
-export const logout = () => {
+export const logout = history => {
 	return dispatch => {
+		dispatch({ type: AUTH_LOGOUT_START });
+
 		axios
 			.get(`${ROOT}/users/logout`)
-			.then(response => {
+			.then(data => {
 				dispatch({ type: AUTH_LOGOUT_SUCCESS });
-				// history.push('/logout');
+				history.push('/logout');
 			})
 			.catch(err => console.log(err));
 		// dispatch({
@@ -151,7 +161,7 @@ export const logout = () => {
 	};
 };
 
-export const twitter = () => {
+export const twitter = _ => {
 	return dispatch => {
 		axios
 			.get(`${ROOT}/users/auth/twitter`)
@@ -182,70 +192,68 @@ export const getInfo = _ => {
 	};
 };
 
-export const account = (  
-  email,
-  password, 
-  // newPassword, 
-  // confirmPassword 
-)=> {
-  return dispatch => {
-    dispatch({ type: CHANGE_SETTINGS_START });
-      // if (newPassword !== confirmPassword) {
-      //   dispatch({ type: CHANGE_SETTINGS_ERROR, payload: 'New passwords do not match' });
-      //   return;
-      // }
-    axios
-      .put(`${ROOT}/users/settings`, 
-      {user: {email, password}}
-      )
-      .then(response => {
-        console.log(response);
-        dispatch({ type: CHANGE_SETTINGS_SUCCESS })
-      })
-      .catch(err => console.log(err));
-  }
+export const account = (
+	email,
+	password,
+	// newPassword,
+	// confirmPassword
+) => {
+	return dispatch => {
+		dispatch({ type: CHANGE_SETTINGS_START });
+		// if (newPassword !== confirmPassword) {
+		//   dispatch({ type: CHANGE_SETTINGS_ERROR, payload: 'New passwords do not match' });
+		//   return;
+		// }
+		axios
+			.put(`${ROOT}/users/settings`, { user: { email, password } })
+			.then(response => {
+				console.log(response);
+				dispatch({ type: CHANGE_SETTINGS_SUCCESS });
+			})
+			.catch(err => console.log(err));
+	};
 };
 
 export const profile = (firstName, lastName, nickNames) => {
-  return dispatch => {
-    dispatch({ type: CHANGE_SETTINGS_START });
-    // if (password !== confirmPassword) {
-    //   dispatch({ payload: 'Passwords do not match' });
-    //   return;
-    // }
-    axios
-      .put(`${ROOT}/users`,  
-       {user: {firstName, lastName, nickNames}}
-      )
-      .then(response => {
-        console.log(response);
-        dispatch({ type: CHANGE_SETTINGS_SUCCESS })
-      })
-      .catch(err => console.log(err));
-  }
+	return dispatch => {
+		dispatch({ type: CHANGE_SETTINGS_START });
+		// if (password !== confirmPassword) {
+		//   dispatch({ payload: 'Passwords do not match' });
+		//   return;
+		// }
+		axios
+			.put(`${ROOT}/users`, { user: { firstName, lastName, nickNames } })
+			.then(response => {
+				console.log(response);
+				dispatch({ type: CHANGE_SETTINGS_SUCCESS });
+			})
+			.catch(err => console.log(err));
+	};
 };
 
-export const forgotPassword = (email) => {
-  return dispatch => {
-    axios
-      .post(`${ROOT}/forgotpassword`, { email })
-      .then(response => {console.log(response)}
-      // .catch (error) ()
-      // return authError(error.response.data.message)
-      )}
+export const forgotPassword = email => {
+	return dispatch => {
+		axios.post(`${ROOT}/forgotpassword`, { email }).then(
+			response => {
+				console.log(response);
+			},
+			// .catch (error) ()
+			// return authError(error.response.data.message)
+		);
+	};
 };
 
 export const deleteaccount = (email, password) => {
-  return dispatch => {
-    axios
-      .delete(`${ROOT}/users`, 
-      {user: {email, password}})
-      .then(response => {
-        console.log(response);
-        dispatch({ type: ACCOUNT_DELETE })
-      })
-      .catch(err => console.log(err));
-  }
+	return dispatch => {
+		axios
+			.delete(`${ROOT}/users`, { user: { email, password } })
+			.then(response => {
+				console.log(response);
+				dispatch({ type: ACCOUNT_DELETE });
+				// history.push('logout')
+			})
+			.catch(err => console.log(err));
+	};
 };
 
 export const sendPayment = stripeToken => {
@@ -265,26 +273,36 @@ export const authenticateUser = history => {
 				if (data.message === `user verified`) {
 					dispatch({ type: AUTH_LOGIN_SUCCESS, payload: data.user.email });
 
-					console.log('history[-1] path', history[-1].location.pathname);
+					// history.go(-1);
 				} else {
 					window.alert(`login failed`);
 
-					dispatch({
-						type: AUTH_LOGIN_ERROR,
-						// payload: err.response.data.message,
-					});
-					// history.push(`/login`);
+					// dispatch({
+					// 	type: AUTH_LOGIN_ERROR,
+					// 	// payload: err.response.data.message,
+					// });
+					history.push(`/login`);
 				}
 			})
-			.catch(
-				err =>
-					dispatch({
-						type: AUTH_LOGIN_ERROR,
-						// payload: err.response.data.message,
-						payload: err,
-					}),
+			.catch(err => {
+				dispatch({
+					type: AUTH_LOGIN_ERROR,
+					// payload: err.response.data.message,
+					payload:
+						err.response.data.message /* session expired. please log in */,
+				});
+				// window.alert(`login failed at err`);
 
-				// history.push('/login'),
-			);
+				// history.push('/login');
+			});
+	};
+};
+
+export const upload = data => {
+	return dispatch => {
+		axios
+			.post(`${ROOT}/users/upload`)
+			.then(res => console.log(res))
+			.catch(err => console.error(err));
 	};
 };

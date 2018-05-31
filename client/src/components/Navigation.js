@@ -40,8 +40,8 @@ class Navigation extends Component {
 				<NavLink
 					key={1}
 					tag={Link}
-					to="/logout"
-					onClick={_ => this.props.logout()}
+					to="#" // used for anything except to change cursor type
+					onClick={_ => this.props.logout(this.props.history)}
 				>
 					Log Out
 				</NavLink>,
