@@ -1,34 +1,36 @@
 import {
-  //
-  AUTH_LOGIN_SUCCESS,
-  AUTH_LOGIN_ERROR,
-  AUTH_LOGIN_FINISH,
-  //
-  AUTH_SIGNUP_START,
-  AUTH_SIGNUP_SUCCESS,
-  AUTH_SIGNUP_ERROR,
-  AUTH_SIGNUP_FINISH,
-  //
-  AUTH_LOGOUT_START,
-  AUTH_LOGOUT_SUCCESS,
-  AUTH_ERROR_RESET,
-  AUTH_LOGIN_START,
+	//
+	AUTH_LOGIN_SUCCESS,
+	AUTH_LOGIN_ERROR,
+	AUTH_LOGIN_FINISH,
+	//
+	AUTH_SIGNUP_START,
+	AUTH_SIGNUP_SUCCESS,
+	AUTH_SIGNUP_ERROR,
+	AUTH_SIGNUP_FINISH,
+	//
+	AUTH_LOGOUT_START,
+	AUTH_LOGOUT_SUCCESS,
+	AUTH_ERROR_RESET,
+	AUTH_LOGIN_START,
 
-  //
-  AUTH_ERROR,
-  FORGOTPASSWORD,
-  RESETPASSWORD,
-  CHANGE_SETTINGS_SUCCESS,
-  CHANGE_SETTINGS_START,
-  CHANGE_SETTINGS_ERROR,
-  ACCOUNT_DELETE,
+	//
+	AUTH_RESET_ATTEMPTED,
+	//
+	AUTH_ERROR,
+	FORGOTPASSWORD,
+	RESETPASSWORD,
+	CHANGE_SETTINGS_SUCCESS,
+	CHANGE_SETTINGS_START,
+	CHANGE_SETTINGS_ERROR,
+	ACCOUNT_DELETE,
 } from '../actions';
-
 
 const initialState = {
 	user: '',
 	authenticated: false,
 	error: '',
+	attempted: false,
 };
 
 export default (auth = initialState, action) => {
@@ -75,8 +77,9 @@ export default (auth = initialState, action) => {
 		case AUTH_LOGIN_ERROR:
 			return {
 				...auth,
-				// error: action.payload,
+				error: action.payload,
 				authenticated: false,
+				attempted: true,
 			};
 
 		case AUTH_LOGIN_FINISH:
@@ -87,10 +90,10 @@ export default (auth = initialState, action) => {
 
 		//
 		case AUTH_LOGOUT_START:
-		return {
-			...auth,
-			authenticated: true,
-		};
+			return {
+				...auth,
+				authenticated: true,
+			};
 
 		case AUTH_LOGOUT_SUCCESS:
 			return {
@@ -100,11 +103,14 @@ export default (auth = initialState, action) => {
 			};
 
 		case AUTH_ERROR_RESET:
+			return initialState;
+
+		case AUTH_RESET_ATTEMPTED:
 			return {
 				...auth,
-				error: '',
+				attempted: false,
 			};
-      
+
 		case AUTH_ERROR:
 			return {
 				...auth,
@@ -136,17 +142,17 @@ export default (auth = initialState, action) => {
 			};
 
 		case CHANGE_SETTINGS_ERROR:
-		return {
-			...auth,
-			error: action.payload,
-		};
+			return {
+				...auth,
+				error: action.payload,
+			};
 
 		case ACCOUNT_DELETE:
-		return {
-			...auth,
-			authenticated: false,
-		};
-      
+			return {
+				...auth,
+				authenticated: false,
+			};
+
 		default:
 			return auth;
 	}
