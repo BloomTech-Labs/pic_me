@@ -9,9 +9,11 @@ import {
   AUTH_SIGNUP_ERROR,
   AUTH_SIGNUP_FINISH,
   //
+  AUTH_LOGOUT_START,
   AUTH_LOGOUT_SUCCESS,
   AUTH_ERROR_RESET,
   AUTH_LOGIN_START,
+
   //
   AUTH_ERROR,
   FORGOTPASSWORD,
@@ -84,6 +86,12 @@ export default (auth = initialState, action) => {
 			};
 
 		//
+		case AUTH_LOGOUT_START:
+		return {
+			...auth,
+			authenticated: true,
+		};
+
 		case AUTH_LOGOUT_SUCCESS:
 			return {
 				...auth,
@@ -118,7 +126,6 @@ export default (auth = initialState, action) => {
 			return {
 				...auth,
 				authenticated: true,
-				user: action.payload,
 			};
 
 		case CHANGE_SETTINGS_SUCCESS:
@@ -128,16 +135,17 @@ export default (auth = initialState, action) => {
 				user: action.payload,
 			};
 
-    case CHANGE_SETTINGS_ERROR:
-      return {
-        ...auth,
-        error: action.payload,
-      };
+		case CHANGE_SETTINGS_ERROR:
+		return {
+			...auth,
+			error: action.payload,
+		};
 
-    case ACCOUNT_DELETE:
-      return {
-      ...auth,
-      };
+		case ACCOUNT_DELETE:
+		return {
+			...auth,
+			authenticated: false,
+		};
       
 		default:
 			return auth;

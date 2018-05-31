@@ -134,13 +134,15 @@ export const login = (email, password, history) => {
 	};
 };
 
-export const logout = () => {
+export const logout = history => {
 	return dispatch => {
+		dispatch({ type: AUTH_LOGOUT_START });
+
 		axios
 			.get(`${ROOT}/users/logout`)
-			.then(response => {
+			.then(data => {
 				dispatch({ type: AUTH_LOGOUT_SUCCESS });
-				// history.push('/logout');
+				history.push('/logout');
 			})
 			.catch(err => console.log(err));
 		// dispatch({
@@ -151,7 +153,7 @@ export const logout = () => {
 	};
 };
 
-export const twitter = () => {
+export const twitter = _ => {
 	return dispatch => {
 		axios
 			.get(`${ROOT}/users/auth/twitter`)
@@ -242,7 +244,8 @@ export const deleteaccount = (email, password) => {
       {user: {email, password}})
       .then(response => {
         console.log(response);
-        dispatch({ type: ACCOUNT_DELETE })
+		dispatch({ type: ACCOUNT_DELETE })
+		// history.push('logout')
       })
       .catch(err => console.log(err));
   }
@@ -286,5 +289,14 @@ export const authenticateUser = history => {
 
 				// history.push('/login'),
 			);
+	};
+};
+
+export const upload = (data) => {
+	return dispatch => {
+		axios
+			.post(`${ROOT}/photos/upload`)
+			.then(res => console.log(res))
+			.catch(err => console.error(err));
 	};
 };

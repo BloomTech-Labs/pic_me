@@ -26,13 +26,16 @@ import ForgotPassword from './Forgotpassword';
 import Feature from './Feature';
 import Mobil from './Mobil';
 
+// Views for Picture
+import Upload from './picture/Upload';
+
 const store = createStore(reducer, applyMiddleware(logger, thunk));
 
 class App extends Component {
 	render() {
 		return (
 			<Provider store={store}>
-				<StripeProvider apiKey={process.env.REACT_APP_STRIPE_API}>
+				<StripeProvider apiKey="pk_test_0srJ0Qu3Z68ZEAsuJnLERMWr">
 					<Router>
 						<div className="App">
 							<Navigation />
@@ -54,6 +57,7 @@ class App extends Component {
 									component={ForgotPassword}
 								/>
 								<Route exact path="/feature" component={Gatekeeper(Feature)} />
+								<Route exact path="/picture_upload" component={Gatekeeper(Upload)} />
 							</Switch>
 						</div>
 					</Router>
