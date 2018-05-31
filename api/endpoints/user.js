@@ -1,7 +1,9 @@
 const router = require('express').Router();
 const passport = require('passport');
 const stripe = require('stripe')(process.env.STRIPE_SECRET);
-
+const image = require('../photos/model');
+// Todo move pictureIds to user uploads array code into ctrl file
+const user = require('../users/model');
 const { debug } = require('../../dev');
 
 /* helpers */
@@ -9,7 +11,7 @@ const validate = require('../helpers/validate/validate');
 const sanitize = require('../helpers/sanitize');
 const authenticate = require('../helpers/authenticate');
 const send = require('../helpers/send');
-
+const transform = require('../photos/transform');
 /* controllers */
 const userCTR = require('../users/controller');
 // const photoCTR = require('../photos/controller')
@@ -24,7 +26,7 @@ router
 			.create(req.newUser)
 			.then(savedUser => send(res, 201, sanitize.response(savedUser)))
 			.catch(err =>
-				send(res, 500, { err, message: `server failed to save new user` }),
+				send(res, 500, { err, message: `server failed to save new user` })
 			);
 	})
 	.put(authenticate.sid, validate.update, sanitize.update, (req, res) => {
@@ -32,7 +34,7 @@ router
 			.update(req.user.id, req.editedUser)
 			.then(editedUser => send(res, 200, sanitize.response(editedUser)))
 			.catch(err =>
-				send(res, 500, { err, message: `server failed to edit user` }),
+				send(res, 500, { err, message: `server failed to edit user` })
 			);
 	})
 	.delete(authenticate.sid, (req, res) => {
@@ -44,7 +46,7 @@ router
 				send(res, 200, `user successfully deleted`);
 			})
 			.catch(err =>
-				send(res, 500, { err, message: `server failed to delete user` }),
+				send(res, 500, { err, message: `server failed to delete user` })
 			);
 	});
 
@@ -71,13 +73,13 @@ router
 							send(res, 200, sanitize.response(savedUser));
 						})
 						.catch(err =>
-							send(res, 500, { err, message: `error updating user settings` }),
+							send(res, 500, { err, message: `error updating user settings` })
 						);
 				})
 				.catch(err =>
-					send(res, 500, { err, message: `error finding user by id` }),
+					send(res, 500, { err, message: `error finding user by id` })
 				);
-		},
+		}
 	);
 
 router.route('/info').get(authenticate.sid, (req, res) => {
@@ -94,11 +96,63 @@ router.route('/login/check').post(authenticate.sid, (req, res) => {
 	/* if authenticate sid passed, cookie is valid */
 	send(res, 200, {
 		message: `user verified`,
-		user: sanitize.response(req.user),
+		user: sanitize.response(req.user)
 	});
 });
 
 router.route('/auth/twitter').get(passport.authenticate('twitter'));
+
+router
+	.route('/auth/twitter/callback')
+	.get(passport.authenticate('twitter'), (req, res) => {
+		send(res, 201, { message: `twitter authenticated successfully` });
+	});
+
+router
+	.route('/upload')
+	.post(authenticate.sid, transform.upload.array('images'), (req, res) => {
+		const uploaded = req.files;
+		const ownerId = req.user.id;
+		console.log(req.files);
+		
+		// Todo add a check for duplicate uploads check originalname key
+		const uploadedImages = uploaded.map((i, idx) => {
+			let newImage = {};
+			newImage.tags = req.body.tags;
+			newImage.url = i.transforms[0].location;
+			newImage.owner = req.user.id;
+			return newImage;
+		});
+
+		image.insertMany(uploadedImages, function(error, docs) {
+			if (error) {
+				send(res, 500, { error, message: 'failed to save images' });
+				return;
+			}
+
+			const pictureIds = [];
+			docs.forEach(image => {
+				// pictureIds.push(image._id);
+				pictureIds.push(image.url);
+			});
+
+			user
+				.update({ "_id": ownerId }, { "$push": {uploads: pictureIds} })
+				.then(editedUser => send(res, 200, sanitize.response(editedUser)))
+				.catch(err =>
+					send(res, 500, { err, message: `server failed to edit user` })
+				);
+		});
+	});
+
+router.route('/myuploads').get(authenticate.sid, (req, res) => {
+	userCTR
+		.uploads(req.user.id)
+		.then(users => send(res, 200, users))
+		.catch(err =>
+			send(res, 500, { err, message: `server error retrieving user uploads` })
+		);
+});
 
 router
 	.route('/auth/twitter/callback')
@@ -122,7 +176,7 @@ router.route('/all').get(authenticate.sid, (req, res) => {
 		.request()
 		.then(users => send(res, 200, users))
 		.catch(err =>
-			send(res, 500, { err, message: `server error retrieving users` }),
+			send(res, 500, { err, message: `server error retrieving users` })
 		);
 });
 
@@ -158,7 +212,7 @@ router.route('/payment').post(authenticate.sid, (req, res) => {
 			amount,
 			currency,
 			description,
-			source: token,
+			source: token
 		})
 		.then(response => send(res, 200, response))
 		.catch(err => send(res, 500, { err, message: `error charging payment` }));

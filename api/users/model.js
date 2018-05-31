@@ -13,7 +13,8 @@ const UserSchema = new Schema({
 	lastName: { type: String, lowercase: true, required: true },
 	nickNames: [{ type: String }],
 	password: { type: String, require: true },
-	uploads: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
+	// uploads: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
+	uploads: [{ type: String }],
 	photos: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
 	// credits balance: {}
 	// stripe hasPaid: {}

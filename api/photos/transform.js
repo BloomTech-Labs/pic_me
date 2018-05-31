@@ -23,7 +23,7 @@ aws.config.update({
 
 let s3 = new aws.S3();
 
-const upload = multer({
+exports.upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: process.env.BUCKET,
@@ -53,22 +53,22 @@ const upload = multer({
   })
 })
 
-server.get('/', (req, res) => {
-  console.log('Photo upload endpoint');
-  res.send({ message: 'this route worked.' });
-});
+// server.get('/', (req, res) => {
+//   console.log('Photo upload endpoint');
+//   res.send({ message: 'this route worked.' });
+// });
 
-server.post('/upload', upload.array('images'), (req, res, next) => {
-  const uploads = req.files
-  uploads.forEach(i => {    
-    let newImage = new image();
-    // using shift() to make postman associate proper tags with image instead
-    // of just appending all tags from uploads as an array for each upload
-    newImage.tags = req.body.tags.shift(); 
-    newImage.url = i.transforms[0].location;
-    newImage.save();
-  })
-  res.json(`Uploaded ${req.files.length} files!`);
-})  
+// server.post('/upload', upload.array('images'), (req, res, next) => {
+//   const uploads = req.files
+//   uploads.forEach(i => {    
+//     let newImage = new image();
+//     // using shift() to make postman associate proper tags with image instead
+//     // of just appending all tags from uploads as an array for each upload
+//     newImage.tags = req.body.tags.shift(); 
+//     newImage.url = i.transforms[0].location;
+//     newImage.save();
+//   })
+//   res.json(`Uploaded ${req.files.length} files!`);
+// })  
 
-module.exports = server;
+// module.exports = server;
