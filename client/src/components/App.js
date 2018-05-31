@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { StripeProvider } from 'react-stripe-elements';
 import thunk from 'redux-thunk';
-import logger from 'redux-logger';
+// import logger from 'redux-logger';
 import reducer from '../reducers';
 
 // Common Components
@@ -29,7 +29,7 @@ import Mobil from './Mobil';
 // Views for Picture
 import Upload from './picture/Upload';
 
-const store = createStore(reducer, applyMiddleware(logger, thunk));
+const store = createStore(reducer, applyMiddleware(thunk));
 
 class App extends Component {
 	render() {
@@ -57,7 +57,11 @@ class App extends Component {
 									component={ForgotPassword}
 								/>
 								<Route exact path="/feature" component={Gatekeeper(Feature)} />
-								<Route exact path="/picture_upload" component={Gatekeeper(Upload)} />
+								<Route
+									exact
+									path="/picture_upload"
+									component={Gatekeeper(Upload)}
+								/>
 							</Switch>
 						</div>
 					</Router>
