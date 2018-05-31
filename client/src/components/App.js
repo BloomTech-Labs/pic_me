@@ -18,6 +18,10 @@ import SignUp from './SignUp';
 import Login from './Login';
 import Logout from './Logout';
 
+// Photo Views
+// import Upload from "./Upload";		 /* working uploads */
+import MyUploads from './MyUploads'; /* just for testing purposes */
+
 // General Views
 import Landing from './Landing';
 import Settings from './Settings';
@@ -27,7 +31,8 @@ import Feature from './Feature';
 import Mobil from './Mobil';
 
 // Views for Picture
-import Upload from './picture/Upload';
+// Will need to figure out how to reconcile dropzone w/multers3 storage
+import Upload from './picture/Upload'; 
 
 const store = createStore(reducer, applyMiddleware(thunk));
 
@@ -43,19 +48,13 @@ class App extends Component {
 								<Route exact path="/" component={Landing} />
 								<Route exact path="/billing" component={Gatekeeper(Billings)} />
 								<Route exact path="/mobil" component={Mobil} />
-								<Route
-									exact
-									path="/settings"
-									component={Gatekeeper(Settings)}
-								/>
+								<Route exact path="/settings" component={Gatekeeper(Settings)} />
 								<Route exact path="/signup" component={SignUp} />
 								<Route exact path="/login" component={Login} />
+								<Route exact path="/picture_upload" component={Upload} />
+								<Route exact path="/picture_my_uploads" component={MyUploads} />
 								<Route exact path="/logout" component={Logout} />
-								<Route
-									exact
-									path="/forgotpassword"
-									component={ForgotPassword}
-								/>
+								<Route exact path="/forgotpassword" component={ForgotPassword} />
 								<Route exact path="/feature" component={Gatekeeper(Feature)} />
 								<Route
 									exact
@@ -67,7 +66,7 @@ class App extends Component {
 					</Router>
 				</StripeProvider>
 			</Provider>
-		);
+		)
 	}
 }
 
