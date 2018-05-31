@@ -114,10 +114,7 @@ router
 		const uploaded = req.files;
 		const ownerId = req.user.id;
 		console.log(req.files);
-		/*
-		var arr = [{ name: 'Star Wars' }, { name: 'The Empire Strikes Back' }];
-		*/
-
+		
 		// Todo add a check for duplicate uploads
 		const uploadedImages = uploaded.map((i, idx) => {
 			let newImage = {};

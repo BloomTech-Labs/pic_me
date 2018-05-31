@@ -31,13 +31,14 @@ export default class Upload extends Component {
     
     let formData = new FormData();
     
-    formData.append('tags', tags.split(','));
+    formData.append('tags', tags.split(' '));
     formData.append('images', images);
     
     console.log(formData);
+    console.log(formData.tags);
     axios.post('/api/users/upload', formData)
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data);        
       }).catch(err => console.log(err));
   }
 
