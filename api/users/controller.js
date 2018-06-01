@@ -24,7 +24,14 @@ exports.update = (_id, user) => {
 
 exports.delete = _id => {
   return User.findByIdAndRemove({ _id });
+};
 
+exports.uploads = _id => {
+  return User.findById(_id, 'uploads');
+}
+
+exports.collection = function(req, res, next) {
+  return User.findById(_id, 'collection');
 };
 
 exports.list = function(req, res, next) {
@@ -38,24 +45,4 @@ exports.list = function(req, res, next) {
     );
 };
 
-exports.uploads = function(req, res, next) {
-  const query = User.find({}).select('uploads - id');
 
-  query.exec((err, uploads) => {
-    if (err) {
-      return next(err);
-    }
-    res.send(uploads);
-  });
-};
-
-exports.collection = function(req, res, next) {
-  const query = User.find({}).select('collection - id');
-
-  query.exec((err, collection) => {
-    if (err) {
-      return next(err);
-    }
-    res.send(collection);
-  });
-};
