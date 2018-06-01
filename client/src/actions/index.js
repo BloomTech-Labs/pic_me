@@ -129,6 +129,28 @@ export const login = (email, password, history) => {
 			.then(response => {
 				// - Update state to indicate user is authenticated
 				dispatch({ type: AUTH_LOGIN_SUCCESS, payload: email });
+				history.push('/feature');
+				// history.go(-1);
+			})
+			.catch(err => {
+				dispatch({
+					type: AUTH_LOGIN_ERROR,
+					payload: err.response.data.message,
+				});
+				// dispatch({ type: AUTH_LOGIN_FINISH });
+			});
+	};
+};
+
+export const mobil = (email, password, history) => {
+	return dispatch => {
+		dispatch({ type: AUTH_LOGIN_START });
+
+		axios
+			.post(`${ROOT}/users/login`, { email, password })
+			.then(response => {
+				// - Update state to indicate user is authenticated
+				dispatch({ type: AUTH_LOGIN_SUCCESS, payload: email });
 				// history.push('/feature');
 				history.go(-1);
 			})
