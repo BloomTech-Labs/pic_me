@@ -38,7 +38,6 @@ export default class Upload extends Component {
     
     formData.append('tags', tags);
     formData.append('images', images);
-    console.log(formData.tags);
     axios.post('/api/users/upload', formData)
       .then((res) => {
       }).catch(err => console.log("Must be logged in to upload photos."));
@@ -59,6 +58,7 @@ export default class Upload extends Component {
           style={{ display: "flex"}}
           type="file"
           name="images"
+          // add multiple to allow n number of uploads
           ref="images"
           onChange={this.onChange}
         />

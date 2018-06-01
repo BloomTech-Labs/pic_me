@@ -14,7 +14,7 @@ export default class MyUploads extends Component {
     axios.get('/api/users/myuploads')
       .then(res => {
         let uploads = res.data.uploads;
-        // console.log(res.data);
+        console.log(res.data.uploads);
         this.setState({ uploads });
       })
       // console.log(this.state);
@@ -30,13 +30,12 @@ export default class MyUploads extends Component {
         <h1> My Uploads </h1>
         <ul>
           {this.state.uploads.map(img =>
-          // need to incorporate image tags from backend
-          // each upload should = { url: <link>, tags: [tags] }
             <li style={{listStyleType: "none", display: "flex"}}>
-              <img 
-                src={img} 
+              <img
+                src={img.split(',')[0]} 
                 alt="myuploads"
               />
+              <p>Tags:{img.split(',')[1]}</p>
             </li>
           )}
         </ul>
