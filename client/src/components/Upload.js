@@ -9,15 +9,14 @@ export default class Upload extends Component {
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
-      // ? change tags to an array 
-      images: [],
-      tags: [], 
+      images: '',
+      tags: '',
     };
   }
   
   onChange = (e) => {
     const state = this.state;
-
+    
     switch(e.target.name) {
       case 'images':
         state.images = e.target.files[0];
@@ -38,6 +37,7 @@ export default class Upload extends Component {
     
     formData.append('tags', tags);
     formData.append('images', images);
+
     axios.post('/api/users/upload', formData)
       .then((res) => {
       }).catch(err => console.log("Must be logged in to upload photos."));
@@ -53,18 +53,18 @@ export default class Upload extends Component {
       // Todo if user is not authenticated render a helpful message
       <form onSubmit={this.onSubmit}>
       <label>
-        Upload:
+        Upload Image:
         <input
           style={{ display: "flex"}}
           type="file"
           name="images"
-          // add multiple to allow n number of uploads
+          // multiple
           ref="images"
           onChange={this.onChange}
         />
       </label>
       <label>
-        Tags:
+        Add Tags:
         <input
           style={{ display: "flex"}}
           type="text"

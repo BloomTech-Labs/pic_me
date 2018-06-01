@@ -1,4 +1,6 @@
 const User = require('./model');
+// Todo move this into the photos controller
+const Image = require('../photos/model');
 
 exports.create = function(info) {
   const user = new User(info);
@@ -28,6 +30,10 @@ exports.delete = _id => {
 
 exports.uploads = _id => {
   return User.findById(_id, 'uploads');
+}
+
+exports.photoDelete = _id => {
+  return Image.findByIdAndRemove({ _id });
 }
 
 // Todo add delete upload controller

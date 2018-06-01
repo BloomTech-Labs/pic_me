@@ -114,7 +114,6 @@ router
 		const uploaded = req.files;
 		const ownerId = req.user.id;
 		
-		// Todo add a check for duplicate uploads check originalname key
 		const uploadedImages = uploaded.map((i, idx) => {
 			let newImage = {};
 			newImage.tags = req.body.tags;
@@ -132,15 +131,8 @@ router
 
 			const pictureIds = [];
 			docs.forEach(image => {
-				// Todo need to fix tags, and render them on the frontend
-				// Todo REACT-TAG-BOX and REACT-FORMS
-				// ? Tags need to filled with user nicknames
-				// * Will need to incorporate fuzzy search on that nicknames array
-				// * need autocomplete tags for user as they add tags. (existing v. new)
-				// let linkTags = { image: image.url, image: image.tags};
 				console.log('Image obj:', image);
-				let { url, tags } = image;
-				pictureIds.push([url, tags]);
+				pictureIds.push(image);
 			});
 
 			user
@@ -159,7 +151,22 @@ router.route('/myuploads').get(authenticate.sid, (req, res) => {
 		.catch(err =>
 			send(res, 500, { err, message: `server error retrieving user uploads` })
 		);
-});
+	}).photoDelete(authenticate.sid, (req, res) => {
+		userCTR
+			.delete(req.image.id)
+			.then(_ => {
+				req.logout();
+
+				send(res, 200, `photo successfully deleted`);
+			})
+			.catch(err =>
+				send(res, 500, { err, message: `server failed to delete photo` })
+			);
+	}
+// router.route('/mycollection')
+
+// router.route('/browse')
+
 
 router
 	.route('/auth/twitter/callback')
