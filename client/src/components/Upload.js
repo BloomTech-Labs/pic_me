@@ -10,8 +10,8 @@ export default class Upload extends Component {
 
     this.state = {
       // ? change tags to an array 
-      images: '',
-      tags: '', 
+      images: [],
+      tags: [], 
     };
   }
   
