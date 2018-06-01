@@ -145,24 +145,27 @@ router
 	});
 
 router.route('/myuploads').get(authenticate.sid, (req, res) => {
+	console.log(req.user);
 	userCTR
 		.uploads(req.user.id)
 		.then(users => send(res, 200, users))
 		.catch(err =>
 			send(res, 500, { err, message: `server error retrieving user uploads` })
-		);
-	}).photoDelete(authenticate.sid, (req, res) => {
-		userCTR
-			.delete(req.image.id)
-			.then(_ => {
-				req.logout();
+		)});
+	// }).photoDelete(authenticate.sid, (req, res) => {
+	// 	// make this photoCTR
+	// 	userCTR
+	// 		.delete(req.user.uploads)
+	// 		.then(_ => {
+	// 			req.logout();
 
-				send(res, 200, `photo successfully deleted`);
-			})
-			.catch(err =>
-				send(res, 500, { err, message: `server failed to delete photo` })
-			);
-	}
+	// 			send(res, 200, `photo successfully deleted`);
+	// 		})
+	// 		.catch(err =>
+	// 			send(res, 500, { err, message: `server failed to delete photo` })
+	// 		);
+	// }
+
 // router.route('/mycollection')
 
 // router.route('/browse')

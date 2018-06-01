@@ -1,26 +1,29 @@
 const findOrCreate = require('mongoose-findorcreate');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const photos = require('../photos/model');
 const { Schema } = mongoose;
 
 // ? Should each user have a thumbnail or avatar
 // ? when deleting (if uploadedBy === user then delete...)
 // ? get all photos and filter by user nicknames to build up browsable selection
 
-const UserSchema = new Schema({
-	email: { type: String, lowercase: true, unique: true, required: true },
-	firstName: { type: String, lowercase: true, required: true },
-	lastName: { type: String, lowercase: true, required: true },
-	nickNames: [{ type: String }],
-	password: { type: String, require: true },
-	uploads: [{ type: String }],
-	photos: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
-	// credits balance: {}
-	// stripe hasPaid: {}
-}, 
+const UserSchema = new Schema(
+	{
+		email: { type: String, lowercase: true, unique: true, required: true },
+		firstName: { type: String, lowercase: true, required: true },
+		lastName: { type: String, lowercase: true, required: true },
+		nickNames: [{ type: String }],
+		password: { type: String, require: true },
+		uploads: [photos.schema],
+		photos: [{ type: Schema.Types.ObjectId, ref: 'Photo' }]
+		// credits balance: {}
+		// stripe hasPaid: {}
+	},
 	{
 		timestamps: true
-	});
+	}
+);
 
 // User static methods
 UserSchema.pre('save', function(next) {

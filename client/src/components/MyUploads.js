@@ -32,10 +32,10 @@ export default class MyUploads extends Component {
           {this.state.uploads.map(img =>
             <li style={{listStyleType: "none", display: "flex"}}>
               <img
-                src={img.split(',')[0]} 
+                src={img.url} 
                 alt="myuploads"
               />
-              <p>Tags:{img.split(',')[1]}</p>
+              <p>Tags:{img.tags}</p>
             </li>
           )}
         </ul>
