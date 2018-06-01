@@ -30,6 +30,8 @@ exports.uploads = _id => {
   return User.findById(_id, 'uploads');
 }
 
+// Todo add delete upload controller
+
 exports.collection = function(req, res, next) {
   return User.findById(_id, 'collection');
 };

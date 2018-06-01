@@ -19,7 +19,7 @@ export default class MyUploads extends Component {
       })
       // console.log(this.state);
   }
-
+  // Todo Conditionally render message based on users status
   // Todo display tags
   // Todo add/remove/edit tags
   // Todo delete photo

@@ -23,9 +23,10 @@ export default class Upload extends Component {
         state.images = e.target.files[0];
         break;
       default: 
-        state[e.target.name] = e.target.value;
+        state[e.target.name] = e.target.value.split(',');
     }
-
+    console.log(this.state.tags);
+    
     this.setState(state);
   }
   
@@ -35,12 +36,12 @@ export default class Upload extends Component {
     
     let formData = new FormData();
     
-    formData.append('tags', tags.split(' '));
+    formData.append('tags', tags);
     formData.append('images', images);
-    
+    console.log(formData.tags);
     axios.post('/api/users/upload', formData)
       .then((res) => {
-      }).catch(err => console.log(err));
+      }).catch(err => console.log("Must be logged in to upload photos."));
     
     this.refs.tags.value = '';
     this.refs.images.value = '';
@@ -49,6 +50,8 @@ export default class Upload extends Component {
   render() {
     const { tags, images } = this.state;
     return (
+      // ? <h2>Upload success</h2> : <h1>Begin upload</h1>
+      // Todo if user is not authenticated render a helpful message
       <form onSubmit={this.onSubmit}>
       <label>
         Upload:
@@ -72,7 +75,7 @@ export default class Upload extends Component {
         />
       </label>
         <button type="submit">Submit</button>
-      </form>
+      </form> 
     )
   }
 }

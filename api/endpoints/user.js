@@ -113,7 +113,6 @@ router
 	.post(authenticate.sid, transform.upload.array('images'), (req, res) => {
 		const uploaded = req.files;
 		const ownerId = req.user.id;
-		console.log(req.files);
 		
 		// Todo add a check for duplicate uploads check originalname key
 		const uploadedImages = uploaded.map((i, idx) => {
@@ -139,6 +138,7 @@ router
 				// ? Tags need to filled with user nicknames
 				// * Will need to incorporate fuzzy search on that nicknames array
 				// * need autocomplete tags for user as they add tags. (existing v. new)
+				console.log(image);
 				pictureIds.push(image.url);
 			});
 
