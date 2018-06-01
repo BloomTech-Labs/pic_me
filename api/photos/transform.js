@@ -28,6 +28,7 @@ exports.upload = multer({
 		s3: s3,
 		bucket: process.env.BUCKET,
 		// acl permissions 'public-read'
+		acl: 'public-read',
 		contentType: multerS3.AUTO_CONTENT_TYPE,
 		// should transform
 		shouldTransform: true,
