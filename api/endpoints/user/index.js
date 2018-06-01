@@ -1,54 +1,52 @@
 const router = require('express').Router();
-const passport = require('passport');
+
+const { debug } = require('../../../dev');
+
+/**
+ * passport with strategies and settings
+ */
+const passport = require('../../auth/passport');
+
+/**
+ * env config:
+ * STRIPE_SECRET=sk_test_BQokikJOvBiI2HlWgH4olfQ2
+ *
+ * demo test secret key above, found below:
+ * https://stripe.com/docs/charges
+ *
+ * to find your api keys:
+ * https://dashboard.stripe.com/account/apikeys
+ *
+ */
 const stripe = require('stripe')(process.env.STRIPE_SECRET);
-const image = require('../photos/model');
-// Todo move pictureIds to user uploads array code into ctrl file
-const user = require('../users/model');
-const { debug } = require('../../dev');
 
-/* helpers */
-const validate = require('../helpers/validate/validate');
-const sanitize = require('../helpers/sanitize');
-const authenticate = require('../helpers/authenticate');
-const send = require('../helpers/send');
-const transform = require('../photos/transform');
+/**
+ * controller that interacts with the users table in database
+ */
+const userCTR = require('../../users/controller');
+
+/**
+ * general helper functions for all api endpoints
+ */
+const validate = require('../../helpers/validate/validate');
+const sanitize = require('../../helpers/sanitize');
+const authenticate = require('../../helpers/authenticate');
+const send = require('../../helpers/send');
+
+// TODO: MOVE THESE
+const transform = require('../../photos/transform');
 /* controllers */
-const userCTR = require('../users/controller');
 // const photoCTR = require('../photos/controller')
+const user = require('../../users/model');
+const image = require('../../photos/model');
+// Todo move pictureIds to user uploads array code into ctrl file
 
-router
-	.route('/')
-	.get((req, res) => {
-		debug ? send(res, 200, { users: `running` }) : null;
-	})
-	.post(validate.signup, sanitize.user, (req, res) => {
-		userCTR
-			.create(req.newUser)
-			.then(savedUser => send(res, 201, sanitize.response(savedUser)))
-			.catch(err =>
-				send(res, 500, { err, message: `server failed to save new user` }),
-			);
-	})
-	.put(authenticate.sid, validate.update, sanitize.update, (req, res) => {
-		userCTR
-			.update(req.user.id, req.editedUser)
-			.then(editedUser => send(res, 200, sanitize.response(editedUser)))
-			.catch(err =>
-				send(res, 500, { err, message: `server failed to edit user` }),
-			);
-	})
-	.delete(authenticate.sid, (req, res) => {
-		userCTR
-			.delete(req.user.id)
-			.then(_ => {
-				req.logout();
-
-				send(res, 200, `user successfully deleted`);
-			})
-			.catch(err =>
-				send(res, 500, { err, message: `server failed to delete user` }),
-			);
-	});
+/**
+ * /api/users
+ *
+ * routes for user endpoint
+ */
+router.use('/', require('./routes/root'));
 
 /* this route is used to update sensitive settings, such as passwords and email */
 router
