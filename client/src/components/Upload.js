@@ -5,9 +5,13 @@ axios.defaults.withCredentials = true;
 export default class Upload extends Component {
   constructor() {
     super();
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+
     this.state = {
+      // ? change tags to an array 
       images: '',
-      tags: '',
+      tags: '', 
     };
   }
   
@@ -34,29 +38,39 @@ export default class Upload extends Component {
     formData.append('tags', tags.split(' '));
     formData.append('images', images);
     
-    console.log(formData);
-    console.log(formData.tags);
     axios.post('/api/users/upload', formData)
       .then((res) => {
-        console.log(res.data);        
       }).catch(err => console.log(err));
+    
+    this.refs.tags.value = '';
+    this.refs.images.value = '';
   }
 
   render() {
     const { tags, images } = this.state;
     return (
       <form onSubmit={this.onSubmit}>
+      <label>
+        Upload:
         <input
+          style={{ display: "flex"}}
+          type="file"
+          name="images"
+          ref="images"
+          onChange={this.onChange}
+        />
+      </label>
+      <label>
+        Tags:
+        <input
+          style={{ display: "flex"}}
           type="text"
           name="tags"
           value={tags}
+          ref="tags"
           onChange={this.onChange}
         />
-        <input
-          type="file"
-          name="images"
-          onChange={this.onChange}
-        />
+      </label>
         <button type="submit">Submit</button>
       </form>
     )

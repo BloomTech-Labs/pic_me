@@ -119,6 +119,7 @@ router
 		const uploadedImages = uploaded.map((i, idx) => {
 			let newImage = {};
 			newImage.tags = req.body.tags;
+			console.log(req.body);
 			newImage.url = i.transforms[0].location;
 			newImage.owner = req.user.id;
 			return newImage;
@@ -133,6 +134,11 @@ router
 			const pictureIds = [];
 			docs.forEach(image => {
 				// pictureIds.push(image._id);
+				// Todo need to fix tags, and render them on the frontend
+				// Todo REACT-TAG-BOX and REACT-FORMS
+				// ? Tags need to filled with user nicknames
+				// * Will need to incorporate fuzzy search on that nicknames array
+				// * need autocomplete tags for user as they add tags. (existing v. new)
 				pictureIds.push(image.url);
 			});
 
