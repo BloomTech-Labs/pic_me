@@ -284,7 +284,14 @@ export const sendPayment = stripeToken => {
 	return dispatch => {
 		axios
 			.post(`${ROOT}/users/payment`, { stripeToken, typeOfCharge: 'lg' })
-			.then(response => console.log(response))
+			.then(({ data }) => {
+				/* successful capture from Stripe */
+				if (data.captured) {
+					console.log('payment successful');
+				} else {
+					console.error('problem capturing payment from Stripe');
+				}
+			})
 			.catch(err => console.log(err));
 	};
 };
