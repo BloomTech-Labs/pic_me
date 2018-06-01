@@ -23,12 +23,11 @@ aws.config.update({
 
 let s3 = new aws.S3();
 
-const upload = multer({
+exports.upload = multer({
 	storage: multerS3({
 		s3: s3,
 		bucket: process.env.BUCKET,
-		//acl
-		permissions: 'public-read',
+		// acl permissions 'public-read'
 		contentType: multerS3.AUTO_CONTENT_TYPE,
 		// should transform
 		shouldTransform: true,
