@@ -102,11 +102,18 @@ router.route('/login/check').post(authenticate.sid, (req, res) => {
 
 router.route('/auth/twitter').get(passport.authenticate('twitter'));
 
-router
-	.route('/auth/twitter/callback')
-	.get(passport.authenticate('twitter'), (req, res) => {
-		send(res, 201, { message: `twitter authenticated successfully` });
-	});
+router.route('/auth/twitter/callback').get(
+	passport.authenticate('twitter', { failureRedirect: '/login' }),
+	function(req, res) {
+		// res.send({ message: `twitter authenticated` });
+		// Successful authentication, redirect home.
+		res.redirect('/');
+	},
+	// passport.authenticate('twitter', {
+	// 	successRedirect: '/',
+	// 	failureRedirect: '/login',
+	// }),
+);
 
 router
 	.route('/upload')
@@ -153,18 +160,6 @@ router.route('/myuploads').get(authenticate.sid, (req, res) => {
 			send(res, 500, { err, message: `server error retrieving user uploads` })
 		);
 });
-
-router
-	.route('/auth/twitter/callback')
-	.get(passport.authenticate('twitter'), (req, res) => {
-		send(res, 201, { message: `twitter authenticated successfully` });
-	});
-//   passport.authenticate('twitter',{}, (req, res) => {
-//     // console.log('token', token);
-//     // console.log('tokenSecret', tokenSecret);
-//     send(res, 201, { message: `twitter user authenticated` });
-//   }),
-// );
 
 router.route('/logout').get(authenticate.sid, (req, res) => {
 	req.logout();
