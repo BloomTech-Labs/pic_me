@@ -1,4 +1,4 @@
-const send = require('../../helpers/send');
+const send = require('../../helpers/responses');
 const {
 	checkEmailAndPassword,
 	checkEmailOrPassword,
@@ -8,16 +8,15 @@ const {
 	// checkIdAndLoggedInId,
 	checkUser,
 	checkForChangedFields,
+	checkForChangedSettings,
 } = require('./helper');
 
 /**
- * validate.signup checks for these fields in req.body:
+ * checks for these fields in req.body:
  * - email
  * - password (unhashed)
  * - firstName
  * - lastName
- *
- * sanitize.user} req
  */
 exports.signup = (req, res, next) => {
 	const { email, password, firstName, lastName } = req.body;
@@ -29,12 +28,14 @@ exports.signup = (req, res, next) => {
 	next();
 };
 
+/**
+ * checks credentials needed for logging in
+ */
 exports.login = (req, res, next) => {
-	/* check if there is a user logged in already */
-	if (req.user) {
-		send(res, 422, { message: `user (${req.user.email}) already logged in` });
-		return;
-	}
+	// if (req.user) {
+	// 	send(res, 422, { message: `user (${req.user.email}) already logged in` });
+	// 	return;
+	// }
 
 	const { email, password } = req.body;
 
@@ -43,15 +44,9 @@ exports.login = (req, res, next) => {
 	next();
 };
 
-// exports.user = (req, res, next) => {
-//   // const { id } = req.body;
-//   // const loggedInId = req.user.id;
-
-//   // if (!checkIdAndLoggedInId(res, id, loggedInId)) return;
-
-//   next();
-// };
-
+/**
+ * checks the updated user info
+ */
 exports.update = (req, res, next) => {
 	if (!checkUser(res, req.body.user)) return;
 	if (!checkForChangedFields(res, req, req.body.user)) return;
@@ -59,11 +54,14 @@ exports.update = (req, res, next) => {
 	next();
 };
 
+/**
+ * checks for updated user settings
+ */
 exports.settingsData = (req, res, next) => {
 	const { email, password } = req.body.user;
 
 	if (!checkEmailOrPassword(res, email, password)) return;
-	// if (!checkForSameEmailOrPassword(res, req.user, email, password)) return;
+	if (!checkForChangedSettings(res, req, req.body.user)) return;
 
 	next();
 };
