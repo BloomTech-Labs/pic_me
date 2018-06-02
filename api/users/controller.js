@@ -33,7 +33,7 @@ exports.uploads = _id => {
 }
 
 exports.photoDelete = _id => {
-  return Image.findByIdAndRemove({ _id });
+  return User.uploads.id(_id).remove();
 }
 
 // Todo add delete upload controller
