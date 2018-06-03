@@ -38,8 +38,7 @@ const store = createStore(reducer, applyMiddleware(thunk));
 
 class App extends Component {
 	render() {
-		return (
-			<Provider store={store}>
+		return <Provider store={store}>
 				<StripeProvider apiKey="pk_test_0srJ0Qu3Z68ZEAsuJnLERMWr">
 					<Router>
 						<div className="App">
@@ -56,17 +55,12 @@ class App extends Component {
 								<Route exact path="/logout" component={Logout} />
 								<Route exact path="/forgotpassword" component={ForgotPassword} />
 								<Route exact path="/feature" component={Gatekeeper(Feature)} />
-								<Route
-									exact
-									path="/picture_upload"
-									component={Gatekeeper(Upload)}
-								/>
+								<Route exact path="/picture_upload" component={Gatekeeper(Upload)} />
 							</Switch>
 						</div>
 					</Router>
 				</StripeProvider>
-			</Provider>
-		)
+			</Provider>;
 	}
 }
 

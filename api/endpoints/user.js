@@ -153,17 +153,18 @@ router.route('/myuploads').get(authenticate.sid, (req, res) => {
 			send(res, 500, { err, message: `server error retrieving user uploads` })
 		)
 	})
-	.delete(authenticate.sid, (req, res) => {
-		userCTR
-			.photoDelete(req.user.uploads(_id))
-			.then(_ => {
-				req.logout();
-				send(res, 200, `photo successfully deleted`);
-			})
-			.catch(err =>
-				send(res, 500, { err, message: `server failed to delete photo` })
-			);
-	});
+
+	// .delete(authenticate.sid, (req, res) => {
+	// 	userCTR
+	// 		.photoDelete(req.user.uploads("_id"))
+	// 		.then(_ => {
+	// 			req.logout();
+	// 			send(res, 200, `photo successfully deleted`);
+	// 		})
+	// 		.catch(err =>
+	// 			send(res, 500, { err, message: `server failed to delete photo` })
+	// 		);
+	// });
 
 // router.route('/mycollection')
 
