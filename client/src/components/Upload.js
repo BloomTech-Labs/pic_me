@@ -82,6 +82,7 @@ export default class Upload extends Component {
 
     axios.post('/api/users/upload', formData)
       .then((res) => {
+        console.log("upload successful");
       }).catch(err => console.log("Must be logged in to upload photos."));
     
     // this.refs.tags.value = '';

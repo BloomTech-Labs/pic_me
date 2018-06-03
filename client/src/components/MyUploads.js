@@ -21,9 +21,14 @@ export default class MyUploads extends Component {
     })
   }
 
-  handleDelete = (e) => {
-    e.preventDefault();
-    const state = this.state;
+  handleDelete = (key) => {
+    console.log(key);
+    const prevState = this.state;
+    console.log(this.state);
+    // this.setState(prevState => ({
+    //   uploads: prevState.uploads.filter(upload => upload.key !== key)
+    // }));
+    // this.setState()
     console.log('btn click');
     
     axios.delete(`/api/users/myuploads/${this.state.id}`)
@@ -43,10 +48,10 @@ export default class MyUploads extends Component {
           {
     this.state.uploads.map(img => (
       <li key={img._id}>
-        {/*  style={{ listStyleType: 'none', display: 'flex' }} */}
+        {/* style={{ listStyleType: 'none', display: 'flex' }}> */}
         <img src={img.url} alt="myuploads" />
         {img.tags.map(t => (<p>{t}</p>))}
-        <button type="submit" onClick={(e) => this.handleDelete(this.key)}>Delete upload</button>
+        <button type="submit" onClick={e => this.handleDelete(img._id)}>Delete upload</button>
       </li>
     ))}
       </div>
