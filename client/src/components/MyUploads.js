@@ -22,6 +22,9 @@ export default class MyUploads extends Component {
   }
 
   handleDelete = (key) => {
+    // key now pointing to correct img._id for deletion
+    // just need to fix backend controllers and photo 
+    // deletion will be hooked up properly.
     console.log(key);
     const prevState = this.state;
     console.log(this.state);
