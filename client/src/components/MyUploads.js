@@ -21,24 +21,25 @@ export default class MyUploads extends Component {
     })
   }
 
+  // refactor handler use better naming
   handleDelete = (key) => {
     // key now pointing to correct img._id for deletion
     // just need to fix backend controllers and photo 
     // deletion will be hooked up properly.
     console.log(key);
-    const prevState = this.state;
-    console.log(this.state);
-    // this.setState(prevState => ({
-    //   uploads: prevState.uploads.filter(upload => upload.key !== key)
-    // }));
-    // this.setState()
+    // const prevState = this.state;
+    // console.log(this.state);
+    this.setState(prevState => ({
+      uploads: prevState.uploads.filter(upload => upload._id !== key)
+    }));
+    
     console.log('btn click');
     
-    axios.delete(`/api/users/myuploads/${this.state.id}`)
-    .then(res => {
-      console.log(res);
-      console.log(res.data);
-    })
+    // axios.delete(`/api/users/myuploads/${key}`)
+    // .then(res => {
+    //   console.log(res);
+    //   console.log(res.data);
+    // })
   }
   
   // Todo Conditionally render message based on users status
