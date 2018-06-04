@@ -79,11 +79,11 @@ export default class Upload extends Component {
     formData.append('tags', JSON.stringify(tags));
     // formData.append('tags', tags.map(i => i.text));
     formData.append('images', images);
-
-    axios.post('/api/picture/upload', formData)
-      .then((res) => {
-        console.log("upload successful");
-      }).catch(err => console.log("Must be logged in to upload photos."));
+    axios.get('api/pictures');
+    // axios.post('/api/pictures/upload', formData)
+    //   .then((res) => {
+    //     console.log("upload successful");
+    //   }).catch(err => console.log("Must be logged in to upload photos."));
     
     // this.refs.tags.value = '';
     this.refs.images.value = '';

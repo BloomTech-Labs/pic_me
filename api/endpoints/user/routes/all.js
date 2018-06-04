@@ -19,19 +19,6 @@ const r = require('../../../helpers/responses');
  */
 router
 	.route('/')
-
-	/**
-	 * GET /api/users/all
-	 *
-	 * dev route for seeing all users
-	 *
-	 * returns:
-	 * [
-	 *    { user1 },
-	 *    { user2 },
-	 *    { etc   }
-	 * ]
-	 */
 	.get(authenticate.sid, (req, res) => {
 		dev
 			? userCTR
