@@ -15,7 +15,7 @@ const r = require('../../../helpers/responses');
 
 /**
  * /api/users/settings
- * - PUT:    edits the user's non-sensitive info
+ * - PUT: edits the user's sensitive info
  */
 router
 	.route('/')

@@ -24,6 +24,10 @@ const r = require('../../../helpers/responses');
  */
 router
 	.route('/')
+
+	/**
+	 * used for debug only
+	 */
 	.get((req, res) => {
 		debug ? response.send(res, 200, { users: `running` }) : null;
 	})

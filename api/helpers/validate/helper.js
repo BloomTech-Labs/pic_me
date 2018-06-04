@@ -169,53 +169,115 @@ exports.checkForChangedFields = (res, req, user) => {
  */
 exports.checkForChangedSettings = (res, req, user) => {
 	const userFields = Object.keys(user);
-	let hasChangedField = false;
 
 	/**
-	 * first check if there is a password change attempt
+	 * for now, don't check if password has been changed
+	 * but just assume the password will always be changed if there is a password field
 	 *
-	 * if there is, hash the new password and make sure it is not the same
-	 * as the password stored in the database
-	 *
-	 * the deserialized user in req (via passport) will have this method as
-	 * it is an instance of the User model
+	 * otherwise, check other fields for changes
+	 * - email
+	 * - (add more if you wish to do this section)
 	 */
-	if (userFields.includes('password')) {
-		req.user.comparePassword(user.password, (err, isMatch) => {
-			if (!isMatch) {
-				hasChangedField = true;
-			}
+	if (userFields.includes('password')) return true;
 
-			if (err) {
-				r.error(res, err, `error checking password for user`);
-				return;
-			}
-		});
-	}
+	let hasChangedSetting = false;
 
-	/**
-	 * only check more user fields if the password field hasn't been changed
-	 * if it has, skip this loop
-	 */
-	if (!hasChangedField) {
-		for (let i = 0; i < userFields.length; i++) {
-			const field = userFields[i];
+	for (let i = 0; i < userFields.length; i++) {
+		const field = userFields[i];
 
-			/**
-			 * unhashed passwords and hashed passwords will always be the different,
-			 * so don't check password fields for change here
-			 * (this was already done above)
-			 */
-			if (user[field] !== req.user[field] && field !== 'password') {
-				hasChangedField = true;
-				break;
-			}
+		/**
+		 * unhashed passwords and hashed passwords will always be the different,
+		 * so don't check password fields for change here
+		 * (this was already done above)
+		 */
+		if (user[field] !== req.user[field] && field !== 'password') {
+			hasChangedSetting = true;
+			break;
 		}
 	}
 
-	if (hasChangedField) {
-		return true;
-	}
+	if (hasChangedSetting) return true;
 
 	r.send(res, 422, message.noUserFieldsChanged);
 };
+
+// 	/**
+// 	 * first check if there is a password change attempt
+// 	 *
+// 	 * if there is, we can asomgsume that the
+// 	 *
+// 	 * if there is, hash the new password and make sure it is not the same
+// 	 * as the password stored in the database
+// 	 *
+// 	 * the deserialized user in req (via passport) will have this method as
+// 	 * it is an instance of the User model
+// 	 */
+// 	return new Promise((resolve, reject) => {
+// 		req.user.comparePassword(user.password, (err, isMatch) => {
+// 			if (!isMatch) resolve(true);
+
+// 			if (err) reject(err);
+
+// 			resolve(false);
+// 		});
+// 	})
+// 		.then(hasChangedField => {
+// 			if (hasChangedField) return hasChangedField;
+
+// 			let hasChangedFieldOtherThanPw = false;
+
+// 			for (let i = 0; i < userFields.length; i++) {
+// 				const field = userFields[i];
+
+// 				/**
+// 				 * unhashed passwords and hashed passwords will always be the different,
+// 				 * so don't check password fields for change here
+// 				 * (this was already done above)
+// 				 */
+// 				if (user[field] !== req.user[field] && field !== 'password') {
+// 					hasChangedFieldOtherThanPw = true;
+// 					break;
+// 				}
+// 			}
+
+// 			/**
+// 			 * there is one setting that has been changed (but not the password)
+// 			 */
+// 			if (hasChangedFieldOtherThanPw) return true;
+
+// 			/**
+// 			 * the password nor any setting is changed
+// 			 */
+// 			r.send(res, 422, message.noUserFieldsChanged);
+// 			return;
+// 		})
+// 		.catch(err => r.error(res, err, `error checking password for user`));
+// };
+
+// console.log('after');
+// /**
+//  * if nothing has been changed so far, or
+//  * the password matches (which means it has not been changed),
+//  * check the other fields
+//  */
+// if (!hasChangedField) {
+// 	for (let i = 0; i < userFields.length; i++) {
+// 		const field = userFields[i];
+
+// 		/**
+// 		 * unhashed passwords and hashed passwords will always be the different,
+// 		 * so don't check password fields for change here
+// 		 * (this was already done above)
+// 		 */
+// 		if (user[field] !== req.user[field] && field !== 'password') {
+// 			hasChangedField = true;
+// 			break;
+// 		}
+// 	}
+// }
+
+// if (hasChangedField) {
+// 	return true;
+// }
+
+// r.send(res, 422, message.noUserFieldsChanged);
