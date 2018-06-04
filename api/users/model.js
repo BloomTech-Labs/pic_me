@@ -8,26 +8,28 @@ const { Schema } = mongoose;
 // ? when deleting (if uploadedBy === user then delete...)
 // ? get all photos and filter by user nicknames to build up browsable selection
 
-const UserSchema = new Schema({
-	email: { type: String, lowercase: true, unique: true, required: true },
-	firstName: { type: String, lowercase: true, required: true },
-	lastName: { type: String, lowercase: true, required: true },
-	nickNames: [{ type: String }],
-	password: { type: String, require: true },
-	// uploads: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
-	uploads: [photos.schema],
-	photos: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
-	// credits balance: {}
-	// stripe hasPaid: {}
-}, 
+const UserSchema = new Schema(
 	{
-		timestamps: true
-	});
+		email: { type: String, lowercase: true, unique: true, required: true },
+		firstName: { type: String, lowercase: true, required: true },
+		lastName: { type: String, lowercase: true, required: true },
+		nickNames: [{ type: String }],
+		password: { type: String, require: true },
+		// uploads: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
+		uploads: [photos.schema],
+		photos: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
+		balance: { type: Number, required: true, default: 0 },
+		// stripe hasPaid: {}
+	},
+	{
+		timestamps: true,
+	},
+);
 
 // User static methods
 UserSchema.pre('save', function(next) {
-  const user = this;
-  const SALT_FACTOR = 10;
+	const user = this;
+	const SALT_FACTOR = 10;
 
 	if (!user.isModified('password')) return next();
 
@@ -53,23 +55,23 @@ UserSchema.plugin(findOrCreate);
 //TempCode
 
 UserSchema.statics.getAllUsers = function(cb) {
-  User.find({}, (err, users) => {
-    if (err) {
-      cb({ err });
-      return;
-    }
+	User.find({}, (err, users) => {
+		if (err) {
+			cb({ err });
+			return;
+		}
 
 		cb(users);
 	});
 };
 
 UserSchema.methods.comparePassword = function(pswdAttempt, cb) {
-  bcrypt.compare(pswdAttempt, this.password, (err, isMatch) => {
-    if (err) {
-      return cb(err);
-    }
-    return cb(null, isMatch);
-  });
+	bcrypt.compare(pswdAttempt, this.password, (err, isMatch) => {
+		if (err) {
+			return cb(err);
+		}
+		return cb(null, isMatch);
+	});
 };
 
 module.exports = mongoose.model('User', UserSchema);

@@ -26,7 +26,7 @@ router
 			.create(req.newUser)
 			.then(savedUser => send(res, 201, sanitize.response(savedUser)))
 			.catch(err =>
-				send(res, 500, { err, message: `server failed to save new user` })
+				send(res, 500, { err, message: `server failed to save new user` }),
 			);
 	})
 	.put(authenticate.sid, validate.update, sanitize.update, (req, res) => {
@@ -34,7 +34,7 @@ router
 			.update(req.user.id, req.editedUser)
 			.then(editedUser => send(res, 200, sanitize.response(editedUser)))
 			.catch(err =>
-				send(res, 500, { err, message: `server failed to edit user` })
+				send(res, 500, { err, message: `server failed to edit user` }),
 			);
 	})
 	.delete(authenticate.sid, (req, res) => {
@@ -46,7 +46,7 @@ router
 				send(res, 200, `user successfully deleted`);
 			})
 			.catch(err =>
-				send(res, 500, { err, message: `server failed to delete user` })
+				send(res, 500, { err, message: `server failed to delete user` }),
 			);
 	});
 
@@ -73,13 +73,13 @@ router
 							send(res, 200, sanitize.response(savedUser));
 						})
 						.catch(err =>
-							send(res, 500, { err, message: `error updating user settings` })
+							send(res, 500, { err, message: `error updating user settings` }),
 						);
 				})
 				.catch(err =>
-					send(res, 500, { err, message: `error finding user by id` })
+					send(res, 500, { err, message: `error finding user by id` }),
 				);
-		}
+		},
 	);
 
 router.route('/info').get(authenticate.sid, (req, res) => {
@@ -96,7 +96,7 @@ router.route('/login/check').post(authenticate.sid, (req, res) => {
 	/* if authenticate sid passed, cookie is valid */
 	send(res, 200, {
 		message: `user verified`,
-		user: sanitize.response(req.user)
+		user: sanitize.response(req.user),
 	});
 });
 
@@ -121,7 +121,7 @@ router
 		const uploaded = req.files;
 		const ownerId = req.user.id;
 		console.log(req.files);
-		
+
 		// Todo add a check for duplicate uploads check originalname key
 		const uploadedImages = uploaded.map((i, idx) => {
 			let newImage = {};
@@ -145,10 +145,10 @@ router
 			});
 
 			user
-				.update({ "_id": ownerId }, { "$push": {uploads: pictureIds} })
+				.update({ _id: ownerId }, { $push: { uploads: pictureIds } })
 				.then(editedUser => send(res, 200, sanitize.response(editedUser)))
 				.catch(err =>
-					send(res, 500, { err, message: `server failed to edit user` })
+					send(res, 500, { err, message: `server failed to edit user` }),
 				);
 		});
 	});
@@ -230,9 +230,31 @@ router.route('/payment').post(authenticate.sid, (req, res) => {
 			amount,
 			currency,
 			description,
-			source: token
+			source: token,
 		})
-		.then(response => send(res, 200, response))
+		.then(response => {
+			/**
+			 * if payment is successfully captured, add credits to account,
+			 * otherwise send error message
+			 */
+			if (response.captured) {
+				userCTR
+					.update(req.user.id, { $inc: { balance: 10 } })
+					.then(updatedUser => {
+						send(res, 200, {
+							captured: response.captured,
+							user: sanitize.response(updatedUser),
+						});
+					})
+					.catch(err =>
+						send(res, 500, { err, message: `error updating credits` }),
+					);
+
+				return;
+			}
+
+			send(res, 500, { message: `failed to verify payment` });
+		})
 		.catch(err => send(res, 500, { err, message: `error charging payment` }));
 });
 
