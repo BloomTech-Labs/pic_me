@@ -321,18 +321,17 @@ export const myuploads = _ => {
 			.get(`${ROOT}/users/myuploads`)
       .then(({data}) => {
         dispatch({ type: FETCH_MYUPLOADS, payload: data.uploads });
-        console.log(data);
       })
 			.catch(err => console.log(err));
   };
 };
 
-export const deletemyuploads = photo_upload_id => {
+export const deletemyuploads = photoUploadId => {
   return dispatch => {
     axios
-      .delete(`${ROOT}/users/myuploads/${photo_upload_id}`)
+      .delete(`${ROOT}/users/myuploads/${photoUploadId}`)
       .then(response => {
-        dispatch({ type: DELETE_MYUPLOADS })
+        dispatch({ type: DELETE_MYUPLOADS });
       })
       .catch(err => console.log(err));
   };

@@ -48,16 +48,13 @@ exports.list = function(req, res, next) {
 
 exports.photoUploadDelete =  (userid, uploadid) => {
   return User.findById(userid, function(err, user){
-    uploads_all = user.uploads;
-    uploads_removed = uploads_all.filter(function(item) {
+    const uploadsAll = user.uploads;
+    const uploadsRemoved = uploadsAll.filter(function(item) {
       return item._id != uploadid
     });
-    user.uploads = uploads_removed;
-
-    var updated_user = User.findByIdAndUpdate(userid, user, {overwrite: true}, function (err, result){
+    user.uploads = uploadsRemoved
+    return User.findByIdAndUpdate(userid, user, {new: true}, function (err, result){
       return result;
     });
-
-    return updated_user;
   });
 };
