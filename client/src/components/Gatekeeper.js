@@ -17,7 +17,7 @@ export default ComposedComponent => {
 			if (nextProps.attempted && !nextProps.authenticated) {
 				// setTimeout(_ => {
 				this.props.resetAuthAttempted();
-				this.props.history.push('/login');
+				this.props.history.push('/mobil');
 				// }, 2000);
 			}
 		}

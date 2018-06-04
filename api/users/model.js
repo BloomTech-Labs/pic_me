@@ -27,8 +27,8 @@ const UserSchema = new Schema(
 
 // User static methods
 UserSchema.pre('save', function(next) {
-  const user = this;
-  const SALT_FACTOR = 10;
+	const user = this;
+	const SALT_FACTOR = 10;
 
 	if (!user.isModified('password')) return next();
 
@@ -45,23 +45,23 @@ UserSchema.pre('save', function(next) {
 UserSchema.plugin(findOrCreate);
 
 UserSchema.statics.getAllUsers = function(cb) {
-  User.find({}, (err, users) => {
-    if (err) {
-      cb({ err });
-      return;
-    }
+	User.find({}, (err, users) => {
+		if (err) {
+			cb({ err });
+			return;
+		}
 
 		cb(users);
 	});
 };
 
 UserSchema.methods.comparePassword = function(pswdAttempt, cb) {
-  bcrypt.compare(pswdAttempt, this.password, (err, isMatch) => {
-    if (err) {
-      return cb(err);
-    }
-    return cb(null, isMatch);
-  });
+	bcrypt.compare(pswdAttempt, this.password, (err, isMatch) => {
+		if (err) {
+			return cb(err);
+		}
+		return cb(null, isMatch);
+	});
 };
 
 module.exports = mongoose.model('User', UserSchema);

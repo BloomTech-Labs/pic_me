@@ -25,7 +25,7 @@ router
 			.create(req.newUser)
 			.then(savedUser => send(res, 201, sanitize.response(savedUser)))
 			.catch(err =>
-				send(res, 500, { err, message: `server failed to save new user` })
+				send(res, 500, { err, message: `server failed to save new user` }),
 			);
 	})
 	.put(authenticate.sid, validate.update, sanitize.update, (req, res) => {
@@ -33,7 +33,7 @@ router
 			.update(req.user.id, req.editedUser)
 			.then(editedUser => send(res, 200, sanitize.response(editedUser)))
 			.catch(err =>
-				send(res, 500, { err, message: `server failed to edit user` })
+				send(res, 500, { err, message: `server failed to edit user` }),
 			);
 	})
 	.delete(authenticate.sid, (req, res) => {
@@ -45,7 +45,7 @@ router
 				send(res, 200, `user successfully deleted`);
 			})
 			.catch(err =>
-				send(res, 500, { err, message: `server failed to delete user` })
+				send(res, 500, { err, message: `server failed to delete user` }),
 			);
 	});
 
@@ -72,13 +72,13 @@ router
 							send(res, 200, sanitize.response(savedUser));
 						})
 						.catch(err =>
-							send(res, 500, { err, message: `error updating user settings` })
+							send(res, 500, { err, message: `error updating user settings` }),
 						);
 				})
 				.catch(err =>
-					send(res, 500, { err, message: `error finding user by id` })
+					send(res, 500, { err, message: `error finding user by id` }),
 				);
-		}
+		},
 	);
 
 router.route('/info').get(authenticate.sid, (req, res) => {
@@ -95,17 +95,24 @@ router.route('/login/check').post(authenticate.sid, (req, res) => {
 	/* if authenticate sid passed, cookie is valid */
 	send(res, 200, {
 		message: `user verified`,
-		user: sanitize.response(req.user)
+		user: sanitize.response(req.user),
 	});
 });
 
 router.route('/auth/twitter').get(passport.authenticate('twitter'));
 
-router
-	.route('/auth/twitter/callback')
-	.get(passport.authenticate('twitter'), (req, res) => {
-		send(res, 201, { message: `twitter authenticated successfully` });
-	});
+router.route('/auth/twitter/callback').get(
+	passport.authenticate('twitter', { failureRedirect: '/login' }),
+	function(req, res) {
+		// res.send({ message: `twitter authenticated` });
+		// Successful authentication, redirect home.
+		res.redirect('/');
+	},
+	// passport.authenticate('twitter', {
+	// 	successRedirect: '/',
+	// 	failureRedirect: '/login',
+	// }),
+);
 
 // router
 // 	.route('/upload')
@@ -172,18 +179,6 @@ router
 // router.route('/browse')
 
 
-router
-	.route('/auth/twitter/callback')
-	.get(passport.authenticate('twitter'), (req, res) => {
-		send(res, 201, { message: `twitter authenticated successfully` });
-	});
-//   passport.authenticate('twitter',{}, (req, res) => {
-//     // console.log('token', token);
-//     // console.log('tokenSecret', tokenSecret);
-//     send(res, 201, { message: `twitter user authenticated` });
-//   }),
-// );
-
 router.route('/logout').get(authenticate.sid, (req, res) => {
 	req.logout();
 	send(res, 200, `user logged out`);
@@ -194,7 +189,7 @@ router.route('/all').get(authenticate.sid, (req, res) => {
 		.request()
 		.then(users => send(res, 200, users))
 		.catch(err =>
-			send(res, 500, { err, message: `server error retrieving users` })
+			send(res, 500, { err, message: `server error retrieving users` }),
 		);
 });
 
@@ -230,9 +225,31 @@ router.route('/payment').post(authenticate.sid, (req, res) => {
 			amount,
 			currency,
 			description,
-			source: token
+			source: token,
 		})
-		.then(response => send(res, 200, response))
+		.then(response => {
+			/**
+			 * if payment is successfully captured, add credits to account,
+			 * otherwise send error message
+			 */
+			if (response.captured) {
+				userCTR
+					.update(req.user.id, { $inc: { balance: 10 } })
+					.then(updatedUser => {
+						send(res, 200, {
+							captured: response.captured,
+							user: sanitize.response(updatedUser),
+						});
+					})
+					.catch(err =>
+						send(res, 500, { err, message: `error updating credits` }),
+					);
+
+				return;
+			}
+
+			send(res, 500, { message: `failed to verify payment` });
+		})
 		.catch(err => send(res, 500, { err, message: `error charging payment` }));
 });
 
