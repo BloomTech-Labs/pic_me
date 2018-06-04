@@ -10,6 +10,7 @@ import {
 } from 'react-stripe-elements';
 import { connect } from 'react-redux';
 import { sendPayment } from '../../actions';
+import { Button } from 'reactstrap';
 
 const handleBlur = () => {
 	// console.log('[blur]');
@@ -57,7 +58,7 @@ class CheckoutForm extends React.Component {
 			.createToken({ name: `${this.props.user}` })
 			.then(({ token }) => {
 				console.log('Received Stripe token:', token);
-				this.props.sendPayment(token.id);
+				this.props.sendPayment(token.id, this.props.pkg, this.props.history);
 			});
 
 		// However, this line of code will do the same thing:
@@ -88,14 +89,16 @@ class CheckoutForm extends React.Component {
 				{/* <CardExpiryElement /> */}
 				{/* <CardCVCElement /> */}
 				{/* <PostalCodeElement /> */}
-				<button
+				<Button
+					color="primary"
 					style={{
-						alignSelf: 'center',
-						width: '100px',
+						margin: '10px 0',
+						// 	alignSelf: 'center',
+						// 	width: '100px',
 					}}
 				>
-					Pay
-				</button>
+					{`Pay $${this.props.charge}`}
+				</Button>
 			</form>
 		);
 	}
