@@ -333,7 +333,7 @@ export const authenticateUser = history => {
 export const upload = data => {
 	return dispatch => {
 		axios
-			.post(`${ROOT}/photos/upload`)
+			.post(`${ROOT}/pictures/upload`)
 			.then(res => console.log(res))
 			.catch(err => console.error(err));
 	};
