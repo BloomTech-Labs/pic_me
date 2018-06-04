@@ -12,19 +12,19 @@ import { connect } from 'react-redux';
 import { sendPayment } from '../../actions';
 
 const handleBlur = () => {
-	console.log('[blur]');
+	// console.log('[blur]');
 };
 const handleChange = change => {
-	console.log('[change]', change);
+	// console.log('[change]', change);
 };
 // const handleClick = () => {
 // console.log('[click]');
 // };
 const handleFocus = () => {
-	console.log('[focus]');
+	// console.log('[focus]');
 };
 const handleReady = () => {
-	console.log('[ready]');
+	// console.log('[ready]');
 };
 
 const createOptions = fontSize => {
