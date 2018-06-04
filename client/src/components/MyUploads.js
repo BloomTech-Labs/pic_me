@@ -16,9 +16,9 @@ export default class MyUploads extends Component {
     super(props);
     this.state = {
       uploads: [],
-      tags: [
-        { id: '1', text: 'Pic Me' }
-      ],
+      // tags: [
+      //   { id: '1', text: 'Pic Me' }
+      // ],
       // suggestions: [
       //   { id: 'Nickname', text: 'Nickname' }
       // ],
@@ -51,12 +51,13 @@ export default class MyUploads extends Component {
   // }
   
   componentDidMount() {
-    axios.get('/api/users/myuploads')
+    axios.get('/api/picture/myuploads')
     .then(res => {
       let uploads = res.data.uploads;
-      let tags = res.data.tags;
+      let tags = res.data.uploads.tags;
       // let suggestions = res.data.suggestions;
       console.log(res.data.uploads);
+      // console.log(tags);
       this.setState({ uploads, tags });
     })
   }

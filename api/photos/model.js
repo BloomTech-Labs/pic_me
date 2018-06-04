@@ -7,7 +7,7 @@ const PhotoSchema = new Schema({
 	tags: [{ 
 		id: String,
 		text: String,
-		// type: String 
+		_id: false,
 	}],
 },
 	{

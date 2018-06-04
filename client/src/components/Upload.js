@@ -16,13 +16,12 @@ export default class Upload extends Component {
     
     this.state = {
       images: '',
-      // tags: '',
       tags: [
         { id: '1', text: 'Pic Me'}
       ],
-      suggestions: [
-        {id: 'Nickname', text: 'Nickname'}
-      ]
+      // suggestions: [
+      //   {id: 'Nickname', text: 'Nickname'}
+      // ]
     };
 
     // tag handlers
@@ -64,7 +63,6 @@ export default class Upload extends Component {
         break;
       default: 
         state[e.target.name] = e.target.value
-        // .split(',');
     }
     console.log(this.state.tags);
     
@@ -74,14 +72,15 @@ export default class Upload extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     const { tags, images } = this.state;
+    console.log('Tags:', tags);
     
     let formData = new FormData();
     
-    // formData.append('tags', tags);
-    formData.append('tags', tags.map(i => i.text));
+    formData.append('tags', JSON.stringify(tags));
+    // formData.append('tags', tags.map(i => i.text));
     formData.append('images', images);
 
-    axios.post('/api/users/upload', formData)
+    axios.post('/api/picture/upload', formData)
       .then((res) => {
         console.log("upload successful");
       }).catch(err => console.log("Must be logged in to upload photos."));
@@ -91,7 +90,7 @@ export default class Upload extends Component {
   }
 
   render() {
-    const { images, tags, suggestions } = this.state;
+    const { tags } = this.state;
     return (
       // ? <h2>Upload success</h2> : <h1>Begin upload</h1>
       // Todo if user is not authenticated render a helpful message
@@ -111,7 +110,7 @@ export default class Upload extends Component {
       <label>
         Add Tags:
         <ReactTags tags={tags}
-                   suggestions={suggestions}
+                  //  suggestions={suggestions}
                    handleDelete={this.handleDelete}
                    handleAddition={this.handleAddition}
                    handleDrag={this.handleDrag}
