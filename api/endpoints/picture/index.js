@@ -6,10 +6,12 @@ const { dev, debug } = require('../../../dev');
 const transform = require('../../photos/transform');
 const photoCTR = require('../../photos/controller');
 
+const authenticate = require('../../helpers/authenticate');
+const userCTR = require('../../users/controller');
+const r = require('../../helpers/responses');
+
 router.route('/').get((req, res) => {
-	debug
-		? res.send({ pictures: `running` })
-		: res.status(404).send({ message: `debug set to false` });
+	debug ? res.send({ pictures: `running` }) : null;
 });
 
 router.route('/upload').post(transform.upload.array('images'), (req, res) => {
@@ -24,6 +26,18 @@ router.route('/upload').post(transform.upload.array('images'), (req, res) => {
 	});
 	// res.json(`Uploaded ${req.files.length} files!`);
 	res.send();
+});
+
+router.route('/myuploads').get(authenticate.sid, (req, res) => {
+	userCTR
+		.uploads(req.user.id)
+		.then(users => r.send(res, 200, users))
+		.catch(err =>
+			r.send(res, 500, {
+				err,
+				message: `server error retrieving user uploads`,
+			}),
+		);
 });
 
 module.exports = router;
