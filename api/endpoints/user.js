@@ -14,7 +14,7 @@ const send = require('../helpers/send');
 const transform = require('../photos/transform');
 /* controllers */
 const userCTR = require('../users/controller');
-// const photoCTR = require('../photos/controller')
+const photoCTR = require('../photos/controller');
 
 router
 	.route('/')
@@ -126,6 +126,7 @@ router
 		const uploadedImages = uploaded.map((i, idx) => {
 			let newImage = {};
 			newImage.tags = req.body.tags;
+			// console.log('Tags =>', req.body);
 			newImage.url = i.transforms[0].location;
 			newImage.owner = req.user.id;
 			return newImage;
@@ -139,8 +140,8 @@ router
 
 			const pictureIds = [];
 			docs.forEach(image => {
-				// pictureIds.push(image._id);
-				pictureIds.push(image.url);
+				console.log('Image obj:', image);
+				pictureIds.push(image);
 			});
 
 			user
@@ -152,27 +153,49 @@ router
 		});
 	});
 
-router.route('/myuploads').get(authenticate.sid, (req, res) => {
-	userCTR
-		.uploads(req.user.id)
-		.then(users => send(res, 200, users))
-		.catch(err =>
-			send(res, 500, { err, message: `server error retrieving user uploads` })
-		);
-});
+router.route('/myuploads')
+	.get(authenticate.sid, (req, res) => {
+		userCTR
+			.uploads(req.user.id)
+			.then(users => send(res, 200, users))
+			.catch(err =>
+				send(res, 500, { err, message: `server error retrieving user uploads` })
+			);
+		});
+
+router.route('/myuploads/:id')
+	.delete(authenticate.sid, (req, res) => {
+		userCTR
+			.photoUploadDelete(req.user.id, req.params.id)
+			.then(users => send(res, 200, `photo successfully deleted`))
+			.catch(err =>
+				send(res, 500, { err, message: `server failed to delete photo` })
+			);
+		});
+
+router.route('/mycollections')
+	.get(authenticate.sid, (req, res) => {
+		userCTR
+			.collection(req.user.id)
+			.then(users => send(res, 200, users))
+			.catch(err =>
+				send(res, 500, { err, message: `server error retrieving user uploads` })
+			);
+	});
 
 router.route('/logout').get(authenticate.sid, (req, res) => {
 	req.logout();
 	send(res, 200, `user logged out`);
 });
 
-router.route('/all').get(authenticate.sid, (req, res) => {
-	userCTR
-		.request()
-		.then(users => send(res, 200, users))
-		.catch(err =>
-			send(res, 500, { err, message: `server error retrieving users` })
-		);
+router.route('/all')
+	.get(authenticate.sid, (req, res) => {
+		userCTR
+			.request()
+			.then(users => send(res, 200, users))
+			.catch(err =>
+				send(res, 500, { err, message: `server error retrieving users` })
+			);
 });
 
 // TODO: custom callback not working atm

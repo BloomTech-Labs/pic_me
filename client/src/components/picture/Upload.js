@@ -1,87 +1,92 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { reduxForm, Field } from 'redux-form';
-import { connect } from 'react-redux';
-import Dropzone from 'react-dropzone';
-import { upload } from '../../actions';
+// import PropTypes from 'prop-types';
+import { Button, Input, InputLabel } from '@material-ui/core';
+import FileUpload from '@material-ui/icons/FileUpload';
+import axios from 'axios';
+import './Upload.css';
 
-const FILE_FIELD_NAME = 'files';
+axios.defaults.withCredentials = true;
 
-const renderDropzoneInput = (field) => {
-  const files = field.input.value;
-  return (
-    <div>
-      <Dropzone
-        name={field.name}
-        onDrop={( filesToUpload, e ) => field.input.onChange(filesToUpload)}
-      >
-        <div>Try dropping some files here, or click to select files to upload.</div>
-      </Dropzone>
-      {field.meta.touched &&
-        field.meta.error &&
-        <span className="error">{field.meta.error}</span>}
-      {files && Array.isArray(files) && (
-        <ul>
-          { files.map((file, i) => <li key={i}>{file.name}</li>) }
-        </ul>
-      )}
-    </div>
-  );
-}
+export default class Upload extends Component {
+  constructor() {
+    super();
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.state = {
+      images: '',
+      tags: ''
+    };
+  }
 
+  onChange = e => {
+    const state = this.state;
 
-class Upload extends Component {
-  submitFormHandler = (data) => {
-    this.props.upload(data)
-    var body = new FormData();
-    Object.keys(data).forEach(( key ) => {
-      body.append(key, data[ key ]);
-    });
+    switch (e.target.name) {
+      case 'images':
+        state.images = e.target.files[0];
+        break;
+      default:
+        state[e.target.name] = e.target.value;
+    }
+
+    this.setState(state);
   };
 
-  static propTypes = {
-    handleSubmit: PropTypes.func.isRequired,
-    reset: PropTypes.func.isRequired,
-  };
+  onSubmit = e => {
+    e.preventDefault();
+    const { tags, images } = this.state;
 
+    let formData = new FormData();
+
+    formData.append('tags', tags);
+    formData.append('images', images);
+
+    console.log(formData);
+    console.log(formData.tags);
+    axios
+      .post("/api/users/upload", formData)
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => console.log(err));
+  };
 
   render() {
-    const {
-      handleSubmit,
-      reset,
-    } = this.props;
+    const { tags, images } = this.state;
     return (
-      <form onSubmit={handleSubmit(this.submitFormHandler)}>
-        <div>
-          <label htmlFor={FILE_FIELD_NAME}>Files</label>
-          <Field
-            name={FILE_FIELD_NAME}
-            component={renderDropzoneInput}
-          />
-        </div>
-        <div>
-          <button type="submit">
-            Submit
-          </button>
-          <button onClick={reset}>
-            Clear Values
-          </button>
+      <form onSubmit={this.onSubmit}>
+        <div className="content">
+          <div className="box">
+            <div>
+              <Input
+                type="file"
+                id="file"
+                name="images"
+                className="inputfile"
+                onChange={this.onChange}
+              />
+              <label htmlFor="file">Select a file</label>
+            </div>
+          </div>
+          <div>
+            <InputLabel>Tags</InputLabel>
+            <Input
+              label="Tags"
+              type="text"
+              name="tags"
+              value={tags}
+              onChange={this.onChange}
+            />
+          </div>
+
+          <div>
+            <Button variant="raised" color="primary" type="submit">
+              Upload
+              <FileUpload />
+            </Button>
+          </div>
         </div>
       </form>
     );
   }
 }
-
-const mapStateToProps = state => {
-  return {
-    authenticated: state.auth.authenticated,
-    error: state.auth.error
-  };
-};
-
-Upload = connect(mapStateToProps, {
-  upload })(Upload);
-
-export default reduxForm({
-  form: 'upload'
-})(Upload);
