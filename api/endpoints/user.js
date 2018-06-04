@@ -2,7 +2,6 @@ const router = require('express').Router();
 const passport = require('passport');
 const stripe = require('stripe')(process.env.STRIPE_SECRET);
 const image = require('../photos/model');
-// Todo move pictureIds to user uploads array code into ctrl file
 const user = require('../users/model');
 const { debug } = require('../../dev');
 
@@ -116,7 +115,7 @@ router
 		
 		const uploadedImages = uploaded.map((i, idx) => {
 			let newImage = {};
-			newImage.tags = req.body.tags;
+			newImage.tags = {...req.body};
 			console.log('Tags =>', req.body);
 			newImage.url = i.transforms[0].location;
 			newImage.owner = req.user.id;

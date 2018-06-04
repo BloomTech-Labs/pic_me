@@ -77,6 +77,7 @@ export default class Upload extends Component {
     
     let formData = new FormData();
     
+    // formData.append('tags', tags);
     formData.append('tags', tags.map(i => i.text));
     formData.append('images', images);
 
