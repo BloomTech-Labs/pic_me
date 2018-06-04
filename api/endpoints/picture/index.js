@@ -4,7 +4,7 @@ const router = require('express').Router();
 
 router.use('/', require('./routes/root'));
 router.use('/upload', require('./routes/upload'));
-// router.use('/myuploads', require('./routes/myuploads'));
+router.use('/myuploads', require('./routes/myuploads'));
 
 
 // router.route('/').get((req, res) => {
