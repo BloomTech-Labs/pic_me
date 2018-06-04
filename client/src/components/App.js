@@ -32,7 +32,7 @@ import Mobil from './Mobil';
 
 // Views for Picture
 // Will need to figure out how to reconcile dropzone w/multers3 storage
-import Upload from './picture/Upload'; 
+import Upload from './Upload';
 
 const store = createStore(reducer, applyMiddleware(thunk));
 
@@ -48,13 +48,21 @@ class App extends Component {
 								<Route exact path="/" component={Landing} />
 								<Route exact path="/billing" component={Gatekeeper(Billings)} />
 								<Route exact path="/mobil" component={Mobil} />
-								<Route exact path="/settings" component={Gatekeeper(Settings)} />
+								<Route
+									exact
+									path="/settings"
+									component={Gatekeeper(Settings)}
+								/>
 								<Route exact path="/signup" component={SignUp} />
 								<Route exact path="/login" component={Login} />
 								<Route exact path="/picture_upload" component={Upload} />
 								<Route exact path="/picture_my_uploads" component={MyUploads} />
 								<Route exact path="/logout" component={Logout} />
-								<Route exact path="/forgotpassword" component={ForgotPassword} />
+								<Route
+									exact
+									path="/forgotpassword"
+									component={ForgotPassword}
+								/>
 								<Route exact path="/feature" component={Gatekeeper(Feature)} />
 								<Route
 									exact
@@ -66,7 +74,7 @@ class App extends Component {
 					</Router>
 				</StripeProvider>
 			</Provider>
-		)
+		);
 	}
 }
 

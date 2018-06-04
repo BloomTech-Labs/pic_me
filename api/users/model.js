@@ -2,6 +2,7 @@ const findOrCreate = require('mongoose-findorcreate');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const { Schema } = mongoose;
+const Photo = require('../photos/model');
 
 // ? Should each user have a thumbnail or avatar
 // ? when deleting (if uploadedBy === user then delete...)
@@ -15,7 +16,7 @@ const UserSchema = new Schema(
 		nickNames: [{ type: String }],
 		password: { type: String, require: true },
 		// uploads: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
-		uploads: [{ type: String }],
+		uploads: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
 		photos: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
 		balance: { type: Number, required: true, default: 0 },
 		// stripe hasPaid: {}
