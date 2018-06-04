@@ -280,14 +280,15 @@ export const deleteaccount = (email, password) => {
 	};
 };
 
-export const sendPayment = stripeToken => {
+export const sendPayment = (stripeToken, pkg, history) => {
 	return dispatch => {
 		axios
-			.post(`${ROOT}/users/payment`, { stripeToken, typeOfCharge: 'lg' })
+			.post(`${ROOT}/users/payment`, { stripeToken, typeOfCharge: pkg })
 			.then(({ data }) => {
 				/* successful capture from Stripe */
 				if (data.captured) {
 					console.log('payment successful');
+					history.push(`/feature`);
 				} else {
 					console.error('problem capturing payment from Stripe');
 				}

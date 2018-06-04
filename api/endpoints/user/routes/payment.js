@@ -65,6 +65,7 @@ router
 		const amount = +stripeSettings[typeOfCharge];
 		const currency = stripeSettings.currency;
 		const description = stripeSettings.description[typeOfCharge];
+		const balance = stripeSettings.balance[typeOfCharge];
 
 		stripe.charges
 			.create({
@@ -80,7 +81,7 @@ router
 				 */
 				if (response.captured) {
 					userCTR
-						.update(req.user.id, { $inc: { balance: 10 } })
+						.update(req.user.id, { $inc: { balance } })
 						.then(updatedUser => {
 							r.send(res, 200, {
 								captured: response.captured,
