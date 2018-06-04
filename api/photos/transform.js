@@ -24,36 +24,35 @@ aws.config.update({
 let s3 = new aws.S3();
 
 exports.upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: process.env.BUCKET,
-    // acl permissions 'public-read'
-    acl: 'public-read',
-    contentType: multerS3.AUTO_CONTENT_TYPE,
-    // should transform
-    shouldTransform: true,
-    // transforms
-    transforms: [{
-      id: 'original',
-      key: function (req, file, cb) {
-        let fileSplit = file.originalname.split('.')
+	storage: multerS3({
+		s3: s3,
+		bucket: process.env.BUCKET,
+		// acl permissions 'public-read'
+		acl: 'public-read',
+		contentType: multerS3.AUTO_CONTENT_TYPE,
+		// should transform
+		shouldTransform: true,
+		// transforms
+		transforms: [{
+			id: 'original',
+			key: function (req, file, cb) {
+				let fileSplit = file.originalname.split('.')
 
-					let filename = fileSplit.slice(0, fileSplit.length - 1);
-					filename.push(Date.now());
-					filename = filename.join('_') + '.' + fileSplit[fileSplit.length - 1];
+				let filename = fileSplit.slice(0, fileSplit.length - 1)
+				filename.push(Date.now())
+				filename = filename.join('_') + '.' + fileSplit[fileSplit.length - 1]
 
-					cb(null, filename);
-				},
-				transform: function(req, file, cb) {
-					cb(null, sharp().resize(293, 293));
-				},
+				cb(null, filename)
 			},
-		],
-		metadata: function(req, file, cb) {
+			transform: function (req, file, cb) {
+				cb(null, sharp().resize(293, 293))
+			}
+		}],
+		metadata: function (req, file, cb) {
 			cb(null, { fieldName: 'images', fieldName: 'tags' });
 		},
-	}),
-});
+	})
+})
 
 // server.get('/', (req, res) => {
 //   console.log('Photo upload endpoint');

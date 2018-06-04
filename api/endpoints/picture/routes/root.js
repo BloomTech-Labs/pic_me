@@ -2,6 +2,9 @@ const router = require('express').Router();
 
 const { debug } = require('../../../../dev');
 
+router.route('/').get((req, res) => {
+  debug ? res.send({ pictures: `running` }) : null;
+});
 /**
  * controller that interacts with the users table in database
  */

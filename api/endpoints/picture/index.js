@@ -1,15 +1,15 @@
 const router = require('express').Router();
 
-// const { dev, debug } = require('../../../dev');
+const { dev, debug } = require('../../../dev');
 
 router.use('/', require('./routes/root'));
 router.use('/upload', require('./routes/upload'));
 router.use('/myuploads', require('./routes/myuploads'));
 
 
-// router.route('/').get((req, res) => {
-// 	debug ? res.send({ pictures: `running` }) : null;
-// });
+router.route('/').get((req, res) => {
+	debug ? res.send({ pictures: `running` }) : null;
+});
 
 // router.route('/upload').post(transform.upload.array('images'), (req, res) => {
 // 	  const uploaded = req.files;

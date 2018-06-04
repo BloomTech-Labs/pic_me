@@ -1,14 +1,13 @@
 const router = require('express').Router();
 const { dev } = require('../../../../dev');
 const userCTR = require('../../../users/controller');
-// const photoCTR = require('../../../photos/controller');
 const r = require('../../../helpers/responses');
 const image = require('../../../photos/model');
 const authenticate = require('../../../helpers/authenticate');
 const transform = require('../../../photos/transform');
 
 
-router.route('/').post(transform.upload.array('images'), (req, res) => {
+router.route('/api/pictures/upload').post(transform.upload.array('images'), (req, res) => {
   const uploaded = req.files;
   const ownerId = req.user.id;
 

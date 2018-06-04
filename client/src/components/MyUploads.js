@@ -53,6 +53,8 @@ export default class MyUploads extends Component {
   componentDidMount() {
     axios.get('/api/pictures/myuploads')
     .then(res => {
+      console.log(res.data);
+      
       let uploads = res.data.uploads;
       let tags = res.data.uploads.tags;
       // let suggestions = res.data.suggestions;
