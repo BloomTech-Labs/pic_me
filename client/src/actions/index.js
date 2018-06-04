@@ -288,7 +288,7 @@ export const sendPayment = (stripeToken, pkg, history) => {
 				/* successful capture from Stripe */
 				if (data.captured) {
 					console.log('payment successful');
-					history.push(`/feature`);
+					history.push(`/picture_browse`);
 				} else {
 					console.error('problem capturing payment from Stripe');
 				}
