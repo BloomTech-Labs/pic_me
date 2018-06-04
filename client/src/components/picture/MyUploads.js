@@ -50,9 +50,6 @@ class MyUploads extends Component {
 		}
   }
 
-  // deletemyuploads = ( id ) => {
-  //   this.props.deletemyuploads(this.props.id)
-  // }
   componentWillMount() {
     console.log('auth', this.props.authenticated);
     this.props.myuploads();
