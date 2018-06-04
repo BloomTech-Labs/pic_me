@@ -8,7 +8,8 @@ import {
   GridListTileBar,
   IconButton,
 } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
+import DownloadIcon from '@material-ui/icons/CloudDownload';
+import CancelIcon from '@material-ui/icons/Cancel'
 import { deletemyuploads, myuploads } from '../../actions';
 
 const styles = {
@@ -35,7 +36,7 @@ const styles = {
   },
 };
 
-class MyUploads extends Component {
+class MyCollection extends Component {
   state = {
     uploads: [],
   }
@@ -52,7 +53,7 @@ class MyUploads extends Component {
 
   componentWillMount() {
     console.log('auth', this.props.authenticated);
-    this.props.myuploads();
+    this.props.myuploads(); // TODO: change to collection action creator
   }
 
   componentWillReceiveProps(nextProps) {
@@ -62,7 +63,7 @@ class MyUploads extends Component {
   render() {
     return (
       <div>
-        <h2> My Uploads </h2>
+        <h2> Browse </h2>
         <GridList cellHeight={300} spacing={1} cols={3}>
           {this.state.uploads.map(img => (
             <GridListTile key={img._id} cols={img.cols || 1}>
@@ -71,15 +72,19 @@ class MyUploads extends Component {
                 title={img.tags}
                 titlePosition="bottom"
                 actionIcon={
+									<div>
                   <IconButton
                   onClick={_ => {
-                    this.props.deletemyuploads(img._id);}
+                    this.props.deletemyuploads(img._id);} 
+                    // TODO: change function to delete from my collection / download  
                   }
                   >
-                    <DeleteIcon />
-                  </IconButton>
-                }
-                actionPosition="right"
+                    <DownloadIcon />
+										<CancelIcon />
+									</IconButton>
+									</div>
+								}
+								actionPosition="right"
               />
             </GridListTile>
           ))}
@@ -97,4 +102,4 @@ const mapStatetoProps = state => {
   };
 };
 
-export default connect(mapStatetoProps, { myuploads, deletemyuploads })(MyUploads);
+export default connect(mapStatetoProps, { myuploads, deletemyuploads })(MyCollection);

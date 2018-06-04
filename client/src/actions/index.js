@@ -38,6 +38,7 @@ export const RESETPASSWORD = "RESETPASSWORD";
 
 // photo
 export const FETCH_MYUPLOADS="FETCH_MYUPLOADS";
+export const FETCH_BROWSE="FETCH_BROWSE";
 export const DELETE_MYUPLOADS="DELETE_MYUPLOADS";
 
 // const ROOT = 'https://labpicme.herokuapp.com/api';
@@ -341,6 +342,17 @@ export const upload = data => {
       .post(`${ROOT}/users/upload`)
       .then(res => console.log(res))
       .catch(err => console.error(err));
+  };
+};
+
+export const browse = _ => {
+  return dispatch => {
+		axios
+			.get(`${ROOT}/users/browse`)
+      .then(({data}) => {
+        dispatch({ type: FETCH_BROWSE, payload: data.uploads });
+      })
+			.catch(err => console.log(err));
   };
 };
 

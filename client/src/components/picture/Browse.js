@@ -8,7 +8,7 @@ import {
   GridListTileBar,
   IconButton,
 } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import { deletemyuploads, myuploads } from '../../actions';
 
 const styles = {
@@ -35,7 +35,7 @@ const styles = {
   },
 };
 
-class MyUploads extends Component {
+class Browse extends Component {
   state = {
     uploads: [],
   }
@@ -52,7 +52,7 @@ class MyUploads extends Component {
 
   componentWillMount() {
     console.log('auth', this.props.authenticated);
-    this.props.myuploads();
+    this.props.myuploads(); // TODO: change to browse action creator this.props.browse();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -62,7 +62,7 @@ class MyUploads extends Component {
   render() {
     return (
       <div>
-        <h2> My Uploads </h2>
+        <h2> Browse </h2>
         <GridList cellHeight={300} spacing={1} cols={3}>
           {this.state.uploads.map(img => (
             <GridListTile key={img._id} cols={img.cols || 1}>
@@ -73,10 +73,11 @@ class MyUploads extends Component {
                 actionIcon={
                   <IconButton
                   onClick={_ => {
-                    this.props.deletemyuploads(img._id);}
+                    this.props.deletemyuploads(img._id);} 
+                    // TODO: change function to add to collection, payment modal windowß 
                   }
                   >
-                    <DeleteIcon />
+                    <FavoriteIcon />
                   </IconButton>
                 }
                 actionPosition="right"
@@ -97,4 +98,4 @@ const mapStatetoProps = state => {
   };
 };
 
-export default connect(mapStatetoProps, { myuploads, deletemyuploads })(MyUploads);
+export default connect(mapStatetoProps, { myuploads, deletemyuploads })(Browse);
