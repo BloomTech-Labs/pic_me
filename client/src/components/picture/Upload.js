@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Button, Input, InputLabel } from '@material-ui/core';
+import FileUpload from '@material-ui/icons/FileUpload';
 import { WithContext as ReactTags } from 'react-tag-input';
+import './Upload.css';
 axios.defaults.withCredentials = true;
 
 const keyCodes = {
@@ -95,41 +98,54 @@ export default class Upload extends Component {
 		return (
 			// ? <h2>Upload success</h2> : <h1>Begin upload</h1>
 			// Todo if user is not authenticated render a helpful message
-			<div>
 				<form onSubmit={this.onSubmit}>
-					<label>
-						Upload Image:
-						<input
-							style={{ display: 'flex' }}
-							type="file"
-							name="images"
-							// multiple
-							ref="images"
-							onChange={this.onChange}
-						/>
-					</label>
-					<label>
-						Add Tags:
-						<ReactTags
-							tags={tags}
-							//  suggestions={suggestions}
-							handleDelete={this.handleDelete}
-							handleAddition={this.handleAddition}
-							handleDrag={this.handleDrag}
-							delimiters={delimiters}
-						/>
-						{/* <input
-          style={{ display: "flex"}}
-          type="text"
-          name="tags"
-          value={tags}
-          ref="tags"
-          onChange={this.onChange}
-        /> */}
-					</label>
-					<button type="submit">Submit</button>
+        <div className="content">
+          <div className="box">
+              <Input
+                // style={{ display: 'flex' }}
+                type="file"
+                id="file"
+                name="images"
+                // multiple
+                ref="images"
+                onChange={this.onChange}
+                className="inputfile"
+              />
+            <label htmlFor="file">
+              Select a File
+            </label>
+          </div>
+
+            <div>
+            <InputLabel>
+              Add Tags with comma
+            </InputLabel>
+              <ReactTags
+                tags={tags}
+                //  suggestions={suggestions}
+                handleDelete={this.handleDelete}
+                handleAddition={this.handleAddition}
+                handleDrag={this.handleDrag}
+                delimiters={delimiters}
+              />
+              {/* <input
+            style={{ display: "flex"}}
+            type="text"
+            name="tags"
+            value={tags}
+            ref="tags"
+            onChange={this.onChange}
+          /> */}
+          </div>
+          <hr/>
+          <div>
+            <Button variant="raised" color="primary" type="submit">Submit
+              <FileUpload />
+            </Button>
+          </div>
+
+        </div>
 				</form>
-			</div>
 		);
 	}
 }

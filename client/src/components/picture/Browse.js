@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import { 
@@ -7,22 +7,10 @@ import {
   GridListTile, 
   GridListTileBar,
   IconButton,
-  Modal,
-  Typography,
 } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { browse, myuploads } from '../../actions';
-
-function getModalStyle() {
-  const top = 50;
-  const left = 50;
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
 
 const styles = theme => ({
   paper: {
@@ -35,65 +23,60 @@ const styles = theme => ({
 });
 
 class Browse extends Component {
-  constructor() {
-    super();
-    this.state = {
+  constructor(props) {
+  super(props);
+  this.state = {
       uploads: [], 
-      open: false,
-    };
+      modal: false
+  };
+
+    this.toggle = this.toggle.bind(this);
   }
 
+  toggle() {
+    this.setState({
+      modal: !this.state.modal
+    });
+  }
   componentWillMount() {
-    // console.log('auth', this.props.authenticated);
-    this.props.myuploads();     // TODO: change to browse action creator this.props.browse();
+    console.log('auth', this.props.authenticated);
+    this.props.myuploads();
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({ uploads: nextProps.uploads });
-  }
+  } 
   
   render() {
-    const { classes } = this.props;
     return (
-      <div className={classes.root}>
+      <div >
         <h2> Browse </h2>
-        <GridList cellHeight={300} spacing={1} cols={3} className={classes.gridList}>
+        <GridList cellHeight={300} spacing={1} cols={3}>
           {this.state.uploads.map(img => (
-            <GridListTile key={img._id} cols={img.cols || 1}>
-              <img src={img.url} alt="myuploads" />
+            <GridListTile key={img.id} cols={img.cols || 1}>
+              <img src={img.url} alt="browse" />
               <GridListTileBar
-                title={img.tags}
+                title={img.tags.map(i => i.text).join(', ')}
                 titlePosition="bottom"
                 actionIcon={
                   <IconButton
-                  // onClick={
-                  //   _ => {
-                  //   this.props.deletemyuploads(img._id);} 
-                  // }
-                  // onClick={this.handleOpen}
+                    onClick={this.toggle}
                   >
                     <FavoriteIcon />
                   </IconButton>
                 }
                 actionPosition="right"
-                className={classes.titleBar}
               />
-              <Modal
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description"
-                open={this.state.open}
-                onClose={this.handleClose}
-              >
-              <div style={getModalStyle()} className="paper">
-                <Typography variant="title" id="modal-title">
-                  Is This You?
-                </Typography>
-                <Typography variant="subheading" id="simple-modal-description">
-                  Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                </Typography>
-                <BrowseWrapped />
-              </div>
-            </Modal>
+              <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                <ModalHeader toggle={this.toggle}>Is this you?</ModalHeader>
+                <ModalBody>
+                  Pay 1 credit and add this photo to your collection?
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="primary" onClick={this.toggle}>Yes</Button>{' '}
+                  <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                </ModalFooter>
+              </Modal>
             </GridListTile>
           ))}
         </GridList>
@@ -108,10 +91,6 @@ const mapStatetoProps = state => {
     error: state.auth.error,
     uploads: state.photo.uploads,
   };
-};
-
-Browse.propsTypes = {
-  classes: PropTypes.object.isRequired,
 };
 
 const BrowseWrapped = withStyles(styles)(Browse);

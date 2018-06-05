@@ -53,18 +53,8 @@ class App extends Component {
 								/>
 								<Route exact path="/signup" component={SignUp} />
 								<Route exact path="/login" component={Login} />
-								<Route
-									exact
-									path="/picture_my_uploads"
-									component={Gatekeeper(MyUploads)}
-								/>
-
 								<Route exact path="/logout" component={Logout} />
-								<Route
-									exact
-									path="/forgotpassword"
-									component={ForgotPassword}
-								/>
+								<Route exact path="/forgotpassword" component={ForgotPassword}/>
 								<Route exact path="/feature" component={Gatekeeper(Feature)} />
 								<Route
 									exact

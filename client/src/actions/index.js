@@ -350,7 +350,7 @@ export const browse = _ => {
 		axios
 			.get(`${ROOT}/pictures/browse`)
       .then(({data}) => {
-        dispatch({ type: FETCH_BROWSE, payload: data.uploads });
+        dispatch({ type: FETCH_BROWSE, payload: data });
       })
 			.catch(err => console.log(err));
   };
