@@ -33,9 +33,14 @@ router.route('/').get(authenticate.sid, (req, res) => {
  * - DELETE: deletes the photo specified by the logged in user (given an id)
  */
 router.route('/:id').delete(authenticate.sid, (req, res) => {
-	photoCTR
-		.deletePhoto(req.params.id)
-		.then(_ => r.send(res, 200, { message: `photo deleted` }))
+	// photoCTR
+	// 	.deletePhoto(req.params.id)
+	// 	.then(_ => r.send(res, 200, { message: `photo deleted` }))
+	// 	.catch(err => r.error(res, err, `error deleting photo`));
+
+	userCTR
+		.photoUploadDelete(req.user.id, req.params.id)
+		.then(result => r.send(res, 200, result))
 		.catch(err => r.error(res, err, `error deleting photo`));
 });
 
