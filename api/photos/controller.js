@@ -15,3 +15,18 @@ exports.downloadPhoto = function(req, res, next) {};
 exports.addToCollection = function(req, res, next) {};
 
 exports.updateTags = function(req, res, next) {};
+
+exports.getPhotosOf = nickNames => {
+	let nickNamesString = '';
+
+	nickNamesString += `[`;
+
+	nickNames.forEach(n => (nickNamesString += `"${n}", `));
+
+	nickNamesString = nickNamesString.slice(0, nickNamesString.length - 2);
+	nickNamesString += `]`;
+
+	return Photo.$where(
+		`this.tags.map(t => t.text).some(e => ${nickNamesString}.includes(e))`,
+	);
+};

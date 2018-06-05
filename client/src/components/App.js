@@ -19,9 +19,9 @@ import Login from './Login';
 import Logout from './Logout';
 
 // Photo Views
-import Upload from "./picture/Upload";		 
+import Upload from './picture/Upload';
 import Browse from './picture/Browse';
-import MyUploads from './picture/MyUploads'; 
+import MyUploads from './picture/MyUploads';
 import MyCollection from './picture/MyCollection';
 
 // General Views
@@ -55,17 +55,40 @@ class App extends Component {
 								/>
 								<Route exact path="/signup" component={SignUp} />
 								<Route exact path="/login" component={Login} />
+								<Route exact path="/picture_upload" component={Upload} />
+								<Route
+									exact
+									path="/picture_my_uploads"
+									component={Gatekeeper(MyUploads)}
+								/>
+								<Route exact path="/picture_browse" component={Browse} />
 								<Route exact path="/logout" component={Logout} />
-								<Route exact path="/forgotpassword" component={ForgotPassword}/>
+								<Route
+									exact
+									path="/forgotpassword"
+									component={ForgotPassword}
+								/>
 								<Route exact path="/feature" component={Gatekeeper(Feature)} />
 								<Route
 									exact
 									path="/picture_upload"
 									component={Gatekeeper(Upload)}
 								/>
-								<Route exact path="/picture_browse" component={Gatekeeper(Browse)} />
-								<Route exact path="/picture_my_uploads" component={Gatekeeper(MyUploads)} />
-								<Route exact path="/picture_my_collection" component={Gatekeeper(MyCollection)} />
+								<Route
+									exact
+									path="/picture_browse"
+									component={Gatekeeper(Browse)}
+								/>
+								<Route
+									exact
+									path="/picture_my_uploads"
+									component={Gatekeeper(MyUploads)}
+								/>
+								<Route
+									exact
+									path="/picture_my_collection"
+									component={Gatekeeper(MyCollection)}
+								/>
 							</Switch>
 						</div>
 					</Router>
