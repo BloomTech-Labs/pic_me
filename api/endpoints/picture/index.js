@@ -13,6 +13,8 @@ const image = require('../../photos/model');
 const user = require('../../users/model');
 const sanitize = require('../../helpers/sanitize');
 
+router.use('/myuploads', require('./routes/myuploads'));
+
 router.route('/').get((req, res) => {
 	debug ? res.send({ pictures: `running` }) : null;
 });
@@ -73,37 +75,37 @@ router.route('/upload').post(upload.array('images'), (req, res) => {
 	// res.send();
 });
 
-router.route('/myuploads').get(authenticate.sid, (req, res) => {
-	userCTR
-		.uploads(req.user.id)
-		.then(user => {
-			const pictures = [];
+// router.route('/myuploads').get(authenticate.sid, (req, res) => {
+// 	userCTR
+// 		.uploads(req.user.id)
+// 		.then(user => {
+// 			const pictures = [];
 
-			user.uploads.forEach(picture => {
-				const newPicture = {};
+// 			user.uploads.forEach(picture => {
+// 				const newPicture = {};
 
-				newPicture.id = picture._id;
-				newPicture.url = picture.url;
-				newPicture.tags = picture.tags;
+// 				newPicture.id = picture._id;
+// 				newPicture.url = picture.url;
+// 				newPicture.tags = picture.tags;
 
-				pictures.push(newPicture);
-			});
+// 				pictures.push(newPicture);
+// 			});
 
-			r.send(res, 200, pictures);
-		})
-		.catch(err =>
-			r.send(res, 500, {
-				err,
-				message: `server error retrievin	g user uploads`,
-			}),
-		);
-});
+// 			r.send(res, 200, pictures);
+// 		})
+// 		.catch(err =>
+// 			r.send(res, 500, {
+// 				err,
+// 				message: `server error retrievin	g user uploads`,
+// 			}),
+// 		);
+// });
 
-router.route(`/myuploads/:id`).delete(authenticate.sid, (req, res) => {
-	photoCTR
-		.deletePhoto(req.params.id)
-		.then(_ => r.send(res, 200, { message: `photo deleted` }))
-		.catch(err => r.error(res, err, `error deleting photo`));
-});
+// router.route(`/myuploads/:id`).delete(authenticate.sid, (req, res) => {
+// 	photoCTR
+// 		.deletePhoto(req.params.id)
+// 		.then(_ => r.send(res, 200, { message: `photo deleted` }))
+// 		.catch(err => r.error(res, err, `error deleting photo`));
+// });
 
 module.exports = router;
