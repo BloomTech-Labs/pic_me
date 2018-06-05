@@ -346,9 +346,10 @@ export const upload = data => {
 export const myuploads = _ => {
 	return dispatch => {
 		axios
-			.get(`${ROOT}/users/myuploads`)
+			.get(`${ROOT}/pictures/myuploads`)
 			.then(({ data }) => {
-				dispatch({ type: FETCH_MYUPLOADS, payload: data.uploads });
+				console.log('data', data);
+				dispatch({ type: FETCH_MYUPLOADS, payload: data });
 			})
 			.catch(err => console.log(err));
 	};
@@ -357,9 +358,9 @@ export const myuploads = _ => {
 export const deletemyuploads = photoUploadId => {
 	return dispatch => {
 		axios
-			.delete(`${ROOT}/users/myuploads/${photoUploadId}`)
+			.delete(`${ROOT}/pictures/myuploads/${photoUploadId}`)
 			.then(response => {
-				dispatch({ type: DELETE_MYUPLOADS });
+				dispatch({ type: DELETE_MYUPLOADS, payload: photoUploadId });
 			})
 			.catch(err => console.log(err));
 	};
