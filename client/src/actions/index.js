@@ -36,6 +36,10 @@ export const ACCOUNT_DELETE = 'ACCOUNT_DELETE';
 export const FORGOTPASSWORD = 'FORGOTPASSWORD';
 export const RESETPASSWORD = 'RESETPASSWORD';
 
+// photo
+export const FETCH_MYUPLOADS = 'FETCH_MYUPLOADS';
+export const DELETE_MYUPLOADS = 'DELETE_MYUPLOADS';
+
 // const ROOT = 'https://labpicme.herokuapp.com/api';
 const ROOT = `/api`;
 
@@ -333,8 +337,31 @@ export const authenticateUser = history => {
 export const upload = data => {
 	return dispatch => {
 		axios
-			.post(`${ROOT}/pictures/upload`)
+			.post(`${ROOT}/users/upload`)
 			.then(res => console.log(res))
 			.catch(err => console.error(err));
+	};
+};
+
+export const myuploads = _ => {
+	return dispatch => {
+		axios
+			.get(`${ROOT}/pictures/myuploads`)
+			.then(({ data }) => {
+				console.log('data', data);
+				dispatch({ type: FETCH_MYUPLOADS, payload: data });
+			})
+			.catch(err => console.log(err));
+	};
+};
+
+export const deletemyuploads = photoUploadId => {
+	return dispatch => {
+		axios
+			.delete(`${ROOT}/pictures/myuploads/${photoUploadId}`)
+			.then(response => {
+				dispatch({ type: DELETE_MYUPLOADS, payload: photoUploadId });
+			})
+			.catch(err => console.log(err));
 	};
 };

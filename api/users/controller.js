@@ -1,4 +1,5 @@
 const User = require('./model');
+const Photo = require('../photos/model');
 
 exports.save = user => {
 	return user.save();
@@ -31,7 +32,7 @@ exports.delete = _id => {
 };
 
 exports.uploads = _id => {
-	return User.findById(_id, 'uploads');
+	return User.findById(_id, 'uploads').populate('uploads');
 };
 
 exports.collection = function(req, res, next) {
@@ -47,4 +48,20 @@ exports.list = function(req, res, next) {
 					? next(error)
 					: res.render('user_list', { title: 'User List', list: listUsers }),
 		);
+};
+
+exports.photoUploadDelete = (userid, uploadid) => {
+	return User.findById(userid, function(err, user) {
+		const uploadsAll = user.uploads;
+		const uploadsRemoved = uploadsAll.filter(function(item) {
+			return item._id != uploadid;
+		});
+		user.uploads = uploadsRemoved;
+		return User.findByIdAndUpdate(userid, user, { new: true }, function(
+			err,
+			result,
+		) {
+			return result;
+		});
+	});
 };
