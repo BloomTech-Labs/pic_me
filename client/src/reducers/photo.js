@@ -1,4 +1,9 @@
 import { FETCH_MYUPLOADS, DELETE_MYUPLOADS, FETCH_OTHERMES } from '../actions';
+// import {
+//   FETCH_MYUPLOADS,
+//   FETCH_BROWSE,
+//   DELETE_MYUPLOADS,
+//  } from "../actions";
 
 const initialState = {
 	uploads: [],
@@ -13,6 +18,11 @@ export default (photo = initialState, action) => {
 				...photo,
 				uploads: action.payload,
 			};
+
+		// case FETCH_BROWSE:
+		// 	return {
+		// 		uploads: action.payload,
+		// 	};
 
 		case DELETE_MYUPLOADS:
 			return {
