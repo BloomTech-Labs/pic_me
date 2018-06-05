@@ -29,9 +29,6 @@ import Billings from './Billings';
 import ForgotPassword from './Forgotpassword';
 import Feature from './Feature';
 import Mobil from './Mobil';
-
-// Views for Picture
-// Will need to figure out how to reconcile dropzone w/multers3 storage
 import Upload from './Upload';
 
 const store = createStore(reducer, applyMiddleware(logger, thunk));
