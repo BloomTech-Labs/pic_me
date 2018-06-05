@@ -13,9 +13,9 @@ const photoCTR = require('../../../photos/controller');
 /**
  * general helper functions for all api endpoints
  */
-const sanitize = require('../../../helpers/sanitize');
 const authenticate = require('../../../helpers/authenticate');
 const r = require('../../../helpers/responses');
+const sanitize = require('../../../helpers/sanitize');
 
 /**
  * /api/pictures/myuploads
