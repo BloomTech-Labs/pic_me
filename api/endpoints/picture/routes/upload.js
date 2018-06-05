@@ -19,7 +19,7 @@ const userCTR = require('../../../users/controller');
 /**
  * controller that interacts with the photos table in database
  */
-const photoCTR = require('../../../photos/controller');
+// const photoCTR = require('../../../photos/controller');
 
 /**
  * general helper functions for all api endpoints
@@ -68,9 +68,9 @@ router
 				pictureIds.push(image._id);
 			});
 
-			console.log('pciture ids', pictureIds);
-			console.log('fpciture ids 0', pictureIds[0]);
-			console.log('typeofpciture ids', typeof pictureIds[0]);
+			console.log('picture ids', pictureIds);
+			console.log('fpicture ids 0', pictureIds[0]);
+			console.log('typeofpicture ids', typeof pictureIds[0]);
 
 			user
 				.findOneAndUpdate(

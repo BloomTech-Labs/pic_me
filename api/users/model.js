@@ -5,10 +5,6 @@ const photos = require('../photos/model');
 const { Schema } = mongoose;
 const Photo = require('../photos/model');
 
-// ? Should each user have a thumbnail or avatar
-// ? when deleting (if uploadedBy === user then delete...)
-// ? get all photos and filter by user nicknames to build up browsable selection
-
 const UserSchema = new Schema(
 	{
 		email: { type: String, lowercase: true, unique: true, required: true },
@@ -16,11 +12,9 @@ const UserSchema = new Schema(
 		lastName: { type: String, lowercase: true, required: true },
 		nickNames: [{ type: String }],
 		password: { type: String, require: true },
-		// uploads: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
 		uploads: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
 		photos: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
 		balance: { type: Number, required: true, default: 0 },
-		// stripe hasPaid: {}
 	},
 	{
 		timestamps: true,
@@ -46,12 +40,11 @@ UserSchema.pre('save', function(next) {
 
 UserSchema.plugin(findOrCreate);
 
-//TempCode
-// UserSchema.statics.deleteUploadById(userid, uploadid, (cb)=> {
-
-// });
-
-//TempCode
+// UserSchema.statics.uploadDelete = function (userid, uploadid, cb) {
+// 	User.photos.update(
+// 		{ $pull: { photos: uploadid } }
+// 	)
+// };
 
 UserSchema.statics.getAllUsers = function(cb) {
 	User.find({}, (err, users) => {

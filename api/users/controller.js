@@ -35,9 +35,11 @@ exports.uploads = _id => {
 	return User.findById(_id, 'uploads').populate('uploads');
 };
 
-exports.collection = function(req, res, next) {
-	return User.findById(_id, 'collection');
+exports.collection = function(_id) {
+	return User.findById(_id, 'photos').populate('photos');
 };
+
+exports.removeFromCollection = function () {};
 
 exports.list = function(req, res, next) {
 	User.find()
