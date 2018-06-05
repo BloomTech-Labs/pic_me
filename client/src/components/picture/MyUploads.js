@@ -72,7 +72,7 @@ class MyUploads extends Component {
 						<GridListTile key={img.id} cols={img.cols || 1}>
 							<img src={img.url} alt="myuploads" />
 							<GridListTileBar
-								title={[img.tags[0].text]}
+								title={img.tags.map(i => i.text).join(', ')}
 								titlePosition="bottom"
 								actionIcon={
 									<IconButton onClick={_ => this.props.deletemyuploads(img.id)}>
