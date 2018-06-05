@@ -19,8 +19,10 @@ import Login from './Login';
 import Logout from './Logout';
 
 // Photo Views
-// import Upload from './picture/Upload';
-import MyUploads from './picture/MyUploads';
+import Upload from "./picture/Upload";		 
+import Browse from './picture/Browse';
+import MyUploads from './picture/MyUploads'; 
+import MyCollection from './picture/MyCollection';
 
 // General Views
 import Landing from './Landing';
@@ -29,10 +31,6 @@ import Billings from './Billings';
 import ForgotPassword from './Forgotpassword';
 import Feature from './Feature';
 import Mobil from './Mobil';
-
-// Views for Picture
-// Will need to figure out how to reconcile dropzone w/multers3 storage
-import Upload from './Upload';
 
 const store = createStore(reducer, applyMiddleware(logger, thunk));
 
@@ -55,24 +53,17 @@ class App extends Component {
 								/>
 								<Route exact path="/signup" component={SignUp} />
 								<Route exact path="/login" component={Login} />
-								<Route exact path="/picture_upload" component={Upload} />
-								<Route
-									exact
-									path="/picture_my_uploads"
-									component={Gatekeeper(MyUploads)}
-								/>
 								<Route exact path="/logout" component={Logout} />
-								<Route
-									exact
-									path="/forgotpassword"
-									component={ForgotPassword}
-								/>
+								<Route exact path="/forgotpassword" component={ForgotPassword}/>
 								<Route exact path="/feature" component={Gatekeeper(Feature)} />
 								<Route
 									exact
 									path="/picture_upload"
 									component={Gatekeeper(Upload)}
 								/>
+								<Route exact path="/picture_browse" component={Gatekeeper(Browse)} />
+								<Route exact path="/picture_my_uploads" component={Gatekeeper(MyUploads)} />
+								<Route exact path="/picture_my_collection" component={Gatekeeper(MyCollection)} />
 							</Switch>
 						</div>
 					</Router>
