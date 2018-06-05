@@ -23,7 +23,8 @@ export default (photo = initialState, action) => {
 
     case DELETE_MYUPLOADS:
       return {
-        ...photo
+        ...photo, 
+        uploads: photo.uploads.filter(photo => photo.id !== action.payload),
       }
       
     default:

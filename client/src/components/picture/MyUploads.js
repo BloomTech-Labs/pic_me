@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
 import { 
   GridList,
   GridListTile, 
   GridListTileBar,
   IconButton,
+  withStyles, 
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { deletemyuploads, myuploads } from '../../actions';
 
-const styles = {
+const styles = theme => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
-    // backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.paper,
   },
   gridList: {
     width: 500,
@@ -33,7 +33,7 @@ const styles = {
   icon: {
     color: 'white',
   },
-};
+});
 
 class MyUploads extends Component {
   state = {
@@ -60,6 +60,7 @@ class MyUploads extends Component {
   }
 
   render() {
+    const { classes } = props
     return (
       <div>
         <h2> My Uploads </h2>
@@ -97,4 +98,6 @@ const mapStatetoProps = state => {
   };
 };
 
-export default connect(mapStatetoProps, { myuploads, deletemyuploads })(MyUploads);
+const MyUploadsWrapped = withStyles(styles)(MyUploads);
+
+export default connect(mapStatetoProps, { myuploads, deletemyuploads })(MyUploadsWrapped);

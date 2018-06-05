@@ -102,4 +102,5 @@ const mapStatetoProps = state => {
   };
 };
 
-export default connect(mapStatetoProps, { myuploads, deletemyuploads })(MyCollection);
+const MyCollectionWrapped = withStyles(styles)(MyCollection);
+export default connect(mapStatetoProps, { myuploads, deletemyuploads })(MyCollectionWrapped);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import { 
@@ -7,63 +7,57 @@ import {
   GridListTile, 
   GridListTileBar,
   IconButton,
+  Modal,
+  Typography,
 } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import { deletemyuploads, myuploads } from '../../actions';
+import { browse, myuploads } from '../../actions';
 
-const styles = {
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    overflow: 'hidden',
-    // backgroundColor: theme.palette.background.paper,
-  },
-  gridList: {
-    width: 500,
-    height: 450,
-    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-    transform: 'translateZ(0)',
-  },
-  titleBar: {
-    background:
-      'linear-gradient(to bottom, rgba(207,216,220,0.7) 0%, ' +
-      'rgba(207,216,220,0.3) 70%, rgba(207,216,220,0) 100%)',
-  },
-  icon: {
-    color: 'white',
-  },
-};
+function getModalStyle() {
+  const top = 50;
+  const left = 50;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
+
+const styles = theme => ({
+  paper: {
+    position: 'absolute',
+    width: theme.spacing.unit * 50,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing.unit * 4,
+  }
+});
 
 class Browse extends Component {
-  state = {
-    uploads: [],
-  }
-
-	renderAlert() {
-		if (this.props.error) {
-			return (
-				<div className="alert alert-danger">
-					<strong>Oops!</strong> {this.props.error}
-				</div>
-			);
-		}
+  constructor() {
+    super();
+    this.state = {
+      uploads: [], 
+      open: false,
+    };
   }
 
   componentWillMount() {
-    console.log('auth', this.props.authenticated);
-    this.props.myuploads(); // TODO: change to browse action creator this.props.browse();
+    // console.log('auth', this.props.authenticated);
+    this.props.myuploads();     // TODO: change to browse action creator this.props.browse();
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({ uploads: nextProps.uploads });
   }
-
+  
   render() {
+    const { classes } = this.props;
     return (
-      <div>
+      <div className={classes.root}>
         <h2> Browse </h2>
-        <GridList cellHeight={300} spacing={1} cols={3}>
+        <GridList cellHeight={300} spacing={1} cols={3} className={classes.gridList}>
           {this.state.uploads.map(img => (
             <GridListTile key={img._id} cols={img.cols || 1}>
               <img src={img.url} alt="myuploads" />
@@ -72,16 +66,34 @@ class Browse extends Component {
                 titlePosition="bottom"
                 actionIcon={
                   <IconButton
-                  onClick={_ => {
-                    this.props.deletemyuploads(img._id);} 
-                    // TODO: change function to add to collection, payment modal windowß 
-                  }
+                  // onClick={
+                  //   _ => {
+                  //   this.props.deletemyuploads(img._id);} 
+                  // }
+                  // onClick={this.handleOpen}
                   >
                     <FavoriteIcon />
                   </IconButton>
                 }
                 actionPosition="right"
+                className={classes.titleBar}
               />
+              <Modal
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+                open={this.state.open}
+                onClose={this.handleClose}
+              >
+              <div style={getModalStyle()} className="paper">
+                <Typography variant="title" id="modal-title">
+                  Is This You?
+                </Typography>
+                <Typography variant="subheading" id="simple-modal-description">
+                  Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                </Typography>
+                <BrowseWrapped />
+              </div>
+            </Modal>
             </GridListTile>
           ))}
         </GridList>
@@ -98,4 +110,10 @@ const mapStatetoProps = state => {
   };
 };
 
-export default connect(mapStatetoProps, { myuploads, deletemyuploads })(Browse);
+Browse.propsTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+const BrowseWrapped = withStyles(styles)(Browse);
+
+export default connect(mapStatetoProps, { browse, myuploads })(BrowseWrapped);
