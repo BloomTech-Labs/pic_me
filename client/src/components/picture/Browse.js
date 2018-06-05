@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { browse, myuploads } from '../../actions';
+import { browse, myuploads, credit } from '../../actions';
 
 const styles = theme => ({
   paper: {
@@ -24,14 +24,13 @@ const styles = theme => ({
 
 class Browse extends Component {
   constructor(props) {
-  super(props);
-  this.state = {
-      uploads: [], 
-      modal: false
-  };
-
+    super(props);
+    this.state = {
+        uploads: [], 
+        modal: false
+    };
     this.toggle = this.toggle.bind(this);
-  }
+  };
 
   // toggle for modal window
   toggle() {

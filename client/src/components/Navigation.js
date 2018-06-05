@@ -15,6 +15,7 @@ import {
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { logout } from '../actions';
+import logo from '../logo_.png';
 
 // import { NavLink } from 'react-router-dom';
 
@@ -64,7 +65,7 @@ class Navigation extends Component {
 			<div>
 				<Navbar color="light" light expand="md">
 					<NavbarBrand tag={Link} to="/">
-						PicMe
+						<img src={logo} alt="PicMe" />
 					</NavbarBrand>
 					<NavbarToggler onClick={this.toggle} />
 					<Collapse isOpen={this.state.isOpen} navbar>
