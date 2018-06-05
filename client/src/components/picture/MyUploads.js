@@ -36,9 +36,9 @@ const styles = theme => ({
 });
 
 class MyUploads extends Component {
-  state = {
-    uploads: [],
-  }
+	state = {
+		uploads: [],
+	};
 
 	renderAlert() {
 		if (this.props.error) {
@@ -48,56 +48,52 @@ class MyUploads extends Component {
 				</div>
 			);
 		}
-  }
+	}
 
-  componentWillMount() {
-    console.log('auth', this.props.authenticated);
-    this.props.myuploads();
-  }
+	componentWillMount() {
+		console.log('auth', this.props.authenticated);
+		this.props.myuploads();
+	}
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ uploads: nextProps.uploads });
-  }
+	componentWillReceiveProps(nextProps) {
+		this.setState({ uploads: nextProps.uploads });
+	}
 
-  render() {
-    const { classes } = this.props;
-    return (
-      <div>
-        <h2> My Uploads </h2>
-        <GridList cellHeight={300} spacing={1} cols={3}>
-          {this.state.uploads.map(img => (
-            <GridListTile key={img._id} cols={img.cols || 1}>
-              <img src={img.url} alt="myuploads" />
-              <GridListTileBar
-                title={img.tags}
-                titlePosition="bottom"
-                actionIcon={
-                  <IconButton
-                  onClick={_ => {
-                    this.props.deletemyuploads(img._id);}
-                  }
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                }
-                actionPosition="right"
-              />
-            </GridListTile>
-          ))}
-        </GridList>
-      </div>
-    );
-  }
+	render() {
+		return (
+			<div>
+				<h2> My Uploads </h2>
+				<GridList cellHeight={300} spacing={1} cols={3}>
+					{this.state.uploads.map(img => (
+						<GridListTile key={img.id} cols={img.cols || 1}>
+							<img src={img.url} alt="myuploads" />
+							<GridListTileBar
+								title={img.tags.map(i => i.text).join(', ')}
+								titlePosition="bottom"
+								actionIcon={
+									<IconButton onClick={_ => this.props.deletemyuploads(img.id)}>
+										<DeleteIcon />
+									</IconButton>
+								}
+								actionPosition="right"
+							/>
+						</GridListTile>
+					))}
+				</GridList>
+			</div>
+		);
+	}
 }
 
 const mapStatetoProps = state => {
-  return {
-    authenticated: state.auth.authenticated,
-    error: state.auth.error,
-    uploads: state.photo.uploads,
-  };
+	return {
+		authenticated: state.auth.authenticated,
+		error: state.auth.error,
+		uploads: state.photo.uploads,
+	};
 };
 
 const MyUploadsWrapped = withStyles(styles)(MyUploads);
 
 export default connect(mapStatetoProps, { myuploads, deletemyuploads })(MyUploadsWrapped);
+

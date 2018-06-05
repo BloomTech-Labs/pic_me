@@ -1,60 +1,67 @@
 const User = require('./model');
-const Photo = require('../photos/model')
+const Photo = require('../photos/model');
+
+exports.save = user => {
+	return user.save();
+};
 
 exports.create = function(info) {
-  const user = new User(info);
-  return user.save();
+	const user = new User(info);
+	return user.save();
 };
 
 exports.request = function(parm) {
-  if (!parm) return User.find();
-  return User.findOne(parm);
+	if (!parm) return User.find();
+	return User.findOne(parm);
 };
 
 exports.requestById = _id => {
-  return User.findById(_id, (err, user) => {
-    if (err) return err;
+	return User.findById(_id, (err, user) => {
+		if (err) return err;
 
-    return user;
-  });
+		return user;
+	});
 };
 
 exports.update = (_id, user) => {
-  return User.findByIdAndUpdate(_id, user, { new: true });
+	return User.findByIdAndUpdate(_id, user, { new: true });
 };
 
 exports.delete = _id => {
-  return User.findByIdAndRemove({ _id });
+	return User.findByIdAndRemove({ _id });
 };
 
 exports.uploads = _id => {
-  return User.findById(_id, 'uploads');
-}
+	return User.findById(_id, 'uploads').populate('uploads');
+};
 
-exports.collection = _id => {
-  return User.findById(_id, 'photos');
+exports.collection = function(req, res, next) {
+	return User.findById(_id, 'collection');
 };
 
 exports.list = function(req, res, next) {
-  User.find()
-    .sort([['lastName', 'ascending']])
-    .exec(
-      (error, listUsers) =>
-        error
-          ? next(error)
-          : res.render('user_list', { title: 'User List', list: listUsers }),
-    );
+	User.find()
+		.sort([['lastName', 'ascending']])
+		.exec(
+			(error, listUsers) =>
+				error
+					? next(error)
+					: res.render('user_list', { title: 'User List', list: listUsers }),
+		);
 };
 
-exports.photoUploadDelete =  (userid, uploadid) => {
-  return User.findById(userid, function(err, user){
-    const uploadsAll = user.uploads;
-    const uploadsRemoved = uploadsAll.filter(function(item) {
-      return item._id != uploadid
-    });
-    user.uploads = uploadsRemoved
-    return User.findByIdAndUpdate(userid, user, {new: true}, function (err, result){
-      return result;
-    });
-  });
+exports.photoUploadDelete = (userid, uploadid) => {
+	return User.findById(userid, function(err, user) {
+		const uploadsAll = user.uploads;
+		const uploadsRemoved = uploadsAll.filter(function(item) {
+			return item._id != uploadid;
+		});
+		user.uploads = uploadsRemoved;
+		return User.findByIdAndUpdate(userid, user, { new: true }, function(
+			err,
+			result,
+		) {
+			return result;
+		});
+	});
 };
