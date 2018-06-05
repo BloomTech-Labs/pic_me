@@ -60,7 +60,7 @@ class MyUploads extends Component {
   }
 
   render() {
-    const { classes } = props
+    const { classes } = this.props;
     return (
       <div>
         <h2> My Uploads </h2>
