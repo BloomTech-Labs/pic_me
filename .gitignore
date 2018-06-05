@@ -62,3 +62,6 @@ typings/
 
 # for macOS
 .DS_Store
+
+# heroku local dev
+Procfile
