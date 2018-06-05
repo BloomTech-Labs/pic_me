@@ -21,6 +21,7 @@ import Logout from './Logout';
 // Photo Views
 // import Upload from './picture/Upload';
 import MyUploads from './picture/MyUploads';
+import Browse from './picture/Browse';
 
 // General Views
 import Landing from './Landing';
@@ -61,6 +62,7 @@ class App extends Component {
 									path="/picture_my_uploads"
 									component={Gatekeeper(MyUploads)}
 								/>
+								<Route exact path="/picture_browse" component={Browse} />
 								<Route exact path="/logout" component={Logout} />
 								<Route
 									exact

@@ -38,6 +38,7 @@ export const RESETPASSWORD = 'RESETPASSWORD';
 
 // photo
 export const FETCH_MYUPLOADS = 'FETCH_MYUPLOADS';
+export const FETCH_OTHERMES = 'FETCH_OTHERMES';
 export const DELETE_MYUPLOADS = 'DELETE_MYUPLOADS';
 
 // const ROOT = 'https://labpicme.herokuapp.com/api';
@@ -245,12 +246,15 @@ export const account = (
 export const profile = (firstName, lastName, nickNames) => {
 	return dispatch => {
 		dispatch({ type: CHANGE_SETTINGS_START });
+		console.log('nicknames', nickNames);
 		// if (password !== confirmPassword) {
 		//   dispatch({ payload: 'Passwords do not match' });
 		//   return;
 		// }
 		axios
-			.put(`${ROOT}/users`, { user: { firstName, lastName, nickNames } })
+			.put(`${ROOT}/users`, {
+				user: { firstName, lastName, nickNames: nickNames.split(', ') },
+			})
 			.then(response => {
 				console.log(response);
 				dispatch({ type: CHANGE_SETTINGS_SUCCESS });
@@ -362,6 +366,15 @@ export const deletemyuploads = photoUploadId => {
 			.then(response => {
 				dispatch({ type: DELETE_MYUPLOADS, payload: photoUploadId });
 			})
+			.catch(err => console.log(err));
+	};
+};
+
+export const othermephotos = _ => {
+	return dispatch => {
+		axios
+			.get(`${ROOT}/pictures/othermes`)
+			.then(({ data }) => dispatch({ type: FETCH_OTHERMES, payload: data }))
 			.catch(err => console.log(err));
 	};
 };

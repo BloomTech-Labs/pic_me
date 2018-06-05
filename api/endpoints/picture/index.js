@@ -7,6 +7,7 @@ const router = require('express').Router();
  */
 router.use('/', require('./routes/root'));
 router.use('/myuploads', require('./routes/myuploads'));
+router.use('/othermes', require('./routes/othermes'));
 router.use('/upload', require('./routes/upload'));
 
 module.exports = router;
