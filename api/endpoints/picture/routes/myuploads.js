@@ -21,27 +21,42 @@ const r = require('../../../helpers/responses');
  * /api/pictures/myuploads
  * - GET: retrieves all photos for logged in user
  */
-router.route('/').get(authenticate.sid, (req, res) => {
-	userCTR
-		.uploads(req.user.id)
-		.then(user => r.send(res, 200, sanitize.pictures(user.uploads)))
-		.catch(err => r.error(res, err, `server error retrievin	g user uploads`));
-});
+router
+	.route('/')
+
+	/**
+	 * GET /api/pictures/myuploads
+	 *
+	 * retrieves all photos for logged in user
+	 */
+	.get(authenticate.sid, (req, res) => {
+		userCTR
+			.uploads(req.user.id)
+			.then(user => r.send(res, 200, sanitize.pictures(user.uploads)))
+			.catch(err => r.error(res, err, `server error retrievin	g user uploads`));
+	});
 
 /**
  * /api/pictures/myuploads/:id
- * - DELETE: deletes the photo specified by the logged in user (given an id)
+ * - DELETE: deletes the photo reference to the logged in user's upload
  */
-router.route('/:id').delete(authenticate.sid, (req, res) => {
-	// photoCTR
-	// 	.deletePhoto(req.params.id)
-	// 	.then(_ => r.send(res, 200, { message: `photo deleted` }))
-	// 	.catch(err => r.error(res, err, `error deleting photo`));
+router
+	.route('/:id')
 
-	userCTR
-		.photoUploadDelete(req.user.id, req.params.id)
-		.then(result => r.send(res, 200, result))
-		.catch(err => r.error(res, err, `error deleting photo`));
-});
+	/**
+	 * DELETE /api/pictures/myuploads/:id
+	 *
+	 * deletes the photo reference to the logged in user's upload
+	 *
+	 * note: this does NOT delete the photo from the photos database
+	 *       deleting actual photos is NOT allowed right now
+	 *       there should be a disclaimed when uploading photos about this
+	 */
+	.delete(authenticate.sid, (req, res) => {
+		userCTR
+			.photoUploadDelete(req.user.id, req.params.id)
+			.then(result => r.send(res, 200, result))
+			.catch(err => r.error(res, err, `error deleting photo`));
+	});
 
 module.exports = router;
