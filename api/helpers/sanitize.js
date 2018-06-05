@@ -40,3 +40,15 @@ exports.response = user => {
 		updatedAt: undefined,
 	};
 };
+
+exports.pictures = pictures => {
+	return pictures.map(picture => {
+		const sanitizedPicture = {};
+
+		sanitizedPicture.id = picture._id;
+		sanitizedPicture.url = picture.url;
+		sanitizedPicture.tags = picture.tags;
+
+		return sanitizedPicture;
+	});
+};
