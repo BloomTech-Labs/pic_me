@@ -33,14 +33,16 @@ class Browse extends Component {
     this.toggle = this.toggle.bind(this);
   }
 
+  // toggle for modal window
   toggle() {
     this.setState({
       modal: !this.state.modal
     });
   }
+
   componentWillMount() {
     console.log('auth', this.props.authenticated);
-    this.props.myuploads();
+    this.props.myuploads(); //TODO: change to browse()
   }
 
   componentWillReceiveProps(nextProps) {
