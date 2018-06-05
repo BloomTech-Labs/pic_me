@@ -2,7 +2,7 @@ import React, { Component } from "react";
 // import { connect } from "react-redux";
 // import { reduxForm, Field } from "redux-form";
 // import { settings } from "../actions";
-import Bread from "./Bread";
+// import Bread from "./Bread";
 import Account from "./Account";
 import Profile from "./Profile";
 import Deleteaccount from "./Deleteaccount";
@@ -14,7 +14,6 @@ class Settings extends Component {
   render() {
     return (
       <div>
-        <Bread />
         <h3>Update profile</h3>
         <hr />
         <Profile />

@@ -15,7 +15,7 @@ import {
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { logout } from '../actions';
-import logo from '../logo_.png';
+import logo from '../logo.png';
 
 // import { NavLink } from 'react-router-dom';
 

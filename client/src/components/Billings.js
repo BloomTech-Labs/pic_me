@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
-
 import MyStoreCheckout from './payment/MyStoreCheckout';
 // import { elementContextTypes } from 'react-stripe-elements/lib/components/Elements';
 
