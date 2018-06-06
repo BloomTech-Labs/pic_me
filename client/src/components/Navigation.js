@@ -7,11 +7,11 @@ import {
 	Nav,
 	NavItem,
 	NavLink,
-	UncontrolledDropdown,
 	DropdownToggle,
 	DropdownMenu,
-	DropdownItem,
+	// DropdownItem,
 } from 'reactstrap';
+import { UncontrolledDropdown } from 'reactstrap/lib/Uncontrolled';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { logout } from '../actions';
@@ -75,26 +75,18 @@ class Navigation extends Component {
 									Pictures
 								</DropdownToggle>
 								<DropdownMenu>
-									<DropdownItem>
-										<NavLink tag={Link} to="/picture_upload">
-											Upload
-										</NavLink>
-									</DropdownItem>
-									<DropdownItem>
-										<NavLink tag={Link} to="/picture_browse">
-											Browse
-										</NavLink>
-									</DropdownItem>
-									<DropdownItem>
-										<NavLink tag={Link} to="/picture_my_uploads">
-											My Uploads
-										</NavLink>
-									</DropdownItem>
-									<DropdownItem>
-										<NavLink tag={Link} to="/picture_my_collection">
-											My Collection
-										</NavLink>
-									</DropdownItem>
+									<NavLink tag={Link} to="/picture_upload">
+										Upload
+									</NavLink>
+									<NavLink tag={Link} to="/picture_browse">
+										Browse
+									</NavLink>
+									<NavLink tag={Link} to="/picture_my_uploads">
+										My Uploads
+									</NavLink>
+									<NavLink tag={Link} to="/picture_my_collection">
+										My Collection
+									</NavLink>
 								</DropdownMenu>
 							</UncontrolledDropdown>
 
