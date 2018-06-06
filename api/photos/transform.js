@@ -30,8 +30,6 @@ exports.upload = multer({
 		acl: 'public-read',
 		contentType: multerS3.AUTO_CONTENT_TYPE,
 		shouldTransform: true,
-		// Todo add a thumbnail version
-		// Todo tweak resizing options see (nearest, cubic, lanczos2)
 		transforms: [
 			{
 				id: 'original',

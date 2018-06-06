@@ -55,7 +55,6 @@ export default class Upload extends Component {
 		super(props);
 
 		this.state = {
-			// file: null,
 			image: '',
 			preview: '',
 			tags: [],
@@ -64,13 +63,6 @@ export default class Upload extends Component {
 			// ]
 		};
 
-		// tag handlers
-		// this.handleAddition = this.handleAddition.bind(this);
-		// this.handleDelete = this.handleDelete.bind(this);
-		// this.handleDrag = this.handleDrag.bind(this);
-
-		// this.onChange = this.onChange.bind(this);
-		// this.onSubmit = this.onSubmit.bind(this);
 	}
 
 	handleDelete = (i) => {
@@ -105,16 +97,7 @@ export default class Upload extends Component {
 				preview: reader.result
 			});
 		}
-		// const state = this.state;
-		
-		// switch (e.target.name) {
-		// 	case 'file':
-		// 		state.file = e.target.files[0];
-		// 		break;
-		// 	default:
-		// 		state[e.target.name] = e.target.value;
-		// }
-		// this.setState(state);
+
 		reader.readAsDataURL(image)
 	};
 
@@ -126,7 +109,6 @@ export default class Upload extends Component {
 		let formData = new FormData();
 
 		formData.append('tags', JSON.stringify(tags));
-		// formData.append('tags', tags.map(i => i.text));
 		formData.append('image', image);
 		axios
 			.post('/api/pictures/upload', formData)
@@ -137,12 +119,10 @@ export default class Upload extends Component {
 
 		this.refs.image.value = '';
 	};
-	// Todo Resize for preview!
+
 	render() {
 		let { preview, tags } = this.state;
-		let $preview = null;
-		if (preview) { $preview = (<img src={preview} />)};
-
+		
 		return (
 			<Container>
 				<form onSubmit={this.onSubmit}>
@@ -163,19 +143,6 @@ export default class Upload extends Component {
 						height={300}
 						width={300}
 					/>
-				{/* <form onSubmit={this.onSubmit}>
-					<Input class="custom" type="file" name="images" ref="images" onChange={this.onChange} />
-					<ReactTags
-						inline
-						tags={tags}
-						// suggestions={suggestions}
-						handleDelete={this.handleDelete}
-						handleAddition={this.handleAddition}
-						handleDrag={this.handleDrag}
-						delimiters={delimiters}
-					/>
-					<button class="upload-btn" type="submit">Upload</button>
-				</form> */}
 			</Container>
 		);
 	}
