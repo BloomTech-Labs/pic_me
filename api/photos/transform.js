@@ -46,7 +46,8 @@ exports.upload = multer({
 				},
 				transform: function(req, file, cb) {
 					// better resizing and image enhancement
-					cb(null, sharp().resize(293, 293));
+					cb(null, sharp().toFormat('jpg'));
+					// cb(null, sharp().resize(401, 300).ignoreAspectRatio().toFormat('jpg'));
 				},
 			},
 		],
