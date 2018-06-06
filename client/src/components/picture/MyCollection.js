@@ -34,20 +34,22 @@ class Browse extends Component {
 		this.state = {
 			collection: [],
 			modal: false,
+			selectedId: '',
 		};
 
 		this.toggle = this.toggle.bind(this);
 	}
 
 	// toggle for modal window
-	toggle() {
+	toggle(imgId) {
 		this.setState({
 			modal: !this.state.modal,
+			selectedId: imgId,
 		});
 	}
 
-	deletePictureFromCollection = imgId => {
-		this.props.deletePictureFromCollection(imgId);
+	deletePictureFromCollection = _ => {
+		this.props.deletePictureFromCollection(this.state.selectedId);
 		this.toggle();
 	};
 
@@ -76,7 +78,7 @@ class Browse extends Component {
 								title={img.tags.map(i => i.text).join(', ')}
 								titlePosition="bottom"
 								actionIcon={
-									<IconButton onClick={this.toggle}>
+									<IconButton onClick={_ => this.toggle(img.id)}>
 										<Delete />
 									</IconButton>
 								}
