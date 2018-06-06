@@ -62,7 +62,7 @@ class MyUploads extends Component {
 
 	render() {
 		return (
-			<div>
+			<div className="container">
 				<h2> My Uploads </h2>
 				<GridList cellHeight={300} spacing={1} cols={3}>
 					{this.state.uploads.map(img => (
