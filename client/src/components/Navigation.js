@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+	Button,
 	Collapse,
 	Navbar,
 	NavbarToggler,
@@ -38,38 +39,40 @@ class Navigation extends Component {
 		if (this.props.authenticated === true) {
 			// show a link to log out
 			return [
-				<NavLink
+
+				<Button outline color="secondary"
 					key={1}
 					tag={Link}
 					to="#" // used for anything except to change cursor type
 					onClick={_ => this.props.logout(this.props.history)}
 				>
 					Log Out
-				</NavLink>,
+				</Button>,
 			];
 		} else {
 			// show links to sign up or login
 			return [
-				<NavLink key={1} tag={Link} to="/signup">
-					Sign Up
-				</NavLink>,
-				<NavLink key={2} tag={Link} to="/login">
+				<NavLink key={1} tag={Link} to="/login">
 					Log In
 				</NavLink>,
+				<Button outline color="secondary" key={2} tag={Link} to="/signup">
+					Sign Up
+				</Button>,
 			];
 		}
 	}
 
 	render() {
 		return (
-			<div>
+			<div className="bg-light">
+				<div className="container">
 				<Navbar color="light" light expand="md">
 					<NavbarBrand tag={Link} to="/">
 						<img src={logo} alt="PicMe" />
 					</NavbarBrand>
 					<NavbarToggler onClick={this.toggle} />
 					<Collapse isOpen={this.state.isOpen} navbar>
-						<Nav navbar>
+						<Nav className="ml-auto" navbar>
 							<UncontrolledDropdown nav inNavbar>
 								<DropdownToggle nav caret>
 									Pictures
@@ -100,13 +103,13 @@ class Navigation extends Component {
 									Settings
 								</NavLink>
 							</NavItem>
-						</Nav>
-
-						<Nav className="ml-auto" navbar>
+							<form class="form-inline">
 							{this.dynamicLinks()}
-						</Nav>
+							</form>
+							</Nav>
 					</Collapse>
 				</Navbar>
+				</div>
 			</div>
 		);
 	}

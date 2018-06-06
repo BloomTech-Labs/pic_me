@@ -10,7 +10,13 @@ import {
 } from '@material-ui/core';
 // import ArrowDownwardIcon from '@material-ui/icons/Star';
 import Delete from '@material-ui/icons/Delete';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { 
+	Button, 
+	Modal, 
+	ModalHeader, 
+	ModalBody, 
+	ModalFooter,
+} from 'reactstrap';
 import {
 	mycollection,
 	deletePictureFromCollection,
@@ -68,7 +74,7 @@ class Browse extends Component {
 
 	render() {
 		return (
-			<div>
+			<div role="main" className="containter">
 				<h2> My Collection </h2>
 				<GridList cellHeight={300} spacing={1} cols={3}>
 					{this.state.collection.map(img => (

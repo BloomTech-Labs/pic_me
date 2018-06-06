@@ -1241,6 +1241,10 @@ boolbase@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
 
+bootstrap@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.0.0.tgz#ceb03842c145fcc1b9b4e15da2a05656ba68469a"
+
 bootstrap@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.1.1.tgz#3aec85000fa619085da8d2e4983dfd67cf2114cb"
@@ -4351,7 +4355,7 @@ jest@20.0.4:
   dependencies:
     jest-cli "^20.0.4"
 
-jquery@^3.3.1:
+jquery@3.3.1, jquery@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
@@ -6995,6 +6999,13 @@ sshpk@^1.7.0:
     ecc-jsbn "~0.1.1"
     jsbn "~0.1.0"
     tweetnacl "~0.14.0"
+
+startbootstrap-thumbnail-gallery@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/startbootstrap-thumbnail-gallery/-/startbootstrap-thumbnail-gallery-4.0.0.tgz#28fdfdc79f1e2b9e855789ed7536634647c74ecf"
+  dependencies:
+    bootstrap "4.0.0"
+    jquery "3.3.1"
 
 static-extend@^0.1.1:
   version "0.1.2"
