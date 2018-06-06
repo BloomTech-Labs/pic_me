@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { WithContext as ReactTags } from 'react-tag-input';
+import '../picture/Tags.css';
 // import { withStyles } from '@material-ui/core/styles';
 // import {
 // 	GridList,
@@ -95,7 +96,7 @@ class MyUploads extends Component {
 				<ul>
 					{this.state.uploads.map(img => 
 						<li key={img.id}>
-							<img src={img.url} alt="myuploads" />
+							<img src={img.url} height={300} alt="myuploads" />
 						<ReactTags
 							inline
 							tags={img.tags}
