@@ -9,7 +9,7 @@ class Deleteaccount extends Component {
 	}
 
 	deleteFormHandler = ({ email, password }) => {
-		this.props.deleteaccount(email, password);
+		this.props.deleteaccount(this.props.history);
 	};
 
 	renderAlert() {

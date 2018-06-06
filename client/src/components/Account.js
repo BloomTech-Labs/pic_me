@@ -12,31 +12,21 @@ class Account extends Component {
 	accountFormHandler = ({
 		email,
 		password,
+		confirmPassword,
 		// newPassword,
-		// confirmPassword
 	}) => {
 		this.props.account(
 			email,
 			password,
+			confirmPassword,
 			// TO DO: add newPassword/confirmPassword field
 			// newPassword,
-			// confirmPassword
 		);
 	};
 
-	renderAlert() {
-		if (this.props.error) {
-			return (
-				<div className="alert alert-danger">
-					<strong>Oops!</strong> {this.props.error}
-				</div>
-			);
-		}
-	}
 	render() {
 		return (
 			<div className="Account">
-				{this.renderAlert()}
 				<form onSubmit={this.props.handleSubmit(this.accountFormHandler)}>
 					<div className="form-group col-md-6">
 						<label>email</label>
@@ -49,10 +39,20 @@ class Account extends Component {
 					</div>
 
 					<div className="form-group col-md-6">
-						<label>password</label>
+						<label>new password</label>
 						<Field
 							className="form-control"
 							name="password"
+							component="input"
+							type="password"
+						/>
+					</div>
+
+					<div className="form-group col-md-6">
+						<label>confirm new password</label>
+						<Field
+							className="form-control"
+							name="confirmPassword"
 							component="input"
 							type="password"
 						/>
@@ -103,6 +103,7 @@ export default reduxForm({
 	fields: [
 		'email',
 		'password',
+		'confirmPassword',
 		// "newPassword",
 		// "confirmPassword",
 	],

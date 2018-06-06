@@ -228,42 +228,62 @@ export const getInfo = _ => {
 export const account = (
 	email,
 	password,
+	confirmPassword,
 	// newPassword,
-	// confirmPassword
 ) => {
 	return dispatch => {
+		if (password !== confirmPassword) {
+			dispatch({
+				type: CHANGE_SETTINGS_ERROR,
+				payload: 'passwords do not match',
+			});
+			return;
+		}
+
 		dispatch({ type: CHANGE_SETTINGS_START });
-		// if (newPassword !== confirmPassword) {
-		//   dispatch({ type: CHANGE_SETTINGS_ERROR, payload: 'New passwords do not match' });
-		//   return;
-		// }
 		axios
 			.put(`${ROOT}/users/settings`, { user: { email, password } })
-			.then(response => {
-				console.log(response);
-				dispatch({ type: CHANGE_SETTINGS_SUCCESS });
+			.then(({ data }) => {
+				dispatch({
+					type: CHANGE_SETTINGS_SUCCESS,
+					payload: data.email,
+					message: `account settings updated successfully`,
+				});
 			})
-			.catch(err => console.log(err));
+			.catch(error =>
+				dispatch({
+					type: CHANGE_SETTINGS_ERROR,
+					payload: error.response.data.message,
+				}),
+			);
 	};
 };
 
 export const profile = (firstName, lastName, nickNames) => {
+	const user = {};
+
+	if (firstName) user.firstName = firstName;
+	if (lastName) user.lastName = lastName;
+	if (nickNames) user.nickNames = nickNames.split(', ');
+
 	return dispatch => {
 		dispatch({ type: CHANGE_SETTINGS_START });
-		console.log('nicknames', nickNames);
-		// if (password !== confirmPassword) {
-		//   dispatch({ payload: 'Passwords do not match' });
-		//   return;
-		// }
+
 		axios
-			.put(`${ROOT}/users`, {
-				user: { firstName, lastName, nickNames: nickNames.split(', ') },
+			.put(`${ROOT}/users`, { user })
+			.then(({ data }) => {
+				dispatch({
+					type: CHANGE_SETTINGS_SUCCESS,
+					payload: data.email,
+					message: `profile settings updated successfully`,
+				});
 			})
-			.then(response => {
-				console.log(response);
-				dispatch({ type: CHANGE_SETTINGS_SUCCESS });
-			})
-			.catch(err => console.log(err));
+			.catch(error =>
+				dispatch({
+					type: CHANGE_SETTINGS_ERROR,
+					payload: error.response.data.message,
+				}),
+			);
 	};
 };
 
@@ -279,16 +299,20 @@ export const forgotPassword = email => {
 	};
 };
 
-export const deleteaccount = (email, password) => {
+export const deleteaccount = history => {
 	return dispatch => {
 		axios
-			.delete(`${ROOT}/users`, { user: { email, password } })
-			.then(response => {
-				console.log(response);
+			.delete(`${ROOT}/users`)
+			.then(_ => {
 				dispatch({ type: ACCOUNT_DELETE });
-				// history.push('logout')
+				history.push('/');
 			})
-			.catch(err => console.log(err));
+			.catch(error =>
+				dispatch({
+					type: CHANGE_SETTINGS_ERROR,
+					payload: error.response.data.message,
+				}),
+			);
 	};
 };
 

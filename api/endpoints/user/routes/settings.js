@@ -27,6 +27,7 @@ router
 	 *
 	 * checks for a valid session id, then
 	 * checks that there is an email and/or password (new) in the body, then
+	 * log out of session, and
 	 * sanitizes the new settings data, before
 	 * updating the user settings
 	 *
@@ -68,7 +69,11 @@ router
 
 					userCTR
 						.save(user)
-						.then(savedUser => r.send(res, 200, sanitize.response(savedUser)))
+						.then(savedUser => {
+							req.logout();
+
+							r.send(res, 200, sanitize.response(savedUser));
+						})
 						.catch(err => r.error(res, err, `error updating user settings`));
 				})
 				.catch(err => r.error(res, err, `error finding user by id`));
