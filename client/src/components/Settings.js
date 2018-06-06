@@ -7,11 +7,17 @@ import { connect } from 'react-redux';
 import Account from './Account';
 import Profile from './Profile';
 import Deleteaccount from './Deleteaccount';
+import { getInfo } from '../actions';
 
 class Settings extends Component {
 	componentWillMount() {
+		this.props.getInfo();
 		// console.log('auth', this.props.authenticated);
 	}
+
+	// componentWillReceiveProps(nextProps) {
+	// this.props.getInfo();
+	// }
 
 	renderAlert() {
 		if (this.props.error) {
@@ -59,4 +65,4 @@ const mapStateToProps = state => {
 	};
 };
 
-export default connect(mapStateToProps, {})(Settings);
+export default connect(mapStateToProps, { getInfo })(Settings);

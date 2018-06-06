@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
-import { account } from '../actions';
+import { account, resetErrors } from '../actions';
 // import Bread from "./Bread";
 
 class Account extends Component {
 	componentWillMount() {
+		this.props.resetErrors();
+
 		// console.log('auth', this.props.authenticated);
 	}
 
@@ -25,6 +27,8 @@ class Account extends Component {
 	};
 
 	render() {
+		const { pristine, submitting } = this.props;
+
 		return (
 			<div className="Account">
 				<form onSubmit={this.props.handleSubmit(this.accountFormHandler)}>
@@ -79,7 +83,11 @@ class Account extends Component {
         </div> */}
 
 					<div className="form-group col-md-6">
-						<button action="submit" className="btn btn-primary">
+						<button
+							action="submit"
+							disabled={pristine || submitting}
+							className="btn btn-primary"
+						>
 							Update
 						</button>
 					</div>
@@ -89,16 +97,7 @@ class Account extends Component {
 	}
 }
 
-const mapStateToProps = state => ({
-	authenticated: state.auth.authenticated,
-	error: state.auth.error,
-});
-
-Account = connect(mapStateToProps, {
-	account,
-})(Account);
-
-export default reduxForm({
+Account = reduxForm({
 	form: 'account',
 	fields: [
 		'email',
@@ -107,4 +106,30 @@ export default reduxForm({
 		// "newPassword",
 		// "confirmPassword",
 	],
+	enableReinitialize: true,
 })(Account);
+
+const mapStateToProps = state => ({
+	authenticated: state.auth.authenticated,
+	error: state.auth.error,
+	initialValues: state.user,
+});
+
+Account = connect(mapStateToProps, { account, resetErrors })(Account);
+
+export default Account;
+
+// Account = connect(mapStateToProps, {
+// 	account,
+// })(Account);
+
+// export default reduxForm({
+// 	form: 'account',
+// 	fields: [
+// 		'email',
+// 		'password',
+// 		'confirmPassword',
+// 		// "newPassword",
+// 		// "confirmPassword",
+// 	],
+// })(Account);

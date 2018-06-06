@@ -45,6 +45,10 @@ export const FETCH_BROWSE = 'FETCH_BROWSE';
 export const FETCH_MYCOLLECTION = 'FETCH_MYCOLLECTION';
 export const DELETE_COLLECTION_PICTURE = 'DELETE_COLLECTION_PICTURE';
 
+/* user */
+export const GET_USER_INFO = 'GET_USER_INFO';
+export const GET_USER_ERROR = 'GET_USER_ERROR';
+
 // const ROOT = 'https://labpicme.herokuapp.com/api';
 const ROOT = `/api`;
 
@@ -141,10 +145,10 @@ export const login = (email, password, history) => {
 				history.push('/feature');
 				// history.go(-1);
 			})
-			.catch(err => {
+			.catch(error => {
 				dispatch({
 					type: AUTH_LOGIN_ERROR,
-					payload: err.response.data.message,
+					payload: error.response.data.message,
 				});
 				// dispatch({ type: AUTH_LOGIN_FINISH });
 			});
@@ -220,8 +224,13 @@ export const getInfo = _ => {
 	return dispatch => {
 		axios
 			.get(`${ROOT}/users/info`)
-			.then(response => console.log(response))
-			.catch(err => console.log(err));
+			.then(({ data }) => dispatch({ type: GET_USER_INFO, payload: data }))
+			.catch(error =>
+				dispatch({
+					type: GET_USER_ERROR,
+					payload: error.response.data.message,
+				}),
+			);
 	};
 };
 
@@ -277,6 +286,10 @@ export const profile = (firstName, lastName, nickNames) => {
 					payload: data.email,
 					message: `profile settings updated successfully`,
 				});
+				// dispatch({
+				// 	type: GET_USER_INFO,
+				// 	payload: data,
+				// });
 			})
 			.catch(error =>
 				dispatch({

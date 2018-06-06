@@ -24,6 +24,8 @@ import {
 	CHANGE_SETTINGS_START,
 	CHANGE_SETTINGS_ERROR,
 	ACCOUNT_DELETE,
+	//
+	GET_USER_ERROR,
 } from '../actions';
 
 const initialState = {
@@ -108,6 +110,7 @@ export default (auth = initialState, action) => {
 			return {
 				...auth,
 				error: '',
+				message: '',
 			};
 
 		case AUTH_RESET_ATTEMPTED:
@@ -160,6 +163,12 @@ export default (auth = initialState, action) => {
 				...auth,
 				authenticated: false,
 				user: ``,
+			};
+
+		case GET_USER_ERROR:
+			return {
+				...auth,
+				error: action.payload,
 			};
 
 		default:
