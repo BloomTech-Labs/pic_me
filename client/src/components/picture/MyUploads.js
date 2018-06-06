@@ -1,58 +1,59 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { 
-  GridList,
-  GridListTile, 
-  GridListTileBar,
-  IconButton,
-  withStyles, 
+import { withStyles } from '@material-ui/core/styles';
+import {
+	GridList,
+	GridListTile,
+	GridListTileBar,
+	IconButton,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { deletemyuploads, myuploads } from '../../actions';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    overflow: 'hidden',
-    backgroundColor: theme.palette.background.paper,
-  },
-  gridList: {
-    width: 500,
-    height: 450,
-    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-    transform: 'translateZ(0)',
-  },
-  titleBar: {
-    background:
-      'linear-gradient(to bottom, rgba(207,216,220,0.7) 0%, ' +
-      'rgba(207,216,220,0.3) 70%, rgba(207,216,220,0) 100%)',
-  },
-  icon: {
-    color: 'white',
-  },
+	paper: {
+		position: 'absolute',
+		width: theme.spacing.unit * 50,
+		backgroundColor: theme.palette.background.paper,
+		boxShadow: theme.shadows[5],
+		padding: theme.spacing.unit * 4,
+	},
 });
 
 class MyUploads extends Component {
-	state = {
-		uploads: [],
-	};
+	constructor(props) {
+		super(props);
 
-	renderAlert() {
-		if (this.props.error) {
-			return (
-				<div className="alert alert-danger">
-					<strong>Oops!</strong> {this.props.error}
-				</div>
-			);
-		}
+		this.state = {
+			uploads: [],
+			modal: false,
+			selectedId: '',
+		};
+
+		this.toggle = this.toggle.bind(this);
 	}
 
+	// toggle for modal window
+	toggle(imgId) {
+		this.setState({
+			selectedId: imgId,
+			modal: !this.state.modal,
+		});
+	}
+
+	deleteUploadButtonClickedHandler = _ => {
+		this.props.deletemyuploads(this.state.selectedId);
+		this.toggle();
+	};
+
 	componentWillMount() {
-		console.log('auth', this.props.authenticated);
 		this.props.myuploads();
+	}
+
+	componentDidMount() {
+		this.setState({ uploads: this.props.uploads });
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -71,12 +72,35 @@ class MyUploads extends Component {
 								title={img.tags.map(i => i.text).join(', ')}
 								titlePosition="bottom"
 								actionIcon={
-									<IconButton onClick={_ => this.props.deletemyuploads(img.id)}>
+									<IconButton onClick={_ => this.toggle(img.id)}>
 										<DeleteIcon />
 									</IconButton>
 								}
 								actionPosition="right"
 							/>
+							<Modal
+								isOpen={this.state.modal}
+								toggle={this.toggle}
+								className={this.props.className}
+							>
+								<ModalHeader toggle={this.toggle}>
+									Are you sure you want to delete this upload??
+								</ModalHeader>
+								<ModalBody>
+									Delete this upload from your uploads (this CANNOT be undone)?
+								</ModalBody>
+								<ModalFooter>
+									<Button
+										color="primary"
+										onClick={_ => this.deleteUploadButtonClickedHandler()}
+									>
+										Yes
+									</Button>{' '}
+									<Button color="secondary" onClick={this.toggle}>
+										Cancel
+									</Button>
+								</ModalFooter>
+							</Modal>
 						</GridListTile>
 					))}
 				</GridList>
@@ -95,5 +119,6 @@ const mapStatetoProps = state => {
 
 const MyUploadsWrapped = withStyles(styles)(MyUploads);
 
-export default connect(mapStatetoProps, { myuploads, deletemyuploads })(MyUploadsWrapped);
-
+export default connect(mapStatetoProps, { myuploads, deletemyuploads })(
+	MyUploadsWrapped,
+);

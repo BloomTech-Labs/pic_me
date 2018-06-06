@@ -42,7 +42,6 @@ const Input = styled.input`
 // 	border-radius: 4px;
 // `;
 
-
 const keyCodes = {
 	comma: 188,
 	enter: 13,
@@ -62,19 +61,18 @@ export default class Upload extends Component {
 			//   {id: 'Nickname', text: 'Nickname'}
 			// ]
 		};
-
 	}
 
-	handleDelete = (i) => {
+	handleDelete = i => {
 		const { tags } = this.state;
 		this.setState({
 			tags: tags.filter((tag, index) => index !== i),
 		});
-	}
+	};
 
-	handleAddition = (tag) => {
+	handleAddition = tag => {
 		this.setState(state => ({ tags: [...state.tags, tag] }));
-	}
+	};
 
 	handleDrag = (tag, currPos, newPos) => {
 		const tags = [...this.state.tags];
@@ -84,7 +82,7 @@ export default class Upload extends Component {
 		newTags.splice(newPos, 0, tag);
 
 		this.setState({ tags: newTags });
-	}
+	};
 
 	onChange = e => {
 		e.preventDefault();
@@ -94,11 +92,11 @@ export default class Upload extends Component {
 		reader.onloadend = () => {
 			this.setState({
 				image: image,
-				preview: reader.result
+				preview: reader.result,
 			});
-		}
+		};
 
-		reader.readAsDataURL(image)
+		reader.readAsDataURL(image);
 	};
 
 	onSubmit = e => {
@@ -115,18 +113,23 @@ export default class Upload extends Component {
 			.then(res => {
 				console.log('upload successful');
 			})
-			.catch(err => console.log('Must be logged in to upload photos.'));
+			.catch(err => console.log(err));
 
 		this.refs.image.value = '';
 	};
 
 	render() {
 		let { preview, tags } = this.state;
-		
+
 		return (
 			<Container>
 				<form onSubmit={this.onSubmit}>
-					<input type="file" name="image" ref="image" onChange={this.onChange} />
+					<input
+						type="file"
+						name="image"
+						ref="image"
+						onChange={this.onChange}
+					/>
 					<ReactTags
 						inline
 						tags={tags}
@@ -136,15 +139,12 @@ export default class Upload extends Component {
 						handleDrag={this.handleDrag}
 						delimiters={delimiters}
 					/>
-					<button type="submit" onClick={this.onSubmit}>Upload Image</button> 
+					<button type="submit" onClick={this.onSubmit}>
+						Upload Image
+					</button>
 				</form>
-					<Image 
-						src={preview}
-						height={300}
-						width={300}
-					/>
+				<Image src={preview} height={300} width={300} />
 			</Container>
 		);
 	}
 }
-

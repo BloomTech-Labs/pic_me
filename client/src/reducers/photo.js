@@ -4,6 +4,7 @@ import {
 	FETCH_OTHERMES,
 	FETCH_OTHERMES_PICTURE,
 	FETCH_MYCOLLECTION,
+	DELETE_COLLECTION_PICTURE,
 } from '../actions';
 // import {
 //   FETCH_MYUPLOADS,
@@ -53,6 +54,12 @@ export default (photo = initialState, action) => {
 			return {
 				...photo,
 				collection: action.payload,
+			};
+
+		case DELETE_COLLECTION_PICTURE:
+			return {
+				...photo,
+				collection: photo.collection.filter(p => p.id !== action.payload),
 			};
 
 		default:

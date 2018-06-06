@@ -9,11 +9,11 @@ import {
 	IconButton,
 } from '@material-ui/core';
 // import ArrowDownwardIcon from '@material-ui/icons/Star';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import Delete from '@material-ui/icons/Delete';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {
 	mycollection,
-	claimPicture,
+	deletePictureFromCollection,
 	// browse,
 	// myuploads,
 } from '../../actions';
@@ -34,20 +34,22 @@ class Browse extends Component {
 		this.state = {
 			collection: [],
 			modal: false,
+			selectedId: '',
 		};
 
 		this.toggle = this.toggle.bind(this);
 	}
 
 	// toggle for modal window
-	toggle() {
+	toggle(imgId) {
 		this.setState({
 			modal: !this.state.modal,
+			selectedId: imgId,
 		});
 	}
 
-	claimPictureButtonClickedHandler = imgId => {
-		this.props.claimPicture(imgId);
+	deletePictureFromCollection = _ => {
+		this.props.deletePictureFromCollection(this.state.selectedId);
 		this.toggle();
 	};
 
@@ -76,8 +78,8 @@ class Browse extends Component {
 								title={img.tags.map(i => i.text).join(', ')}
 								titlePosition="bottom"
 								actionIcon={
-									<IconButton onClick={this.toggle}>
-										<FavoriteIcon />
+									<IconButton onClick={_ => this.toggle(img.id)}>
+										<Delete />
 									</IconButton>
 								}
 								actionPosition="right"
@@ -87,14 +89,17 @@ class Browse extends Component {
 								toggle={this.toggle}
 								className={this.props.className}
 							>
-								<ModalHeader toggle={this.toggle}>Is this you?</ModalHeader>
+								<ModalHeader toggle={this.toggle}>
+									Are you sure you want to delete this picture?
+								</ModalHeader>
 								<ModalBody>
-									Pay 1 credit and add this photo to your collection?
+									Delete this picture from your collection (this CANNOT be
+									undone)?
 								</ModalBody>
 								<ModalFooter>
 									<Button
 										color="primary"
-										onClick={_ => this.claimPictureButtonClickedHandler(img.id)}
+										onClick={_ => this.deletePictureFromCollection(img.id)}
 									>
 										Yes
 									</Button>{' '}
@@ -121,6 +126,7 @@ const mapStatetoProps = state => {
 
 const BrowseWrapped = withStyles(styles)(Browse);
 
-export default connect(mapStatetoProps, { mycollection, claimPicture })(
-	BrowseWrapped,
-);
+export default connect(mapStatetoProps, {
+	mycollection,
+	deletePictureFromCollection,
+})(BrowseWrapped);

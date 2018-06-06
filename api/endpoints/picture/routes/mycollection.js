@@ -55,7 +55,7 @@ router
 	 */
 	.delete(authenticate.sid, (req, res) => {
 		userCTR
-			.photoUploadDelete(req.user.id, req.params.id)
+			.userPhotoDelete(req.user.id, req.params.id)
 			.then(result => r.send(res, 200, result))
 			.catch(err => r.error(res, err, `error deleting photo`));
 	});

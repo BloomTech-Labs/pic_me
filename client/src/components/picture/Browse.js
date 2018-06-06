@@ -34,20 +34,22 @@ class Browse extends Component {
 		this.state = {
 			othermes: [],
 			modal: false,
+			selectedId: '',
 		};
 
 		this.toggle = this.toggle.bind(this);
 	}
 
 	// toggle for modal window
-	toggle() {
+	toggle(imgId) {
 		this.setState({
+			selectedId: imgId,
 			modal: !this.state.modal,
 		});
 	}
 
-	claimPictureButtonClickedHandler = imgId => {
-		this.props.claimPicture(imgId);
+	claimPictureButtonClickedHandler = _ => {
+		this.props.claimPicture(this.state.selectedId);
 		this.toggle();
 	};
 
@@ -76,7 +78,7 @@ class Browse extends Component {
 								title={img.tags.map(i => i.text).join(', ')}
 								titlePosition="bottom"
 								actionIcon={
-									<IconButton onClick={this.toggle}>
+									<IconButton onClick={_ => this.toggle(img.id)}>
 										<FavoriteIcon />
 									</IconButton>
 								}
@@ -94,7 +96,7 @@ class Browse extends Component {
 								<ModalFooter>
 									<Button
 										color="primary"
-										onClick={_ => this.claimPictureButtonClickedHandler(img.id)}
+										onClick={_ => this.claimPictureButtonClickedHandler()}
 									>
 										Yes
 									</Button>{' '}
