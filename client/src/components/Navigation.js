@@ -26,6 +26,7 @@ class Navigation extends Component {
 		this.toggle = this.toggle.bind(this);
 		this.state = {
 			isOpen: false,
+			balance: null,
 		};
 	}
 	toggle() {
@@ -79,6 +80,10 @@ class Navigation extends Component {
 	}
 
 	render() {
+		// if (this.state.balance === null) {
+		// 	this.props.getInfo();
+		// }
+
 		return (
 			<div>
 				<Navbar color="light" light expand="md">

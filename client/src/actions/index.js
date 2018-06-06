@@ -50,7 +50,6 @@ export const PHOTO_ERROR_RESET = 'PHOTO_ERROR_RESET';
 /* user */
 export const GET_USER_INFO = 'GET_USER_INFO';
 export const GET_USER_ERROR = 'GET_USER_ERROR';
-export const UPDATE_USER_INFO = 'UPDATE_USER_INFO';
 
 // const ROOT = 'https://labpicme.herokuapp.com/api';
 const ROOT = `/api`;
