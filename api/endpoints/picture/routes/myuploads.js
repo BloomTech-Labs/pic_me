@@ -19,7 +19,7 @@ const sanitize = require('../../../helpers/sanitize');
 
 /**
  * /api/pictures/myuploads
- * - GET: retrieves all photos for logged in user
+ * - GET: retrieves all uploaded photos for logged in user
  */
 router
 	.route('/')
@@ -27,13 +27,13 @@ router
 	/**
 	 * GET /api/pictures/myuploads
 	 *
-	 * retrieves all photos for logged in user
+	 * retrieves all uploaded photos for logged in user
 	 */
 	.get(authenticate.sid, (req, res) => {
 		userCTR
 			.uploads(req.user.id)
 			.then(user => r.send(res, 200, sanitize.pictures(user.uploads)))
-			.catch(err => r.error(res, err, `server error retrievin	g user uploads`));
+			.catch(err => r.error(res, err, `server error retrieving user uploads`));
 	});
 
 /**

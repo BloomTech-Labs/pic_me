@@ -9,6 +9,7 @@ const {
 	checkUser,
 	checkForChangedFields,
 	checkForChangedSettings,
+	checkBalance,
 } = require('./helper');
 
 /**
@@ -62,6 +63,15 @@ exports.settingsData = (req, res, next) => {
 
 	if (!checkEmailOrPassword(res, email, password)) return;
 	if (!checkForChangedSettings(res, req, req.body.user)) return;
+
+	next();
+};
+
+/**
+ * exports.
+ */
+exports.credits = (req, res, next) => {
+	if (!checkBalance(res, req.user)) return;
 
 	next();
 };

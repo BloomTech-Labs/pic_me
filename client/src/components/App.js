@@ -31,6 +31,7 @@ import Billings from './Billings';
 import ForgotPassword from './Forgotpassword';
 import Feature from './Feature';
 import Mobil from './Mobil';
+import Bread from "./Bread";
 
 const store = createStore(reducer, applyMiddleware(logger, thunk));
 
@@ -42,6 +43,7 @@ class App extends Component {
 					<Router>
 						<div className="App">
 							<Navigation />
+							<Bread />
 							<Switch>
 								<Route exact path="/" component={Landing} />
 								<Route exact path="/billing" component={Gatekeeper(Billings)} />
@@ -59,7 +61,11 @@ class App extends Component {
 									path="/picture_my_uploads"
 									component={Gatekeeper(MyUploads)}
 								/>
-								<Route exact path="/picture_browse" component={Browse} />
+								<Route
+									exact
+									path="/picture_browse"
+									component={Gatekeeper(Browse)}
+								/>
 								<Route exact path="/logout" component={Logout} />
 								<Route
 									exact
