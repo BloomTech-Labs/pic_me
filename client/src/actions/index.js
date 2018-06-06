@@ -39,6 +39,7 @@ export const RESETPASSWORD = 'RESETPASSWORD';
 // photo
 export const FETCH_MYUPLOADS = 'FETCH_MYUPLOADS';
 export const FETCH_OTHERMES = 'FETCH_OTHERMES';
+export const FETCH_OTHERMES_PICTURE = 'FETCH_OTHERMES_PICTURE';
 export const DELETE_MYUPLOADS = 'DELETE_MYUPLOADS';
 export const FETCH_BROWSE = 'FETCH_BROWSE';
 export const FETCH_MYCOLLECTION = 'FETCH_MYCOLLECTION';
@@ -407,7 +408,9 @@ export const claimPicture = imgId => {
 	return dispatch => {
 		axios
 			.post(`${ROOT}/pictures/othermes/${imgId}`)
-			.then(({ data }) => console.log(data))
+			.then(({ data }) =>
+				dispatch({ type: FETCH_OTHERMES_PICTURE, payload: imgId }),
+			)
 			.catch(err => console.log(err));
 	};
 };
