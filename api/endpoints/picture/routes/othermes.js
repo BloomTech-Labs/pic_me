@@ -81,7 +81,7 @@ router
 				userCTR.user
 					.findOneAndUpdate(
 						{ _id: req.user.id },
-						{ $push: { photos: photoId } },
+						{ $push: { photos: photoId }, $inc: { balance: -1 } },
 						{ new: true },
 					)
 					.then(updatedUser => r.send(res, 200, sanitize.response(updatedUser)))

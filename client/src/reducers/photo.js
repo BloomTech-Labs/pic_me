@@ -5,6 +5,8 @@ import {
 	FETCH_OTHERMES_PICTURE,
 	FETCH_MYCOLLECTION,
 	DELETE_COLLECTION_PICTURE,
+	PHOTO_CLAIM_FAIL,
+	PHOTO_ERROR_RESET,
 } from '../actions';
 // import {
 //   FETCH_MYUPLOADS,
@@ -60,6 +62,18 @@ export default (photo = initialState, action) => {
 			return {
 				...photo,
 				collection: photo.collection.filter(p => p.id !== action.payload),
+			};
+
+		case PHOTO_CLAIM_FAIL:
+			return {
+				...photo,
+				error: action.payload,
+			};
+
+		case PHOTO_ERROR_RESET:
+			return {
+				...photo,
+				error: null,
 			};
 
 		default:

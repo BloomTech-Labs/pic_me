@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form';
+// import { reduxForm, Field } from 'redux-form';
+import { reduxForm } from 'redux-form';
 import { deleteaccount } from '../actions';
 
 class Deleteaccount extends Component {
@@ -8,8 +9,9 @@ class Deleteaccount extends Component {
 		// console.log('auth', this.props.authenticated);
 	}
 
-	deleteFormHandler = ({ email, password }) => {
-		this.props.deleteaccount(email, password);
+	// deleteFormHandler = ({ email, password }) => {
+	deleteFormHandler = _ => {
+		this.props.deleteaccount(this.props.history);
 	};
 
 	renderAlert() {
@@ -24,7 +26,7 @@ class Deleteaccount extends Component {
 				{this.renderAlert()}
 				<div>
 					<form onSubmit={this.props.handleSubmit(this.deleteFormHandler)}>
-						<div className="form-group col-md-6">
+						{/* <div className="form-group col-md-6">
 							<label>email</label>
 							<Field
 								className="form-control"
@@ -42,7 +44,7 @@ class Deleteaccount extends Component {
 								component="input"
 								type="password"
 							/>
-						</div>
+						</div> */}
 
 						<div className="form-group col-md-6">
 							<button action="submit" className="btn btn-danger">
@@ -67,5 +69,6 @@ Deleteaccount = connect(mapStateToProps, {
 
 export default reduxForm({
 	form: 'deleteaccount',
-	fields: ['email', 'password'],
+	// fields: ['email', 'password'],
+	fields: [],
 })(Deleteaccount);
