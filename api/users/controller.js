@@ -71,3 +71,19 @@ exports.photoUploadDelete = (userid, uploadid) => {
 		});
 	});
 };
+
+exports.userPhotoDelete = (userid, uploadid) => {
+	return User.findById(userid, function(err, user) {
+		const photosAll = user.photos;
+		const photosFiltered = photosAll.filter(function(item) {
+			return item._id != uploadid;
+		});
+		user.photos = photosFiltered;
+		return User.findByIdAndUpdate(userid, user, { new: true }, function(
+			err,
+			result,
+		) {
+			return result;
+		});
+	});
+};

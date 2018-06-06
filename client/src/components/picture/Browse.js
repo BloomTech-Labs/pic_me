@@ -47,6 +47,7 @@ class Browse extends Component {
 	}
 
 	claimPictureButtonClickedHandler = imgId => {
+		console.log('imgid', imgId);
 		this.props.claimPicture(imgId);
 		this.toggle();
 	};

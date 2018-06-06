@@ -43,6 +43,7 @@ export const FETCH_OTHERMES_PICTURE = 'FETCH_OTHERMES_PICTURE';
 export const DELETE_MYUPLOADS = 'DELETE_MYUPLOADS';
 export const FETCH_BROWSE = 'FETCH_BROWSE';
 export const FETCH_MYCOLLECTION = 'FETCH_MYCOLLECTION';
+export const DELETE_COLLECTION_PICTURE = 'DELETE_COLLECTION_PICTURE';
 
 // const ROOT = 'https://labpicme.herokuapp.com/api';
 const ROOT = `/api`;
@@ -420,6 +421,17 @@ export const mycollection = _ => {
 		axios
 			.get(`${ROOT}/pictures/mycollection`)
 			.then(({ data }) => dispatch({ type: FETCH_MYCOLLECTION, payload: data }))
+			.catch(err => console.log(err));
+	};
+};
+
+export const deletePictureFromCollection = imgId => {
+	return dispatch => {
+		axios
+			.delete(`${ROOT}/pictures/mycollection/${imgId}`)
+			.then(({ data }) => {
+				dispatch({ type: DELETE_COLLECTION_PICTURE, payload: imgId });
+			})
 			.catch(err => console.log(err));
 	};
 };

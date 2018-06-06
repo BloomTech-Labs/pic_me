@@ -9,11 +9,11 @@ import {
 	IconButton,
 } from '@material-ui/core';
 // import ArrowDownwardIcon from '@material-ui/icons/Star';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import Delete from '@material-ui/icons/Delete';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {
 	mycollection,
-	claimPicture,
+	deletePictureFromCollection,
 	// browse,
 	// myuploads,
 } from '../../actions';
@@ -46,8 +46,8 @@ class Browse extends Component {
 		});
 	}
 
-	claimPictureButtonClickedHandler = imgId => {
-		this.props.claimPicture(imgId);
+	deletePictureFromCollection = imgId => {
+		this.props.deletePictureFromCollection(imgId);
 		this.toggle();
 	};
 
@@ -77,7 +77,7 @@ class Browse extends Component {
 								titlePosition="bottom"
 								actionIcon={
 									<IconButton onClick={this.toggle}>
-										<FavoriteIcon />
+										<Delete />
 									</IconButton>
 								}
 								actionPosition="right"
@@ -87,14 +87,17 @@ class Browse extends Component {
 								toggle={this.toggle}
 								className={this.props.className}
 							>
-								<ModalHeader toggle={this.toggle}>Is this you?</ModalHeader>
+								<ModalHeader toggle={this.toggle}>
+									Are you sure you want to delete this picture?
+								</ModalHeader>
 								<ModalBody>
-									Pay 1 credit and add this photo to your collection?
+									Delete this picture from your collection (this CANNOT be
+									undone)?
 								</ModalBody>
 								<ModalFooter>
 									<Button
 										color="primary"
-										onClick={_ => this.claimPictureButtonClickedHandler(img.id)}
+										onClick={_ => this.deletePictureFromCollection(img.id)}
 									>
 										Yes
 									</Button>{' '}
@@ -121,6 +124,7 @@ const mapStatetoProps = state => {
 
 const BrowseWrapped = withStyles(styles)(Browse);
 
-export default connect(mapStatetoProps, { mycollection, claimPicture })(
-	BrowseWrapped,
-);
+export default connect(mapStatetoProps, {
+	mycollection,
+	deletePictureFromCollection,
+})(BrowseWrapped);
