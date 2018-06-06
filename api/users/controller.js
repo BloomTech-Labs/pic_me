@@ -45,8 +45,6 @@ exports.photos = _id => {
 	return User.findById(_id, 'photos');
 };
 
-exports.removeFromCollection = function () {};
-
 exports.list = function(req, res, next) {
 	User.find()
 		.sort([['lastName', 'ascending']])

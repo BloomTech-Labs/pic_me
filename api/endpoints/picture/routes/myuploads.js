@@ -8,7 +8,7 @@ const userCTR = require('../../../users/controller');
 /**
  * controller that interacts with the photos table in database
  */
-// const photoCTR = require('../../../photos/controller');
+const photoCTR = require('../../../photos/controller');
 
 /**
  * general helper functions for all api endpoints
