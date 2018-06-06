@@ -40,14 +40,13 @@ router
 	 *
 	 * saves photos to photos database
 	 */
-	.post(authenticate.sid, upload.array('images'), (req, res) => {
+	.post(authenticate.sid, upload.array('image'), (req, res) => {
 		const uploaded = req.files;
 		const ownerId = req.user.id;
 		console.log('in /upload');
 
 		const uploadedImages = uploaded.map((i, idx) => {
 			let newImage = {};
-			// console.log(req.body.tags);
 			console.log('Tags =>', req.body.tags);
 			newImage.tags = JSON.parse(req.body.tags);
 			newImage.url = i.transforms[0].location;

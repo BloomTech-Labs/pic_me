@@ -3,6 +3,7 @@ import axios from 'axios';
 import { WithContext as ReactTags } from 'react-tag-input';
 import styled from 'styled-components';
 import styles from './Tags.css';
+import Image from 'react-image-resizer';
 
 axios.defaults.withCredentials = true;
 
@@ -55,7 +56,7 @@ export default class Upload extends Component {
 
 		this.state = {
 			// file: null,
-			file: '',
+			image: '',
 			preview: '',
 			tags: [],
 			// suggestions: [
@@ -96,11 +97,11 @@ export default class Upload extends Component {
 	onChange = e => {
 		e.preventDefault();
 		let reader = new FileReader();
-		let file = e.target.files[0];
+		let image = e.target.files[0];
 
 		reader.onloadend = () => {
 			this.setState({
-				file,
+				image: image,
 				preview: reader.result
 			});
 		}
@@ -114,19 +115,19 @@ export default class Upload extends Component {
 		// 		state[e.target.name] = e.target.value;
 		// }
 		// this.setState(state);
-		reader.readAsDataURL(file)
+		reader.readAsDataURL(image)
 	};
 
 	onSubmit = e => {
 		e.preventDefault();
-		const { tags, file } = this.state;
+		const { tags, image } = this.state;
 		console.log('Tags:', tags);
 
 		let formData = new FormData();
 
 		formData.append('tags', JSON.stringify(tags));
 		// formData.append('tags', tags.map(i => i.text));
-		formData.append('file', file);
+		formData.append('image', image);
 		axios
 			.post('/api/pictures/upload', formData)
 			.then(res => {
@@ -134,7 +135,7 @@ export default class Upload extends Component {
 			})
 			.catch(err => console.log('Must be logged in to upload photos.'));
 
-		this.refs.file.value = '';
+		this.refs.image.value = '';
 	};
 	// Todo Resize for preview!
 	render() {
@@ -145,7 +146,7 @@ export default class Upload extends Component {
 		return (
 			<Container>
 				<form onSubmit={this.onSubmit}>
-					<input type="file" onChange={this.onChange} />
+					<input type="file" name="image" ref="image" onChange={this.onChange} />
 					<ReactTags
 						inline
 						tags={tags}
@@ -157,7 +158,11 @@ export default class Upload extends Component {
 					/>
 					<button type="submit" onClick={this.onSubmit}>Upload Image</button> 
 				</form>
-				{$preview}
+					<Image 
+						src={preview}
+						height={300}
+						width={300}
+					/>
 				{/* <form onSubmit={this.onSubmit}>
 					<Input class="custom" type="file" name="images" ref="images" onChange={this.onChange} />
 					<ReactTags
