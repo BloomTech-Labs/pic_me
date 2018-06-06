@@ -33,6 +33,8 @@ exports.upload = multer({
 		// should transform
 		shouldTransform: true,
 		// transforms
+		// Todo add a thumbnail version
+		// Todo tweak resizing options see (nearest, cubic, lanczos2)
 		transforms: [
 			{
 				id: 'original',
