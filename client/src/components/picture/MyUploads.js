@@ -73,7 +73,7 @@ class MyUploads extends Component {
 								titlePosition="bottom"
 								actionIcon={
 									<IconButton onClick={_ => this.toggle(img.id)}>
-										<DeleteIcon />
+										<DeleteIcon className="text-white" />
 									</IconButton>
 								}
 								actionPosition="right"

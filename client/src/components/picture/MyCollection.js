@@ -85,7 +85,7 @@ class Browse extends Component {
 								titlePosition="bottom"
 								actionIcon={
 									<IconButton onClick={_ => this.toggle(img.id)}>
-										<Delete />
+										<Delete className="text-white" />
 									</IconButton>
 								}
 								actionPosition="right"

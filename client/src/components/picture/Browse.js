@@ -97,7 +97,7 @@ class Browse extends Component {
 								titlePosition="bottom"
 								actionIcon={
 									<IconButton onClick={_ => this.toggle(img.id)}>
-										<FavoriteIcon />
+										<FavoriteIcon className="text-white" />
 									</IconButton>
 								}
 								actionPosition="right"
