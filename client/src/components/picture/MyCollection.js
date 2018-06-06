@@ -2,105 +2,125 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import { 
-  GridList,
-  GridListTile, 
-  GridListTileBar,
-  IconButton,
+import {
+	GridList,
+	GridListTile,
+	GridListTileBar,
+	IconButton,
 } from '@material-ui/core';
-import DownloadIcon from '@material-ui/icons/CloudDownload';
-import CancelIcon from '@material-ui/icons/Cancel'
-import { deletemyuploads, myuploads } from '../../actions';
+// import ArrowDownwardIcon from '@material-ui/icons/Star';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import {
+	mycollection,
+	claimPicture,
+	// browse,
+	// myuploads,
+} from '../../actions';
 
-const styles = {
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    overflow: 'hidden',
-    // backgroundColor: theme.palette.background.paper,
-  },
-  gridList: {
-    width: 500,
-    height: 450,
-    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-    transform: 'translateZ(0)',
-  },
-  titleBar: {
-    background:
-      'linear-gradient(to bottom, rgba(207,216,220,0.7) 0%, ' +
-      'rgba(207,216,220,0.3) 70%, rgba(207,216,220,0) 100%)',
-  },
-  icon: {
-    color: 'white',
-  },
-};
+const styles = theme => ({
+	paper: {
+		position: 'absolute',
+		width: theme.spacing.unit * 50,
+		backgroundColor: theme.palette.background.paper,
+		boxShadow: theme.shadows[5],
+		padding: theme.spacing.unit * 4,
+	},
+});
 
-class MyCollection extends Component {
-  state = {
-    uploads: [],
-  }
+class Browse extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			collection: [],
+			modal: false,
+		};
 
-	renderAlert() {
-		if (this.props.error) {
-			return (
-				<div className="alert alert-danger">
-					<strong>Oops!</strong> {this.props.error}
-				</div>
-			);
-		}
-  }
+		this.toggle = this.toggle.bind(this);
+	}
 
-  componentWillMount() {
-    console.log('auth', this.props.authenticated);
-    this.props.myuploads(); // TODO: change to collection action creator
-  }
+	// toggle for modal window
+	toggle() {
+		this.setState({
+			modal: !this.state.modal,
+		});
+	}
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ uploads: nextProps.uploads });
-  }
+	claimPictureButtonClickedHandler = imgId => {
+		this.props.claimPicture(imgId);
+		this.toggle();
+	};
 
-  render() {
-    return (
-      <div>
-        <h2> Browse </h2>
-        <GridList cellHeight={300} spacing={1} cols={3}>
-          {this.state.uploads.map(img => (
-            <GridListTile key={img._id} cols={img.cols || 1}>
-              <img src={img.url} alt="myuploads" />
-              <GridListTileBar
-                title={img.tags}
-                titlePosition="bottom"
-                actionIcon={
-									<div>
-                  <IconButton
-                  onClick={_ => {
-                    this.props.deletemyuploads(img._id);} 
-                    // TODO: change function to delete from my collection / download  
-                  }
-                  >
-                    <DownloadIcon />
-										<CancelIcon />
+	componentWillMount() {
+		// console.log('auth', this.props.authenticated);
+		this.props.mycollection();
+	}
+
+	componentDidMount() {
+		this.setState({ collection: this.props.collection });
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this.setState({ collection: nextProps.collection });
+	}
+
+	render() {
+		return (
+			<div>
+				<h2> My Collection </h2>
+				<GridList cellHeight={300} spacing={1} cols={3}>
+					{this.state.collection.map(img => (
+						<GridListTile key={img.id} cols={img.cols || 1}>
+							<img src={img.url} alt="myuploads" />
+							<GridListTileBar
+								title={img.tags.map(i => i.text).join(', ')}
+								titlePosition="bottom"
+								actionIcon={
+									<IconButton onClick={this.toggle}>
+										<FavoriteIcon />
 									</IconButton>
-									</div>
 								}
 								actionPosition="right"
-              />
-            </GridListTile>
-          ))}
-        </GridList>
-      </div>
-    );
-  }
+							/>
+							<Modal
+								isOpen={this.state.modal}
+								toggle={this.toggle}
+								className={this.props.className}
+							>
+								<ModalHeader toggle={this.toggle}>Is this you?</ModalHeader>
+								<ModalBody>
+									Pay 1 credit and add this photo to your collection?
+								</ModalBody>
+								<ModalFooter>
+									<Button
+										color="primary"
+										onClick={_ => this.claimPictureButtonClickedHandler(img.id)}
+									>
+										Yes
+									</Button>{' '}
+									<Button color="secondary" onClick={this.toggle}>
+										Cancel
+									</Button>
+								</ModalFooter>
+							</Modal>
+						</GridListTile>
+					))}
+				</GridList>
+			</div>
+		);
+	}
 }
 
 const mapStatetoProps = state => {
-  return {
-    authenticated: state.auth.authenticated,
-    error: state.auth.error,
-    uploads: state.photo.uploads,
-  };
+	return {
+		authenticated: state.auth.authenticated,
+		error: state.auth.error,
+		collection: state.photo.collection,
+	};
 };
 
-const MyCollectionWrapped = withStyles(styles)(MyCollection);
-export default connect(mapStatetoProps, { myuploads, deletemyuploads })(MyCollectionWrapped);
+const BrowseWrapped = withStyles(styles)(Browse);
+
+export default connect(mapStatetoProps, { mycollection, claimPicture })(
+	BrowseWrapped,
+);

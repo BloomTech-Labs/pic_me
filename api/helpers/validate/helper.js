@@ -281,3 +281,12 @@ exports.checkForChangedSettings = (res, req, user) => {
 // }
 
 // r.send(res, 422, message.noUserFieldsChanged);
+
+exports.checkBalance = (res, user) => {
+	if (user.balance <= 0) {
+		r.send(res, 500, message.noCredits);
+		return;
+	}
+
+	return true;
+};
