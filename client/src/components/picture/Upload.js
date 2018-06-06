@@ -55,7 +55,8 @@ export default class Upload extends Component {
 
 		this.state = {
 			// file: null,
-			images: '',
+			file: '',
+			preview: '',
 			tags: [],
 			// suggestions: [
 			//   {id: 'Nickname', text: 'Nickname'}
@@ -63,26 +64,26 @@ export default class Upload extends Component {
 		};
 
 		// tag handlers
-		this.handleAddition = this.handleAddition.bind(this);
-		this.handleDelete = this.handleDelete.bind(this);
-		this.handleDrag = this.handleDrag.bind(this);
+		// this.handleAddition = this.handleAddition.bind(this);
+		// this.handleDelete = this.handleDelete.bind(this);
+		// this.handleDrag = this.handleDrag.bind(this);
 
-		this.onChange = this.onChange.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
+		// this.onChange = this.onChange.bind(this);
+		// this.onSubmit = this.onSubmit.bind(this);
 	}
 
-	handleDelete(i) {
+	handleDelete = (i) => {
 		const { tags } = this.state;
 		this.setState({
 			tags: tags.filter((tag, index) => index !== i),
 		});
 	}
 
-	handleAddition(tag) {
+	handleAddition = (tag) => {
 		this.setState(state => ({ tags: [...state.tags, tag] }));
 	}
 
-	handleDrag(tag, currPos, newPos) {
+	handleDrag = (tag, currPos, newPos) => {
 		const tags = [...this.state.tags];
 		const newTags = tags.slice();
 
@@ -93,28 +94,39 @@ export default class Upload extends Component {
 	}
 
 	onChange = e => {
-		const state = this.state;
+		e.preventDefault();
+		let reader = new FileReader();
+		let file = e.target.files[0];
 
-		switch (e.target.name) {
-			case 'images':
-				state.images = e.target.files[0];
-				break;
-			default:
-				state[e.target.name] = e.target.value;
+		reader.onloadend = () => {
+			this.setState({
+				file,
+				preview: reader.result
+			});
 		}
-		this.setState(state);
+		// const state = this.state;
+		
+		// switch (e.target.name) {
+		// 	case 'file':
+		// 		state.file = e.target.files[0];
+		// 		break;
+		// 	default:
+		// 		state[e.target.name] = e.target.value;
+		// }
+		// this.setState(state);
+		reader.readAsDataURL(file)
 	};
 
 	onSubmit = e => {
 		e.preventDefault();
-		const { tags, images } = this.state;
+		const { tags, file } = this.state;
 		console.log('Tags:', tags);
 
 		let formData = new FormData();
 
 		formData.append('tags', JSON.stringify(tags));
 		// formData.append('tags', tags.map(i => i.text));
-		formData.append('images', images);
+		formData.append('file', file);
 		axios
 			.post('/api/pictures/upload', formData)
 			.then(res => {
@@ -122,14 +134,31 @@ export default class Upload extends Component {
 			})
 			.catch(err => console.log('Must be logged in to upload photos.'));
 
-		this.refs.images.value = '';
+		this.refs.file.value = '';
 	};
-
+	// Todo Resize for preview!
 	render() {
-		const { tags } = this.state;
+		let { preview, tags } = this.state;
+		let $preview = null;
+		if (preview) { $preview = (<img src={preview} />)};
+
 		return (
 			<Container>
 				<form onSubmit={this.onSubmit}>
+					<input type="file" onChange={this.onChange} />
+					<ReactTags
+						inline
+						tags={tags}
+						// suggestions={suggestions}
+						handleDelete={this.handleDelete}
+						handleAddition={this.handleAddition}
+						handleDrag={this.handleDrag}
+						delimiters={delimiters}
+					/>
+					<button type="submit" onClick={this.onSubmit}>Upload Image</button> 
+				</form>
+				{$preview}
+				{/* <form onSubmit={this.onSubmit}>
 					<Input class="custom" type="file" name="images" ref="images" onChange={this.onChange} />
 					<ReactTags
 						inline
@@ -141,7 +170,7 @@ export default class Upload extends Component {
 						delimiters={delimiters}
 					/>
 					<button class="upload-btn" type="submit">Upload</button>
-				</form>
+				</form> */}
 			</Container>
 		);
 	}
