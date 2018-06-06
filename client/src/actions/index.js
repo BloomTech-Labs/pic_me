@@ -50,6 +50,7 @@ export const PHOTO_ERROR_RESET = 'PHOTO_ERROR_RESET';
 /* user */
 export const GET_USER_INFO = 'GET_USER_INFO';
 export const GET_USER_ERROR = 'GET_USER_ERROR';
+export const UPDATE_USER_INFO = 'UPDATE_USER_INFO';
 
 // const ROOT = 'https://labpicme.herokuapp.com/api';
 const ROOT = `/api`;
@@ -359,6 +360,7 @@ export const sendPayment = (stripeToken, pkg, history) => {
 				/* successful capture from Stripe */
 				if (data.captured) {
 					dispatch({ type: PHOTO_ERROR_RESET });
+					dispatch({ type: GET_USER_INFO, payload: data.user });
 					// console.log('payment successful');
 					history.push(`/picture_browse`);
 				} else {
