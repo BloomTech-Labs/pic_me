@@ -146,10 +146,17 @@ export const login = (email, password, history) => {
 				// history.go(-1);
 			})
 			.catch(error => {
-				dispatch({
-					type: AUTH_LOGIN_ERROR,
-					payload: error.response.data.message,
-				});
+				if (error.response.status === 401) {
+					dispatch({
+						type: AUTH_LOGIN_ERROR,
+						payload: `please check email and password and try again`,
+					});
+				} else {
+					dispatch({
+						type: AUTH_LOGIN_ERROR,
+						payload: error.data,
+					});
+				}
 				// dispatch({ type: AUTH_LOGIN_FINISH });
 			});
 	};
@@ -167,13 +174,20 @@ export const mobil = (email, password, history) => {
 				// history.push('/feature');
 				history.go(-1);
 			})
-			.catch(err => {
-				dispatch({
-					type: AUTH_LOGIN_ERROR,
-					payload: err.response.data.message,
-				});
-				// dispatch({ type: AUTH_LOGIN_FINISH });
+			.catch(error => {
+				if (error.response.status === 401) {
+					dispatch({
+						type: AUTH_LOGIN_ERROR,
+						payload: `please check email and password and try again`,
+					});
+				} else {
+					dispatch({
+						type: AUTH_LOGIN_ERROR,
+						payload: error.data,
+					});
+				}
 			});
+		// dispatch({ type: AUTH_LOGIN_FINISH });
 	};
 };
 
