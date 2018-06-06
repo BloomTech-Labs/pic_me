@@ -13,3 +13,26 @@ exports.sid = (req, res, next) => {
 
 	next();
 };
+
+/**
+ * middleware that checks password for user
+ *
+ * we can assume req.user is present (this middelware MUST be placed
+ * BEFORE `authenticate.sid` middleware)
+ */
+exports.password = (req, res, next) => {
+	console.log(req.body);
+	req.user.comparePassword(req.body.user.password, (err, isMatch) => {
+		if (err) {
+			r.error(res, err, `error checking password`);
+			return;
+		}
+
+		if (!isMatch) {
+			r.send(res, 422, { message: `wrong password` });
+			return;
+		}
+
+		next();
+	});
+};

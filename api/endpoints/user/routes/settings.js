@@ -68,7 +68,11 @@ router
 
 					userCTR
 						.save(user)
-						.then(savedUser => r.send(res, 200, sanitize.response(savedUser)))
+						.then(savedUser => {
+							// req.logout();
+
+							r.send(res, 200, sanitize.response(savedUser));
+						})
 						.catch(err => r.error(res, err, `error updating user settings`));
 				})
 				.catch(err => r.error(res, err, `error finding user by id`));

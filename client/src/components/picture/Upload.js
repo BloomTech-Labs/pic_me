@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { WithContext as ReactTags } from 'react-tag-input';
 import styled from 'styled-components';
-import styles from './Tags.css';
+// import styles from './Tags.css';
 import Image from 'react-image-resizer';
 
 axios.defaults.withCredentials = true;
@@ -14,10 +14,10 @@ const Container = styled.div`
 	margin-top: 10%;
 `;
 
-const Input = styled.input`
-	font-size: 14px;
-	margin-bottom: 10px;
-`;
+// const Input = styled.input`
+// 	font-size: 14px;
+// 	margin-bottom: 10px;
+// `;
 
 // const TagForm = styled.form`
 // 	// margin: 20px;
