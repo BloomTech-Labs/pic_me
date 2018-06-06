@@ -11,7 +11,7 @@ import { WithContext as ReactTags } from 'react-tag-input';
 // } from '@material-ui/core';
 // import DeleteIcon from '@material-ui/icons/Delete';
 import { deletemyuploads, myuploads } from '../../actions';
-// import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 const keyCodes = {
 	comma: 188,
@@ -44,7 +44,7 @@ class MyUploads extends Component {
 	}
 
 	// toggle for modal window
-	toggle(imgId) {
+	toggle(imgId){
 		this.setState({
 			selectedId: imgId,
 			modal: !this.state.modal
@@ -105,6 +105,33 @@ class MyUploads extends Component {
 							handleDrag={this.handleDrag}
 							delimiters={delimiters}
 						/>
+						<Button onClick={_ => this.toggle(img.id)}>
+							Delete Upload
+						</Button>
+						<Modal
+							isOpen={this.state.modal}
+							toggle={this.toggle}
+							className={this.props.className}
+						>
+							<ModalHeader toggle={this.toggle}>
+								Are you sure you want to delete this upload??
+								</ModalHeader>
+							<ModalBody>
+								Delete this upload from your uploads (this CANNOT be
+								undone)?
+								</ModalBody>
+							<ModalFooter>
+								<Button
+									color="primary"
+									onClick={_ => this.deleteUploadButtonClickedHandler()}
+								>
+									Yes
+									</Button>{' '}
+								<Button color="secondary" onClick={this.toggle}>
+									Cancel
+									</Button>
+							</ModalFooter>
+						</Modal>
 						</li>
 					)}
 				</ul>
