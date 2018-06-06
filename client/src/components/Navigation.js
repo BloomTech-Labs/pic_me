@@ -58,14 +58,14 @@ class Navigation extends Component {
 				<NavLink key={0} tag={Link} to="/billing">
 					{this.state.balance} {this.state.balance !== 1 ? 'credits' : 'credit'}
 				</NavLink>,
-				<Button
+				<NavLink
 					key={1}
 					tag={Link}
 					to="#" // used for anything except to change cursor type
 					onClick={_ => this.props.logout(this.props.history)}
 				>
 					Log Out
-				</Button>,
+				</NavLink>,
 			];
 		} else {
 			// show links to sign up or login
