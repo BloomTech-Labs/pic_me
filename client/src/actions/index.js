@@ -39,8 +39,10 @@ export const RESETPASSWORD = 'RESETPASSWORD';
 // photo
 export const FETCH_MYUPLOADS = 'FETCH_MYUPLOADS';
 export const FETCH_OTHERMES = 'FETCH_OTHERMES';
+export const FETCH_OTHERMES_PICTURE = 'FETCH_OTHERMES_PICTURE';
 export const DELETE_MYUPLOADS = 'DELETE_MYUPLOADS';
 export const FETCH_BROWSE = 'FETCH_BROWSE';
+export const FETCH_MYCOLLECTION = 'FETCH_MYCOLLECTION';
 
 // const ROOT = 'https://labpicme.herokuapp.com/api';
 const ROOT = `/api`;
@@ -360,14 +362,14 @@ export const browse = _ => {
 };
 
 export const browseCredit = _ => {
-  return dispatch => {
+	return dispatch => {
 		axios
 			.get(`${ROOT}/pictures/browse`)
-      .then(({data}) => {
-        dispatch({ type: FETCH_BROWSE, payload: data });
-      })
+			.then(({ data }) => {
+				dispatch({ type: FETCH_BROWSE, payload: data });
+			})
 			.catch(err => console.log(err));
-  };
+	};
 };
 
 export const myuploads = _ => {
@@ -398,6 +400,26 @@ export const othermephotos = _ => {
 		axios
 			.get(`${ROOT}/pictures/othermes`)
 			.then(({ data }) => dispatch({ type: FETCH_OTHERMES, payload: data }))
+			.catch(err => console.log(err));
+	};
+};
+
+export const claimPicture = imgId => {
+	return dispatch => {
+		axios
+			.post(`${ROOT}/pictures/othermes/${imgId}`)
+			.then(({ data }) =>
+				dispatch({ type: FETCH_OTHERMES_PICTURE, payload: imgId }),
+			)
+			.catch(err => console.log(err));
+	};
+};
+
+export const mycollection = _ => {
+	return dispatch => {
+		axios
+			.get(`${ROOT}/pictures/mycollection`)
+			.then(({ data }) => dispatch({ type: FETCH_MYCOLLECTION, payload: data }))
 			.catch(err => console.log(err));
 	};
 };

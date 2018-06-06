@@ -61,7 +61,11 @@ class App extends Component {
 									path="/picture_my_uploads"
 									component={Gatekeeper(MyUploads)}
 								/>
-								<Route exact path="/picture_browse" component={Browse} />
+								<Route
+									exact
+									path="/picture_browse"
+									component={Gatekeeper(Browse)}
+								/>
 								<Route exact path="/logout" component={Logout} />
 								<Route
 									exact

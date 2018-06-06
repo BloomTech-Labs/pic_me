@@ -30,3 +30,12 @@ exports.getPhotosOf = nickNames => {
 		`this.tags.map(t => t.text).some(e => ${nickNamesString}.includes(e))`,
 	);
 };
+
+/**
+ * parm should be an object (example below):
+ * { _id: 5b170c9f84d87a0014b5a042 }
+ */
+exports.request = parm => {
+	if (!parm) return Photo.find();
+	return Photo.findOne(parm);
+};

@@ -1,6 +1,8 @@
 const User = require('./model');
 const Photo = require('../photos/model');
 
+exports.user = User;
+
 exports.save = user => {
 	return user.save();
 };
@@ -35,8 +37,12 @@ exports.uploads = _id => {
 	return User.findById(_id, 'uploads').populate('uploads');
 };
 
-exports.collection = function(req, res, next) {
-	return User.findById(_id, 'collection');
+/**
+ * returns an object:
+ * { _id: << _id used to search by >>, photos; [array of picture refs] }
+ */
+exports.photos = _id => {
+	return User.findById(_id, 'photos');
 };
 
 exports.list = function(req, res, next) {
