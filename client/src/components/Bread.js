@@ -10,7 +10,6 @@ const routes = {
   '/picture_my_collection': 'My Collection', 
   '/billing': 'Billing',
   '/settings': 'Settings',
-  '/feature': '', 
 };
 
 const findRouteName = url => routes[url];
@@ -53,7 +52,8 @@ const Breadcrumbs = ({ ...rest, location : { pathname }, match }) => {
   const paths = getPaths(pathname);
   return (
     <Breadcrumb>
-      {paths.map(p => <Route path={p} component={BreadcrumbsItem} />)}
+      {paths.map(p => 
+        <Route key={p.toString()} path={p} component={BreadcrumbsItem} />)}
     </Breadcrumb>
   );
 };
