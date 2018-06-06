@@ -470,9 +470,10 @@ export const claimPicture = imgId => {
 	return dispatch => {
 		axios
 			.post(`${ROOT}/pictures/othermes/${imgId}`)
-			.then(({ data }) =>
-				dispatch({ type: FETCH_OTHERMES_PICTURE, payload: imgId }),
-			)
+			.then(({ data }) => {
+				dispatch({ type: FETCH_OTHERMES_PICTURE, payload: imgId });
+				dispatch({ type: GET_USER_INFO, payload: data });
+			})
 			.catch(error =>
 				dispatch({
 					type: PHOTO_CLAIM_FAIL,

@@ -43,6 +43,7 @@ class Browse extends Component {
 
 	componentWillMount() {
 		this.props.resetPhotoErrors();
+		this.props.othermephotos();
 	}
 
 	renderAlert() {
@@ -73,11 +74,6 @@ class Browse extends Component {
 		this.props.claimPicture(this.state.selectedId);
 		this.toggle();
 	};
-
-	componentWillMount() {
-		// console.log('auth', this.props.authenticated);
-		this.props.othermephotos();
-	}
 
 	componentDidMount() {
 		this.setState({ othermes: this.props.othermes });
