@@ -44,6 +44,8 @@ export const DELETE_MYUPLOADS = 'DELETE_MYUPLOADS';
 export const FETCH_BROWSE = 'FETCH_BROWSE';
 export const FETCH_MYCOLLECTION = 'FETCH_MYCOLLECTION';
 export const DELETE_COLLECTION_PICTURE = 'DELETE_COLLECTION_PICTURE';
+export const PHOTO_CLAIM_FAIL = 'PHOTO_CLAIM_FAIL';
+export const PHOTO_ERROR_RESET = 'PHOTO_ERROR_RESET';
 
 /* user */
 export const GET_USER_INFO = 'GET_USER_INFO';
@@ -55,6 +57,12 @@ const ROOT = `/api`;
 export const resetErrors = _ => {
 	return dispatch => {
 		dispatch({ type: AUTH_ERROR_RESET });
+	};
+};
+
+export const resetPhotoErrors = _ => {
+	return dispatch => {
+		dispatch({ type: PHOTO_ERROR_RESET });
 	};
 };
 
@@ -350,7 +358,8 @@ export const sendPayment = (stripeToken, pkg, history) => {
 			.then(({ data }) => {
 				/* successful capture from Stripe */
 				if (data.captured) {
-					console.log('payment successful');
+					dispatch({ type: PHOTO_ERROR_RESET });
+					// console.log('payment successful');
 					history.push(`/picture_browse`);
 				} else {
 					console.error('problem capturing payment from Stripe');
@@ -463,7 +472,12 @@ export const claimPicture = imgId => {
 			.then(({ data }) =>
 				dispatch({ type: FETCH_OTHERMES_PICTURE, payload: imgId }),
 			)
-			.catch(err => console.log(err));
+			.catch(error =>
+				dispatch({
+					type: PHOTO_CLAIM_FAIL,
+					payload: error.response.data.message,
+				}),
+			);
 	};
 };
 
