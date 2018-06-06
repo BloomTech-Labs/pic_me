@@ -11,7 +11,6 @@ import {
 // import ArrowDownwardIcon from '@material-ui/icons/Star';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-
 import {
 	deletemyuploads,
 	othermephotos,

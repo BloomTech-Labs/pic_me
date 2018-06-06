@@ -359,6 +359,17 @@ export const browse = _ => {
 	};
 };
 
+export const browseCredit = _ => {
+  return dispatch => {
+		axios
+			.get(`${ROOT}/pictures/browse`)
+      .then(({data}) => {
+        dispatch({ type: FETCH_BROWSE, payload: data });
+      })
+			.catch(err => console.log(err));
+  };
+};
+
 export const myuploads = _ => {
 	return dispatch => {
 		axios
