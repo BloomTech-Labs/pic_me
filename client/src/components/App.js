@@ -31,7 +31,8 @@ import Billings from './Billings';
 import ForgotPassword from './Forgotpassword';
 import Feature from './Feature';
 import Mobil from './Mobil';
-import Bread from "./Bread";
+import Bread from './Bread';
+import MyUploads1 from './picture/MyUploads.1';
 
 const store = createStore(reducer, applyMiddleware(logger, thunk));
 
@@ -48,51 +49,27 @@ class App extends Component {
 								<Route exact path="/" component={Landing} />
 								<Route exact path="/billing" component={Gatekeeper(Billings)} />
 								<Route exact path="/mobil" component={Mobil} />
-								<Route
-									exact
-									path="/settings"
-									component={Gatekeeper(Settings)}
-								/>
+								<Route exact path="/settings" component={Gatekeeper(Settings)}/>
 								<Route exact path="/signup" component={SignUp} />
 								<Route exact path="/login" component={Login} />
-								<Route exact path="/picture_upload" component={Upload} />
-								<Route
-									exact
-									path="/picture_my_uploads"
-									component={Gatekeeper(MyUploads)}
-								/>
-								<Route
-									exact
-									path="/picture_browse"
-									component={Gatekeeper(Browse)}
-								/>
+								{/* <Route exact path="/picture_upload" component={Upload} /> */}
+								<Route exact path="/picture_my_uploads" component={Gatekeeper(MyUploads1)}/>
+								<Route exact path="/picture_browse" component={Gatekeeper(Browse)}/>
 								<Route exact path="/logout" component={Logout} />
-								<Route
-									exact
-									path="/forgotpassword"
-									component={ForgotPassword}
-								/>
+								<Route exact path="/forgotpassword" component={ForgotPassword} />
 								<Route exact path="/feature" component={Gatekeeper(Feature)} />
-								<Route
-									exact
-									path="/picture_upload"
-									component={Gatekeeper(Upload)}
-								/>
-								<Route
+								<Route exact path="/picture_upload" component={Gatekeeper(Upload)} />
+								<Route exact path="/picture_my_collection" component={Gatekeeper(MyCollection)} />
+								{/* <Route
 									exact
 									path="/picture_browse"
 									component={Gatekeeper(Browse)}
-								/>
-								<Route
+								/> */}
+								{/* <Route
 									exact
 									path="/picture_my_uploads"
 									component={Gatekeeper(MyUploads)}
-								/>
-								<Route
-									exact
-									path="/picture_my_collection"
-									component={Gatekeeper(MyCollection)}
-								/>
+								/> */}
 							</Switch>
 						</div>
 					</Router>

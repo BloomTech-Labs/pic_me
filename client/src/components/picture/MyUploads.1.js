@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { WithContext as ReactTags } from 'react-tag-input';
-import { withStyles } from '@material-ui/core/styles';
-import {
-	GridList,
-	GridListTile,
-	GridListTileBar,
-	IconButton,
-} from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
+// import { withStyles } from '@material-ui/core/styles';
+// import {
+// 	GridList,
+// 	GridListTile,
+// 	GridListTileBar,
+// 	IconButton,
+// } from '@material-ui/core';
+// import DeleteIcon from '@material-ui/icons/Delete';
 import { deletemyuploads, myuploads } from '../../actions';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+// import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 const keyCodes = {
 	comma: 188,
@@ -92,7 +92,25 @@ class MyUploads extends Component {
 	render() {
 		return <div>
 				<h2> My Uploads </h2>
-				<GridList cellHeight={600} spacing={1} cols={3}>
+				<ul>
+					{this.state.uploads.map(img => 
+						<li key={img.id}>
+							<img src={img.url} alt="myuploads" />
+						<ReactTags
+							inline
+							tags={img.tags}
+							// suggestions={suggestions}
+							handleDelete={this.handleDelete}
+							handleAddition={this.handleAddition}
+							handleDrag={this.handleDrag}
+							delimiters={delimiters}
+						/>
+						</li>
+					)}
+				</ul>
+
+
+				{/* <GridList cellHeight={600} spacing={1} cols={3}>
 					{this.state.uploads.map(img => (
 						<GridListTile key={img.id} cols={img.cols || 1}>
 							<img src={img.url} alt="myuploads" />
@@ -132,7 +150,7 @@ class MyUploads extends Component {
 							</Modal>
 						</GridListTile>
 					))}
-				</GridList>
+				</GridList> */}
 			</div>;
 	}
 }
@@ -145,8 +163,9 @@ const mapStatetoProps = state => {
 	};
 };
 
-const MyUploadsWrapped = withStyles(styles)(MyUploads);
+// const MyUploadsWrapped = withStyles(styles)(MyUploads);
 
-export default connect(mapStatetoProps, { myuploads, deletemyuploads })(
-	MyUploadsWrapped,
-);
+export default connect(mapStatetoProps, { myuploads, deletemyuploads })(MyUploads)
+// (
+// 	MyUploadsWrapped,
+// );

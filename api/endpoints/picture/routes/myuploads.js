@@ -59,4 +59,6 @@ router
 			.catch(err => r.error(res, err, `error deleting photo`));
 	});
 
+	
+
 module.exports = router;
