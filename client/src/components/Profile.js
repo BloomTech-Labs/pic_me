@@ -1,73 +1,121 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { reduxForm, Field } from "redux-form";
-import { profile } from "../actions";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
+import { profile, resetErrors } from '../actions';
+// import { load as loadData } from '../reducers/profile';
 // import Bread from "./Bread";
 
 class Profile extends Component {
 	componentWillMount() {
-		console.log('auth', this.props.authenticated);
+		this.props.resetErrors();
+		// this.props.load(this.props.user);
+		// this.props.load(this.props.user);
 	}
 
-  profileFormHandler = ({ firstName, lastName, nickNames }) => {
-    this.props.profile(firstName, lastName, nickNames);
-  };
+	// componentWillReceiveProps() {
+	// this.props.load(this.props.user);
+	// }
 
-  render() {
-    return (
-      <div className="Profile">
-        <form onSubmit={this.props.handleSubmit(this.profileFormHandler)}>
-          <div className="form-group col-md-6">
-            <label>First name</label>
-            <Field
-              className="form-control"
-              name="firstName"
-              component="input"
-              type="text"
-            />
-          </div>
+	profileFormHandler = ({ firstName, lastName, nickNames }) => {
+		this.props.profile(firstName, lastName, nickNames);
+	};
 
-          <div className="form-group col-md-6">
-            <label>Last name</label>
-            <Field
-              className="form-control"
-              name="lastName"
-              component="input"
-              type="text"
-            />
-          </div>
+	render() {
+		// const { load, pristine, submitting } = this.props;
+		const { pristine, submitting } = this.props;
 
-          <div className="form-group col-md-6">
-            <label>Nick names</label>
-            <Field
-              className="form-control"
-              name="nickNames"
-              component="input"
-              type="text"
-            />
-          </div>
+		return (
+			<div className="Profile">
+				<form onSubmit={this.props.handleSubmit(this.profileFormHandler)}>
+					{/* <div className="form-group col-md-6">
+						<button
+							className="btn btn-primary"
+							type="button"
+							onClick={_ => load(this.props.user)}
+						>
+							Show account data
+						</button>
+					</div> */}
+					<div className="form-group col-md-6">
+						<label>First name</label>
+						<Field
+							className="form-control"
+							name="firstName"
+							component="input"
+							type="text"
+						/>
+					</div>
 
-          <div className="form-group col-md-6">
-            <button action="submit" className="btn btn-primary">
-              Edit Profile
-            </button>
-          </div>
-        </form>
-      </div>
-    );
-  }
+					<div className="form-group col-md-6">
+						<label>Last name</label>
+						<Field
+							className="form-control"
+							name="lastName"
+							component="input"
+							type="text"
+						/>
+					</div>
+
+					<div className="form-group col-md-6">
+						<label>Nick names</label>
+						<Field
+							className="form-control"
+							name="nickNames"
+							component="input"
+							type="text"
+						/>
+					</div>
+
+					<div className="form-group col-md-6">
+						<button
+							action="submit"
+							disabled={pristine || submitting}
+							className="btn btn-primary"
+						>
+							Edit Profile
+						</button>
+					</div>
+				</form>
+			</div>
+		);
+	}
 }
 
-const mapStateToProps = state => ({
-  authenticated: state.auth.authenticated,
-  error: state.auth.error
-});
-
-Profile = connect(mapStateToProps, {
-  profile,
+Profile = reduxForm({
+	form: 'profile',
+	fields: ['firstName', 'lastName', 'nickNames'],
+	enableReinitialize: true,
+	// keepDirtyOnReinitialize: true,
 })(Profile);
 
-export default reduxForm({
-  form: "profile",
-  fields: ["firstName", "lastName", "nickNames"]
-})(Profile);
+Profile = connect(
+	state => ({
+		authenticated: state.auth.authenticated,
+		error: state.auth.error,
+		// user: state.user,
+		initialValues: state.user,
+	}),
+	// { load: loadData, profile, resetErrors },
+	{ profile, resetErrors },
+)(Profile);
+
+export default Profile;
+
+// const mapStateToProps = state => ({
+// 	authenticated: state.auth.authenticated,
+// 	error: state.auth.error,
+// 	user: state.user,
+// 	initialValues: state.profile.data,
+// });
+
+// Profile = connect(mapStateToProps, {
+// 	profile,
+// 	load: loadData,
+// })(Profile);
+
+// export default reduxForm({
+// 	form: 'profile',
+// 	fields: ['firstName', 'lastName', 'nickNames'],
+// 	enableReinitialize: true,
+// 	keepDirtyOnReinitialize: true,
+// })(Profile);

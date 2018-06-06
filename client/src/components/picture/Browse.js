@@ -14,6 +14,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {
 	othermephotos,
 	claimPicture,
+	resetPhotoErrors,
 	// browse,
 	// myuploads,
 } from '../../actions';
@@ -40,6 +41,27 @@ class Browse extends Component {
 		this.toggle = this.toggle.bind(this);
 	}
 
+	componentWillMount() {
+		this.props.resetPhotoErrors();
+		this.props.othermephotos();
+	}
+
+	renderAlert() {
+		if (this.props.error) {
+			return (
+				<div className="alert alert-danger">
+					<strong>Oops!</strong> {this.props.error}
+				</div>
+			);
+		} else if (this.props.photoError) {
+			return (
+				<div className="alert alert-danger">
+					<strong>Oops!</strong> {this.props.photoError}
+				</div>
+			);
+		}
+	}
+
 	// toggle for modal window
 	toggle(imgId) {
 		this.setState({
@@ -53,11 +75,6 @@ class Browse extends Component {
 		this.toggle();
 	};
 
-	componentWillMount() {
-		// console.log('auth', this.props.authenticated);
-		this.props.othermephotos();
-	}
-
 	componentDidMount() {
 		this.setState({ othermes: this.props.othermes });
 	}
@@ -70,6 +87,7 @@ class Browse extends Component {
 		return (
 			<div>
 				<h2> Other Me </h2>
+				{this.renderAlert()}
 				<GridList cellHeight={300} spacing={1} cols={3}>
 					{this.state.othermes.map(img => (
 						<GridListTile key={img.id} cols={img.cols || 1}>
@@ -117,12 +135,15 @@ const mapStatetoProps = state => {
 	return {
 		authenticated: state.auth.authenticated,
 		error: state.auth.error,
+		photoError: state.photo.error,
 		othermes: state.photo.othermes,
 	};
 };
 
 const BrowseWrapped = withStyles(styles)(Browse);
 
-export default connect(mapStatetoProps, { othermephotos, claimPicture })(
-	BrowseWrapped,
-);
+export default connect(mapStatetoProps, {
+	othermephotos,
+	claimPicture,
+	resetPhotoErrors,
+})(BrowseWrapped);

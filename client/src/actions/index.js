@@ -44,6 +44,12 @@ export const DELETE_MYUPLOADS = 'DELETE_MYUPLOADS';
 export const FETCH_BROWSE = 'FETCH_BROWSE';
 export const FETCH_MYCOLLECTION = 'FETCH_MYCOLLECTION';
 export const DELETE_COLLECTION_PICTURE = 'DELETE_COLLECTION_PICTURE';
+export const PHOTO_CLAIM_FAIL = 'PHOTO_CLAIM_FAIL';
+export const PHOTO_ERROR_RESET = 'PHOTO_ERROR_RESET';
+
+/* user */
+export const GET_USER_INFO = 'GET_USER_INFO';
+export const GET_USER_ERROR = 'GET_USER_ERROR';
 
 // const ROOT = 'https://labpicme.herokuapp.com/api';
 const ROOT = `/api`;
@@ -51,6 +57,12 @@ const ROOT = `/api`;
 export const resetErrors = _ => {
 	return dispatch => {
 		dispatch({ type: AUTH_ERROR_RESET });
+	};
+};
+
+export const resetPhotoErrors = _ => {
+	return dispatch => {
+		dispatch({ type: PHOTO_ERROR_RESET });
 	};
 };
 
@@ -141,11 +153,18 @@ export const login = (email, password, history) => {
 				history.push('/feature');
 				// history.go(-1);
 			})
-			.catch(err => {
-				dispatch({
-					type: AUTH_LOGIN_ERROR,
-					payload: err.response.data.message,
-				});
+			.catch(error => {
+				if (error.response.status === 401) {
+					dispatch({
+						type: AUTH_LOGIN_ERROR,
+						payload: `please check email and password and try again`,
+					});
+				} else {
+					dispatch({
+						type: AUTH_LOGIN_ERROR,
+						payload: error.data,
+					});
+				}
 				// dispatch({ type: AUTH_LOGIN_FINISH });
 			});
 	};
@@ -163,13 +182,20 @@ export const mobil = (email, password, history) => {
 				// history.push('/feature');
 				history.go(-1);
 			})
-			.catch(err => {
-				dispatch({
-					type: AUTH_LOGIN_ERROR,
-					payload: err.response.data.message,
-				});
-				// dispatch({ type: AUTH_LOGIN_FINISH });
+			.catch(error => {
+				if (error.response.status === 401) {
+					dispatch({
+						type: AUTH_LOGIN_ERROR,
+						payload: `please check email and password and try again`,
+					});
+				} else {
+					dispatch({
+						type: AUTH_LOGIN_ERROR,
+						payload: error.data,
+					});
+				}
 			});
+		// dispatch({ type: AUTH_LOGIN_FINISH });
 	};
 };
 
@@ -220,50 +246,79 @@ export const getInfo = _ => {
 	return dispatch => {
 		axios
 			.get(`${ROOT}/users/info`)
-			.then(response => console.log(response))
-			.catch(err => console.log(err));
+			.then(({ data }) => dispatch({ type: GET_USER_INFO, payload: data }))
+			.catch(error =>
+				dispatch({
+					type: GET_USER_ERROR,
+					payload: error.response.data.message,
+				}),
+			);
 	};
 };
 
 export const account = (
 	email,
 	password,
+	confirmPassword,
 	// newPassword,
-	// confirmPassword
 ) => {
 	return dispatch => {
+		if (password !== confirmPassword) {
+			dispatch({
+				type: CHANGE_SETTINGS_ERROR,
+				payload: 'passwords do not match',
+			});
+			return;
+		}
+
 		dispatch({ type: CHANGE_SETTINGS_START });
-		// if (newPassword !== confirmPassword) {
-		//   dispatch({ type: CHANGE_SETTINGS_ERROR, payload: 'New passwords do not match' });
-		//   return;
-		// }
 		axios
 			.put(`${ROOT}/users/settings`, { user: { email, password } })
-			.then(response => {
-				console.log(response);
-				dispatch({ type: CHANGE_SETTINGS_SUCCESS });
+			.then(({ data }) => {
+				dispatch({
+					type: CHANGE_SETTINGS_SUCCESS,
+					payload: data.email,
+					message: `account settings updated successfully`,
+				});
 			})
-			.catch(err => console.log(err));
+			.catch(error =>
+				dispatch({
+					type: CHANGE_SETTINGS_ERROR,
+					payload: error.response.data.message,
+				}),
+			);
 	};
 };
 
 export const profile = (firstName, lastName, nickNames) => {
+	const user = {};
+
+	if (firstName) user.firstName = firstName;
+	if (lastName) user.lastName = lastName;
+	if (nickNames) user.nickNames = nickNames.split(', ');
+
 	return dispatch => {
 		dispatch({ type: CHANGE_SETTINGS_START });
-		console.log('nicknames', nickNames);
-		// if (password !== confirmPassword) {
-		//   dispatch({ payload: 'Passwords do not match' });
-		//   return;
-		// }
+
 		axios
-			.put(`${ROOT}/users`, {
-				user: { firstName, lastName, nickNames: nickNames.split(', ') },
+			.put(`${ROOT}/users`, { user })
+			.then(({ data }) => {
+				dispatch({
+					type: CHANGE_SETTINGS_SUCCESS,
+					payload: data.email,
+					message: `profile settings updated successfully`,
+				});
+				// dispatch({
+				// 	type: GET_USER_INFO,
+				// 	payload: data,
+				// });
 			})
-			.then(response => {
-				console.log(response);
-				dispatch({ type: CHANGE_SETTINGS_SUCCESS });
-			})
-			.catch(err => console.log(err));
+			.catch(error =>
+				dispatch({
+					type: CHANGE_SETTINGS_ERROR,
+					payload: error.response.data.message,
+				}),
+			);
 	};
 };
 
@@ -279,16 +334,20 @@ export const forgotPassword = email => {
 	};
 };
 
-export const deleteaccount = (email, password) => {
+export const deleteaccount = history => {
 	return dispatch => {
 		axios
-			.delete(`${ROOT}/users`, { user: { email, password } })
-			.then(response => {
-				console.log(response);
+			.delete(`${ROOT}/users`)
+			.then(_ => {
 				dispatch({ type: ACCOUNT_DELETE });
-				// history.push('logout')
+				history.push('/');
 			})
-			.catch(err => console.log(err));
+			.catch(error =>
+				dispatch({
+					type: CHANGE_SETTINGS_ERROR,
+					payload: error.response.data.message,
+				}),
+			);
 	};
 };
 
@@ -299,7 +358,9 @@ export const sendPayment = (stripeToken, pkg, history) => {
 			.then(({ data }) => {
 				/* successful capture from Stripe */
 				if (data.captured) {
-					console.log('payment successful');
+					dispatch({ type: PHOTO_ERROR_RESET });
+					dispatch({ type: GET_USER_INFO, payload: data.user });
+					// console.log('payment successful');
 					history.push(`/picture_browse`);
 				} else {
 					console.error('problem capturing payment from Stripe');
@@ -409,10 +470,16 @@ export const claimPicture = imgId => {
 	return dispatch => {
 		axios
 			.post(`${ROOT}/pictures/othermes/${imgId}`)
-			.then(({ data }) =>
-				dispatch({ type: FETCH_OTHERMES_PICTURE, payload: imgId }),
-			)
-			.catch(err => console.log(err));
+			.then(({ data }) => {
+				dispatch({ type: FETCH_OTHERMES_PICTURE, payload: imgId });
+				dispatch({ type: GET_USER_INFO, payload: data });
+			})
+			.catch(error =>
+				dispatch({
+					type: PHOTO_CLAIM_FAIL,
+					payload: error.response.data.message,
+				}),
+			);
 	};
 };
 

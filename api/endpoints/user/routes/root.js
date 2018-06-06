@@ -120,13 +120,10 @@ router
 	 * deletes the user
 	 *
 	 * checks for a valid session id, then
-	 * deletes the user info on the database and
-	 * logs the user out of the session
+	 * deletes the user info on the database, and
+	 * logs the user out of the session, and
+	 * redirect to logout page
 	 *
-	 * returns:
-	 * {
-	 *    message: 'user successfully deleted'
-	 * }
 	 */
 	.delete(authenticate.sid, (req, res) => {
 		userCTR
