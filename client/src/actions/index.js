@@ -345,7 +345,7 @@ export const authenticateUser = history => {
 export const upload = data => {
 	return dispatch => {
 		axios
-			.post(`${ROOT}/users/upload`)
+			.post(`${ROOT}/pictures/upload`)
 			.then(res => console.log(res))
 			.catch(err => console.error(err));
 	};
