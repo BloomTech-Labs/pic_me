@@ -40,14 +40,13 @@ router
 	 *
 	 * saves photos to photos database
 	 */
-	.post(authenticate.sid, upload.array('images'), (req, res) => {
+	.post(authenticate.sid, upload.array('image'), (req, res) => {
 		const uploaded = req.files;
 		const ownerId = req.user.id;
 		console.log('in /upload');
 
 		const uploadedImages = uploaded.map((i, idx) => {
 			let newImage = {};
-			// console.log(req.body.tags);
 			console.log('Tags =>', req.body.tags);
 			newImage.tags = JSON.parse(req.body.tags);
 			newImage.url = i.transforms[0].location;
@@ -68,9 +67,9 @@ router
 				pictureIds.push(image._id);
 			});
 
-			console.log('pciture ids', pictureIds);
-			console.log('fpciture ids 0', pictureIds[0]);
-			console.log('typeofpciture ids', typeof pictureIds[0]);
+			console.log('picture ids', pictureIds);
+			console.log('fpicture ids 0', pictureIds[0]);
+			console.log('typeofpicture ids', typeof pictureIds[0]);
 
 			user
 				.findOneAndUpdate(
@@ -83,17 +82,6 @@ router
 					r.send(res, 500, { err, message: `server failed to edit user` }),
 				);
 		});
-		// const uploaded = req.files;
-		// uploaded.forEach(i => {
-		// 	let newImage = new image();
-		// 	// using shift() to make postman associate proper tags with image instead
-		// 	// of just appending all tags from uploads as an array for each upload
-		// 	newImage.tags = req.body.tags.shift();
-		// 	newImage.url = i.transforms[0].location;
-		// 	newImage.save();
-		// });
-		// // res.json(`Uploaded ${req.files.length} files!`);
-		// res.send();
 	});
 
 module.exports = router;
