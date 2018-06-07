@@ -91,6 +91,7 @@ class Browse extends Component {
 		return (
 			<div className="container">
 				<h2> Pic Me </h2>
+				<hr />
 				{this.renderAlert()}
 				<GridList cellHeight={300} spacing={1} cols={3}>
 					{this.state.othermes.map(img => (
