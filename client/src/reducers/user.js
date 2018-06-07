@@ -17,7 +17,7 @@ export default (state = initialState, action) => {
 				email: user.email,
 				firstName: user.firstName,
 				lastName: user.lastName,
-				nickNames: user.nickNames.join(', '),
+				nickNames: user.nickNames.join(', ') || '',
 				balance: user.balance,
 			};
 

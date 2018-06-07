@@ -10,7 +10,7 @@ import {
 	IconButton,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { deletemyuploads, myuploads } from '../../actions';
+import { deletemyuploads, myuploads, resetPhotoErrors } from '../../actions';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 const keyCodes = {
@@ -27,6 +27,14 @@ const styles = theme => ({
 		backgroundColor: theme.palette.background.paper,
 		boxShadow: theme.shadows[5],
 		padding: theme.spacing.unit * 4,
+	},
+	titleBar: {
+		background:
+			'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
+			'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+	},
+	icon: {
+		color: 'white',
 	},
 });
 
@@ -86,10 +94,31 @@ class MyUploads extends Component {
 	};
 
 	componentWillReceiveProps(nextProps) {
+		if (nextProps.uploads.length > 0) {
+			this.props.resetPhotoErrors();
+		}
 		this.setState({ uploads: nextProps.uploads });
 	}
 
+	renderAlert() {
+		if (this.props.error || this.props.photoError) {
+			return (
+				<div className="alert alert-danger">
+					<strong>Oops!</strong> {this.props.error || this.props.photoError}
+				</div>
+			);
+		} else if (this.props.message) {
+			return (
+				<div className="alert alert-success">
+					<strong>Success!</strong> {this.props.message}
+				</div>
+			);
+		}
+	}
+
 	render() {
+		const { classes } = this.props;
+
 		return (
 			<div className="container">
 				<h2> My Uploads </h2>
@@ -101,11 +130,15 @@ class MyUploads extends Component {
 								title={img.tags.map(i => i.text).join(', ')}
 								titlePosition="bottom"
 								actionIcon={
-									<IconButton onClick={_ => this.toggle(img.id)}>
-										<DeleteIcon className="text-white" />
+									<IconButton
+										className={classes.icon}
+										onClick={_ => this.toggle(img.id)}
+									>
+										<DeleteIcon />
 									</IconButton>
 								}
 								actionPosition="right"
+								className="titleBar"
 							/>
 							<Modal
 								isOpen={this.state.modal}
@@ -143,11 +176,14 @@ const mapStatetoProps = state => {
 		authenticated: state.auth.authenticated,
 		error: state.auth.error,
 		uploads: state.photo.uploads,
+		photoError: state.photo.error,
 	};
 };
 
 const MyUploadsWrapped = withStyles(styles)(MyUploads);
 
-export default connect(mapStatetoProps, { myuploads, deletemyuploads })(
-	MyUploadsWrapped,
-);
+export default connect(mapStatetoProps, {
+	myuploads,
+	deletemyuploads,
+	resetPhotoErrors,
+})(MyUploadsWrapped);

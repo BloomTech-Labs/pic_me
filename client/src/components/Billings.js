@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { Button } from 'reactstrap';
+import { 
+	Button, 
+	Card, 
+	CardBody,
+	CardDeck,
+	CardTitle,
+} from 'reactstrap';
 import MyStoreCheckout from './payment/MyStoreCheckout';
 // import { elementContextTypes } from 'react-stripe-elements/lib/components/Elements';
 
@@ -33,10 +39,12 @@ class Billings extends Component {
 
 	render() {
 		return (
+			<div className="container">
 			<div className="Billings">
 				<h3 style={{ margin: '5px 0 0 0', textAlign: 'center' }}>
 					Select the number of credits to purchase (USD)
 				</h3>
+				<hr />
 				<div
 					className="Packages"
 					style={{
@@ -48,15 +56,25 @@ class Billings extends Component {
 						justifyContent: 'space-around',
 					}}
 				>
-					<Button
-						id="sm"
-						color="primary"
-						size="lg"
-						onClick={e => this.packageSelected(e)}
-						disabled={this.state.selectedPkg === 'sm'}
-					>
-						1 ($0.99)
-					</Button>{' '}
+				 <CardDeck>
+					<Card body inverse color="light">
+						<CardBody>
+						<CardTitle className="text-dark text-center">1 credit</CardTitle>
+							<Button
+								id="sm"
+								color="primary"
+								size="lg"
+								onClick={e => this.packageSelected(e)}
+								disabled={this.state.selectedPkg === 'sm'}
+							>
+								$0.99
+							</Button>{' '}
+						</CardBody>
+					</Card>
+
+					<Card body inverse color="light">
+						<CardBody>
+						<CardTitle className="text-dark text-center">15 credits</CardTitle>
 					<Button
 						id="md"
 						color="primary"
@@ -64,8 +82,14 @@ class Billings extends Component {
 						onClick={e => this.packageSelected(e)}
 						disabled={this.state.selectedPkg === 'md'}
 					>
-						15 ($9.99)
+						$9.99
 					</Button>{' '}
+					</CardBody>
+					</Card>
+
+					<Card body inverse color="light">
+						<CardBody>
+						<CardTitle className="text-dark text-center">50 credits</CardTitle>
 					<Button
 						id="lg"
 						color="primary"
@@ -73,8 +97,11 @@ class Billings extends Component {
 						onClick={e => this.packageSelected(e)}
 						disabled={this.state.selectedPkg === 'lg'}
 					>
-						50 ($19.99)
+						$19.99
 					</Button>{' '}
+					</CardBody>
+					</Card>
+					</CardDeck>
 				</div>
 
 				{this.state.selectedPkg ? (
@@ -126,6 +153,7 @@ class Billings extends Component {
 						</div>
 					</div>
 				) : null}
+			</div>
 			</div>
 		);
 	}

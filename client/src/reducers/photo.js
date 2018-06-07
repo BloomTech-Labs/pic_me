@@ -1,9 +1,12 @@
 import {
 	FETCH_MYUPLOADS,
+	FETCH_MYUPLOADS_ERROR,
 	DELETE_MYUPLOADS,
 	FETCH_OTHERMES,
+	FETCH_OTHERMES_ERROR,
 	FETCH_OTHERMES_PICTURE,
 	FETCH_MYCOLLECTION,
+	FETCH_MYCOLLECTION_ERROR,
 	DELETE_COLLECTION_PICTURE,
 	PHOTO_CLAIM_FAIL,
 	FETCH_TAGS,
@@ -35,6 +38,13 @@ export default (photo = initialState, action) => {
 				...photo,
 				uploads: action.payload,
 			};
+
+		case FETCH_MYUPLOADS_ERROR:
+			return {
+				...photo,
+				error: action.payload,
+			};
+
 		// case FETCH_BROWSE:
 		// 	return {
 		// 		uploads: action.payload,
@@ -52,6 +62,12 @@ export default (photo = initialState, action) => {
 				othermes: action.payload,
 			};
 
+		case FETCH_OTHERMES_ERROR:
+			return {
+				...photo,
+				error: action.payload,
+			};
+
 		case FETCH_OTHERMES_PICTURE:
 			return {
 				...photo,
@@ -62,6 +78,12 @@ export default (photo = initialState, action) => {
 			return {
 				...photo,
 				collection: action.payload,
+			};
+
+		case FETCH_MYCOLLECTION_ERROR:
+			return {
+				...photo,
+				error: action.payload,
 			};
 
 		case DELETE_COLLECTION_PICTURE:

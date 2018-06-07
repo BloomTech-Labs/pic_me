@@ -3,15 +3,18 @@ import axios from 'axios';
 import { WithContext as ReactTags } from 'react-tag-input';
 import styled from 'styled-components';
 // import styles from './Tags.css';
+import './Upload.css';
 import Image from 'react-image-resizer';
+import FileUpload from '@material-ui/icons/FileUpload';
+import { Button, Input } from '@material-ui/core';
 
 axios.defaults.withCredentials = true;
 
 const Container = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-top: 10%;
+	// display: flex;
+	// justify-content: center;
+	// align-items: center;
+	// margin-top: 10%;
 `;
 
 // const Input = styled.input`
@@ -124,26 +127,53 @@ export default class Upload extends Component {
 		return (
 			<Container>
 				<form onSubmit={this.onSubmit}>
-					<input
-						type="file"
-						name="image"
-						ref="image"
-						onChange={this.onChange}
-					/>
-					<ReactTags
-						inline
-						tags={tags}
-						// suggestions={suggestions}
-						handleDelete={this.handleDelete}
-						handleAddition={this.handleAddition}
-						handleDrag={this.handleDrag}
-						delimiters={delimiters}
-					/>
-					<button type="submit" onClick={this.onSubmit}>
-						Upload Image
-					</button>
+					<div className="container">
+						<h3> Upload </h3>
+						<hr />
+						<div className="content">
+							<div className="box">
+								<Input
+									type="file"
+									id="file"
+									name="image"
+									ref="image"
+									onChange={this.onChange}
+									className="inputfile"
+								/>
+								<label htmlFor="file">Select a File</label>
+
+								{/* <label htmlFor="file">Select a File</label> */}
+							</div>
+
+							<div>
+								<ReactTags
+									inline
+									tags={tags}
+									// suggestions={suggestions}
+									handleDelete={this.handleDelete}
+									handleAddition={this.handleAddition}
+									handleDrag={this.handleDrag}
+									delimiters={delimiters}
+								/>
+							</div>
+
+							<div>
+								<Button
+									variant="contained"
+									color="primary"
+									type="submit"
+									onClick={this.onSubmit}
+								>
+									Upload Image
+									<FileUpload />
+								</Button>
+							</div>
+						</div>
+					</div>
 				</form>
-				<Image src={preview} height={300} width={300} />
+				<div className="content">
+					<Image src={preview} height={400} width={400} />
+				</div>
 			</Container>
 		);
 	}
