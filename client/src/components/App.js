@@ -32,7 +32,7 @@ import ForgotPassword from './Forgotpassword';
 import Feature from './Feature';
 import Mobil from './Mobil';
 import Bread from './Bread';
-import MyUploads1 from './picture/MyUploads.1';
+import MyUploads2 from './picture/MyUploads.2';
 
 const store = createStore(reducer, applyMiddleware(logger, thunk));
 
@@ -59,7 +59,7 @@ class App extends Component {
                 <Route
                   exact
                   path="/picture_my_uploads"
-                  component={Gatekeeper(MyUploads1)}
+                  component={Gatekeeper(MyUploads2)}
                 />
                 <Route
                   exact
@@ -78,16 +78,16 @@ class App extends Component {
                   path="/picture_upload"
                   component={Gatekeeper(Upload)}
                 />
-                {/* <Route
+                <Route
                   exact
                   path="/picture_browse"
                   component={Gatekeeper(Browse)}
-                /> */}
-                {/* <Route
+                />
+                <Route
                   exact
                   path="/picture_my_uploads"
-                  component={Gatekeeper(MyUploads1)}
-                /> */}
+                  component={Gatekeeper(MyUploads2)}
+                />
                 <Route
                   exact
                   path="/picture_my_collection"

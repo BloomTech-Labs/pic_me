@@ -196,19 +196,21 @@ export const mobil = (email, password, history) => {
 				// history.push('/feature');
 				history.go(-1);
 			})
-			.catch(error => {
-				if (error.response.status === 401) {
-					dispatch({
-						type: AUTH_LOGIN_ERROR,
-						payload: `please check email and password and try again`,
-					});
-				} else {
-					dispatch({
-						type: AUTH_LOGIN_ERROR,
-						payload: error.data,
-					});
-				}
-			});
+			.catch(err => console.log(err));
+			// .catch(error => {
+			// 	if (error.response.status === 401) {
+			// 		dispatch({
+			// 			type: AUTH_LOGIN_ERROR,
+			// 			payload: `please check email and password and try again`,
+			// 		});
+			// 	} else {
+			// 		dispatch({
+			// 			type: AUTH_LOGIN_ERROR,
+			// 			payload: error.data,
+			// 		});
+			// 	}
+			// });
+
 		// dispatch({ type: AUTH_LOGIN_FINISH });
 	};
 };
