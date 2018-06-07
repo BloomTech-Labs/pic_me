@@ -48,19 +48,11 @@ class MyUploads extends Component {
 		this.toggle();
 	};
 
-	componentWillMount() {
-		this.props.myuploads();
-	}
-
-	componentDidMount() {
-		this.setState({ uploads: this.props.uploads });
-	}
-
 	handleDelete = (id) => {
 		// const { tags } = this.state;
 		console.log(this.state);
 		console.log(this.props.uploads);
-		
+
 		// this.setState({
 		// 	tags: tags.filter((tag, index) => index !== i)
 		// });		
@@ -69,7 +61,7 @@ class MyUploads extends Component {
 
 	handleAddition = tag => {
 		console.log(tag);
-		
+
 		// this.setState(state => ({ tags: [...state.tags, tag] }));
 	};
 
@@ -82,6 +74,15 @@ class MyUploads extends Component {
 
 	// 	this.setState({ tags: newTags });
 	// };
+
+	componentWillMount() {
+		this.props.myuploads();
+	}
+
+	componentDidMount() {
+		console.log(this.props.uploads);
+		this.setState({ uploads: this.props.uploads });
+	}
 
 	componentWillReceiveProps(nextProps) {
 		this.setState({ uploads: nextProps.uploads });
