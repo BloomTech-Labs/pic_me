@@ -108,7 +108,13 @@ export const register = (
 		}
 
 		axios
-			.post(`${ROOT}/users`, { email, password, firstName, lastName })
+			.post(`${ROOT}/users`, {
+				email,
+				password,
+				firstName,
+				lastName,
+				nickNames: [firstName],
+			})
 			.then(({ data }) => {
 				dispatch({ type: AUTH_SIGNUP_SUCCESS, payload: data.email });
 				dispatch({ type: AUTH_LOGIN_START });

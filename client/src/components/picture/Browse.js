@@ -46,6 +46,10 @@ class Browse extends Component {
 		this.props.othermephotos();
 	}
 
+	componentWillReceiveProps(nextProps) {
+		this.props.resetPhotoErrors();
+	}
+
 	renderAlert() {
 		if (this.props.error) {
 			return (
