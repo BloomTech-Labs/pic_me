@@ -9,6 +9,7 @@ import reducer from '../reducers';
 
 // Common Components
 import Navigation from './Navigation';
+// import Footer from './Footer';
 
 // Gatekeeper HOC
 import Gatekeeper from './Gatekeeper';
@@ -95,6 +96,7 @@ class App extends Component {
 									component={Gatekeeper(MyCollection)}
 								/>
 							</Switch>
+              {/* <Footer /> */}
 						</div>
 					</Router>
 				</StripeProvider>

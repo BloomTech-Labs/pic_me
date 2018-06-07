@@ -159,7 +159,7 @@ export const login = (email, password, history) => {
 			.then(({ data }) => {
 				// - Update state to indicate user is authenticated
 				dispatch({ type: AUTH_LOGIN_SUCCESS, payload: email });
-				dispatch({ type: GET_USER_INFO, payload: data });
+				dispatch({ type: GET_USER_INFO, payload: data.user });
 				history.push('/feature');
 				// history.go(-1);
 			})

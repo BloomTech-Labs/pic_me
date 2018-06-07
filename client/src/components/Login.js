@@ -20,7 +20,7 @@ class Login extends Component {
 	}
 	render() {
 		return (
-			<div className="container col col-lg-2">
+			<div className="container col-md-4 mb-3">
 				<a href="https://labpicme.herokuapp.com/api/users/auth/twitter">
 					{/* <a onClick={_ => this.props.twitter(this.props.history)}> */}
 					Login with twitter
