@@ -50,6 +50,8 @@ class Browse extends Component {
 		if (nextProps.othermes.length > 0) {
 			this.props.resetPhotoErrors();
 		}
+
+		this.setState({ othermes: nextProps.othermes });
 	}
 
 	renderAlert() {
@@ -83,10 +85,6 @@ class Browse extends Component {
 
 	componentDidMount() {
 		this.setState({ othermes: this.props.othermes });
-	}
-
-	componentWillReceiveProps(nextProps) {
-		this.setState({ othermes: nextProps.othermes });
 	}
 
 	render() {
