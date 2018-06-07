@@ -55,7 +55,6 @@ class Navigation extends Component {
 			// show a link to log out
 			return [
 				<NavItem key={0}>
-					{/* <NavLink key={0} tag={Link} to="/billing"> */}
 					<NavLink tag={Link} to="/billing">
 						<Badge color="info" pill>
 							{this.state.balance}
@@ -64,14 +63,12 @@ class Navigation extends Component {
 					</NavLink>
 				</NavItem>,
 				<NavItem key={1}>
-					{/* <NavLink key={1} tag={Link} to="/settings"> */}
 					<NavLink tag={Link} to="/settings">
 						Settings
 					</NavLink>
 				</NavItem>,
 				<NavItem key={2}>
 					<NavLink
-						// key={2}
 						tag={Link}
 						to="#" // used for anything except to change cursor type
 						onClick={_ => this.props.logout(this.props.history)}
@@ -84,13 +81,11 @@ class Navigation extends Component {
 			// show links to sign up or login
 			return [
 				<NavItem key={3}>
-					{/* <NavLink key={3} tag={Link} to="/login"> */}
 					<NavLink tag={Link} to="/login">
 						Log In{' '}
 					</NavLink>
 				</NavItem>,
 				<NavItem key={4}>
-					{/* <Button outline color="secondary" key={4} tag={Link} to="/signup"> */}
 					<Button outline color="secondary" tag={Link} to="/signup">
 						Sign Up
 					</Button>
@@ -120,25 +115,21 @@ class Navigation extends Component {
                   </DropdownToggle>
                   <DropdownMenu> */}
 								<NavItem key={5}>
-									{/* <NavLink key={5} tag={Link} to="/picture_upload"> */}
 									<NavLink tag={Link} to="/picture_upload">
 										Upload
 									</NavLink>
 								</NavItem>
 								<NavItem key={6}>
-									{/* <NavLink key={6} tag={Link} to="/picture_browse"> */}
 									<NavLink tag={Link} to="/picture_browse">
 										Browse
 									</NavLink>
 								</NavItem>
 								<NavItem key={7}>
-									{/* <NavLink key={7} tag={Link} to="/picture_my_uploads"> */}
 									<NavLink tag={Link} to="/picture_my_uploads">
 										My Uploads
 									</NavLink>
 								</NavItem>
 								<NavItem key={8}>
-									{/* <NavLink key={8} tag={Link} to="/picture_my_collection"> */}
 									<NavLink tag={Link} to="/picture_my_collection">
 										My Collection
 									</NavLink>
