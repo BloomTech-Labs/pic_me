@@ -20,7 +20,7 @@ class Mobil extends Component {
 	}
 	render() {
 		return (
-			<div className="Signup">
+			<div className="container col col-lg-2">
 				<a href="https://labpicme.herokuapp.com/api/users/auth/twitter">
 					{/* <a onClick={_ => this.props.twitter(this.props.history)}> */}
 					Login with twitter
@@ -39,9 +39,6 @@ class Mobil extends Component {
 								type="text"
 								placeholder="email"
 							/>
-						</fieldset>
-
-						<fieldset className="form-group">
 							<Field
 								className="form-control"
 								name="password"
@@ -51,7 +48,7 @@ class Mobil extends Component {
 							/>
 						</fieldset>
 
-						<button action="submit" className="btn btn-primary">
+						<button action="submit" className="btn btn-secondary btn-lg btn-block">
 							Log in
 						</button>
 

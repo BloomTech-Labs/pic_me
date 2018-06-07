@@ -37,7 +37,7 @@ class Settings extends Component {
 
 	render() {
 		return (
-			<div>
+			<div className="container">
 				{this.renderAlert()}
 
 				<h3>Update profile</h3>
