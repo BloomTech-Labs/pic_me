@@ -3,14 +3,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { WithContext as ReactTags } from 'react-tag-input';
 import '../picture/Tags.css';
-// import { withStyles } from '@material-ui/core/styles';
-// import {
-// 	GridList,
-// 	GridListTile,
-// 	GridListTileBar,
-// 	IconButton,
-// } from '@material-ui/core';
-// import DeleteIcon from '@material-ui/icons/Delete';
 import { deletemyuploads, myuploads } from '../../actions';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
@@ -34,7 +26,6 @@ const styles = theme => ({
 class MyUploads extends Component {
 	constructor(props) {
 		super(props);
-
 		this.state = {
 			uploads: [],
 			modal: false,
@@ -65,26 +56,32 @@ class MyUploads extends Component {
 		this.setState({ uploads: this.props.uploads });
 	}
 
-	handleDelete = i => {
-		const { tags } = this.state;
-		this.setState({
-			tags: tags.filter((tag, index) => index !== i)
-		});
+	handleDelete = (id) => {
+		// const { tags } = this.state;
+		console.log(this.state);
+		console.log(this.props.uploads);
+		
+		// this.setState({
+		// 	tags: tags.filter((tag, index) => index !== i)
+		// });		
+		console.log(id);
 	};
 
 	handleAddition = tag => {
-		this.setState(state => ({ tags: [...state.tags, tag] }));
+		console.log(tag);
+		
+		// this.setState(state => ({ tags: [...state.tags, tag] }));
 	};
 
-	handleDrag = (tag, currPos, newPos) => {
-		const tags = [...this.state.tags];
-		const newTags = tags.slice();
+	// handleDrag = (tag, currPos, newPos) => {
+	// 	const tags = [...this.state.tags];
+	// 	const newTags = tags.slice();
 
-		newTags.splice(currPos, 1);
-		newTags.splice(newPos, 0, tag);
+	// 	newTags.splice(currPos, 1);
+	// 	newTags.splice(newPos, 0, tag);
 
-		this.setState({ tags: newTags });
-	};
+	// 	this.setState({ tags: newTags });
+	// };
 
 	componentWillReceiveProps(nextProps) {
 		this.setState({ uploads: nextProps.uploads });
@@ -95,7 +92,7 @@ class MyUploads extends Component {
 				<h2> My Uploads </h2>
 				<ul>
 					{this.state.uploads.map(img => 
-						<li key={img.id}>
+						<li key={img.id} tags={img.tags}>
 							<img src={img.url} height={300} alt="myuploads" />
 						<ReactTags
 							inline
