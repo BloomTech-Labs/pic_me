@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { reduxForm, Field } from 'redux-form';
-import { mobil, twitter } from '../actions';
+import { mobil, twitter, resetErrors } from '../actions';
 
 class Mobil extends Component {
+	componentWillMount() {
+		this.props.resetErrors();
+	}
+
 	submitFormHandler = ({ email, password }) => {
 		this.props.mobil(email, password, this.props.history);
 	};
@@ -48,7 +52,10 @@ class Mobil extends Component {
 							/>
 						</fieldset>
 
-						<button action="submit" className="btn btn-secondary btn-lg btn-block">
+						<button
+							action="submit"
+							className="btn btn-secondary btn-lg btn-block"
+						>
 							Log in
 						</button>
 
@@ -79,6 +86,7 @@ const mapStateToProps = state => {
 Mobil = connect(mapStateToProps, {
 	mobil,
 	twitter,
+	resetErrors,
 })(Mobil);
 
 export default reduxForm({
