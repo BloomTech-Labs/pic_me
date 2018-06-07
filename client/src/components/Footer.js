@@ -5,11 +5,11 @@ class Footer extends Component {
   render() {
     return (
       <div>
-        <Navbar className="bg-transparent">
+        <Navbar>
 				<Container>
-          <p className="text-black-50">
+          <span className="navbar-text text-black-50">
             <small>Meet the team behind PicMe</small>
-          </p>
+          </span>
 				</Container>
         </Navbar>
       </div>
