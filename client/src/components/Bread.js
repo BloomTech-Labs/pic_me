@@ -51,7 +51,7 @@ const BreadcrumbsItem = ({ ...rest, match }) => {
 const Breadcrumbs = ({ ...rest, location : { pathname }, match }) => {
   const paths = getPaths(pathname);
   return (
-    <Breadcrumb>
+    <Breadcrumb className="bg-transparent">
       {paths.map(p => 
         <Route key={p.toString()} path={p} component={BreadcrumbsItem} />)}
     </Breadcrumb>
@@ -59,7 +59,7 @@ const Breadcrumbs = ({ ...rest, location : { pathname }, match }) => {
 };
 
 export default props => (
-  <div>
+    <div className="container">
     <Route path="/:path" component={Breadcrumbs} {...props} />
-  </div>
+    </div>
 );

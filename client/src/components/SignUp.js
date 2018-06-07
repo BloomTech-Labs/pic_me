@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom';
 import { reduxForm, Field } from 'redux-form';
 import { register, resetErrors, logout } from '../actions';
 // import { getInfo, getAllUsers, logout } from '../actions';
-// import { Button } from 'reactstrap';
 
 class Signup extends Component {
   componentWillMount() {
@@ -27,10 +26,18 @@ class Signup extends Component {
       this.props.history
     );
   };
-
+	renderAlert() {
+		if (this.props.error) {
+			return (
+				<div className="alert alert-danger">
+					<strong>Oops!</strong> {this.props.error}
+				</div>
+			);
+		}
+	}
   render() {
     return (
-      <div className="Signup">
+      <div className="container col col-lg-2">
         <form
           className="Signup__form"
           onSubmit={this.props.handleSubmit(this.submitFormHandler)}
@@ -44,49 +51,41 @@ class Signup extends Component {
           </div>
 
           <div>
-            <fieldset>
+            <fieldset className="form-group">
               <Field
-                className="InputFields"
+                className="form-control"
                 name="email"
                 component="input"
                 type="text"
                 placeholder="email"
               />
-            </fieldset>
 
-            <fieldset>
               <Field
-                className="InputFields"
+                className="form-control"
                 name="password"
                 component="input"
                 type="password"
                 placeholder="password"
               />
-            </fieldset>
 
-            <fieldset>
               <Field
-                className="InputFields"
+                className="form-control"
                 name="confirmPassword"
                 component="input"
                 type="password"
                 placeholder="confirm password"
               />
-            </fieldset>
 
-            <fieldset>
               <Field
-                className="InputFields"
+                className="form-control"
                 name="firstName"
                 component="input"
                 type="text"
                 placeholder="first name"
               />
-            </fieldset>
 
-            <fieldset>
               <Field
-                className="InputFields"
+                className="form-control"
                 name="lastName"
                 component="input"
                 type="text"
@@ -105,7 +104,7 @@ class Signup extends Component {
         </form>
 
         {/* <div onClick={_ => this.props.getAllUsers()}>print all users</div> */}
-        <button onClick={_ => this.props.logout()}>logout</button>
+        {/* <button onClick={_ => this.props.logout()}>logout</button> */}
         {/* <div onClick={_ => this.props.getInfo()}>info</div> */}
       </div>
     );

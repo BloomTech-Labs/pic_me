@@ -85,7 +85,7 @@ class Browse extends Component {
 
 	render() {
 		return (
-			<div>
+			<div className="container">
 				<h2> Other Me </h2>
 				{this.renderAlert()}
 				<GridList cellHeight={300} spacing={1} cols={3}>
@@ -97,7 +97,7 @@ class Browse extends Component {
 								titlePosition="bottom"
 								actionIcon={
 									<IconButton onClick={_ => this.toggle(img.id)}>
-										<FavoriteIcon />
+										<FavoriteIcon className="text-white" />
 									</IconButton>
 								}
 								actionPosition="right"
