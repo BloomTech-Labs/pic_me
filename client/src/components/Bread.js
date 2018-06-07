@@ -5,7 +5,7 @@ import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 const routes = {
   '/': 'Home',
   '/picture_upload': 'Upload',
-  '/picture_browse': 'Browse Pic Me',
+  '/picture_browse': 'Browse',
   '/picture_my_uploads': 'My Uploads',
   '/picture_my_collection': 'My Collection', 
   '/billing': 'Billing',
