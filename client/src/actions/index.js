@@ -150,6 +150,7 @@ export const login = (email, password, history) => {
 			.then(response => {
 				// - Update state to indicate user is authenticated
 				dispatch({ type: AUTH_LOGIN_SUCCESS, payload: email });
+				dispatch({ type: GET_USER_INFO });
 				history.push('/feature');
 				// history.go(-1);
 			})
@@ -179,6 +180,7 @@ export const mobil = (email, password, history) => {
 			.then(response => {
 				// - Update state to indicate user is authenticated
 				dispatch({ type: AUTH_LOGIN_SUCCESS, payload: email });
+				dispatch({ type: GET_USER_INFO });
 				// history.push('/feature');
 				history.go(-1);
 			})
