@@ -38,11 +38,14 @@ export const RESETPASSWORD = 'RESETPASSWORD';
 
 // photo
 export const FETCH_MYUPLOADS = 'FETCH_MYUPLOADS';
+export const FETCH_MYUPLOADS_ERROR = 'FETCH_MYUPLOADS_ERROR';
 export const FETCH_OTHERMES = 'FETCH_OTHERMES';
+export const FETCH_OTHERMES_ERROR = 'FETCH_OTHERMES_ERROR';
 export const FETCH_OTHERMES_PICTURE = 'FETCH_OTHERMES_PICTURE';
 export const DELETE_MYUPLOADS = 'DELETE_MYUPLOADS';
 export const FETCH_BROWSE = 'FETCH_BROWSE';
 export const FETCH_MYCOLLECTION = 'FETCH_MYCOLLECTION';
+export const FETCH_MYCOLLECTION_ERROR = 'FETCH_MYCOLLECTION_ERROR';
 export const DELETE_COLLECTION_PICTURE = 'DELETE_COLLECTION_PICTURE';
 export const PHOTO_CLAIM_FAIL = 'PHOTO_CLAIM_FAIL';
 export const PHOTO_ERROR_RESET = 'PHOTO_ERROR_RESET';
@@ -449,7 +452,13 @@ export const myuploads = _ => {
 		axios
 			.get(`${ROOT}/pictures/myuploads`)
 			.then(({ data }) => {
-				console.log('data', data);
+				if (data.length === 0) {
+					dispatch({
+						type: FETCH_MYUPLOADS_ERROR,
+						payload: `no uploads found`,
+					});
+				}
+
 				dispatch({ type: FETCH_MYUPLOADS, payload: data });
 			})
 			.catch(err => console.log(err));
@@ -471,7 +480,16 @@ export const othermephotos = _ => {
 	return dispatch => {
 		axios
 			.get(`${ROOT}/pictures/othermes`)
-			.then(({ data }) => dispatch({ type: FETCH_OTHERMES, payload: data }))
+			.then(({ data }) => {
+				if (data.length === 0) {
+					dispatch({
+						type: FETCH_OTHERMES_ERROR,
+						payload: `no pictures of you found. try adding different nicknames`,
+					});
+				}
+
+				dispatch({ type: FETCH_OTHERMES, payload: data });
+			})
 			.catch(err => console.log(err));
 	};
 };
@@ -497,7 +515,16 @@ export const mycollection = _ => {
 	return dispatch => {
 		axios
 			.get(`${ROOT}/pictures/mycollection`)
-			.then(({ data }) => dispatch({ type: FETCH_MYCOLLECTION, payload: data }))
+			.then(({ data }) => {
+				if (data.length === 0) {
+					dispatch({
+						type: FETCH_MYCOLLECTION_ERROR,
+						payload: `no collections found`,
+					});
+				}
+
+				dispatch({ type: FETCH_MYCOLLECTION, payload: data });
+			})
 			.catch(err => console.log(err));
 	};
 };

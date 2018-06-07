@@ -47,20 +47,22 @@ class Browse extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		this.props.resetPhotoErrors();
+		if (nextProps.othermes.length > 0) {
+			this.props.resetPhotoErrors();
+		}
 	}
 
 	renderAlert() {
-		if (this.props.error) {
+		if (this.props.error || this.props.photoError) {
 			return (
 				<div className="alert alert-danger">
-					<strong>Oops!</strong> {this.props.error}
+					<strong>Oops!</strong> {this.props.error || this.props.photoError}
 				</div>
 			);
-		} else if (this.props.photoError) {
+		} else if (this.props.message) {
 			return (
-				<div className="alert alert-danger">
-					<strong>Oops!</strong> {this.props.photoError}
+				<div className="alert alert-success">
+					<strong>Success!</strong> {this.props.message}
 				</div>
 			);
 		}

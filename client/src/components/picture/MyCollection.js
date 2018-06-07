@@ -10,16 +10,11 @@ import {
 } from '@material-ui/core';
 // import ArrowDownwardIcon from '@material-ui/icons/Star';
 import Delete from '@material-ui/icons/Delete';
-import { 
-	Button, 
-	Modal, 
-	ModalHeader, 
-	ModalBody, 
-	ModalFooter,
-} from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {
 	mycollection,
 	deletePictureFromCollection,
+	resetPhotoErrors,
 	// browse,
 	// myuploads,
 } from '../../actions';
@@ -69,7 +64,26 @@ class Browse extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
+		if (nextProps.collection.length > 0) {
+			this.props.resetPhotoErrors();
+		}
 		this.setState({ collection: nextProps.collection });
+	}
+
+	renderAlert() {
+		if (this.props.error || this.props.photoError) {
+			return (
+				<div className="alert alert-danger">
+					<strong>Oops!</strong> {this.props.error || this.props.photoError}
+				</div>
+			);
+		} else if (this.props.message) {
+			return (
+				<div className="alert alert-success">
+					<strong>Success!</strong> {this.props.message}
+				</div>
+			);
+		}
 	}
 
 	render() {
@@ -77,6 +91,7 @@ class Browse extends Component {
 			<div className="container">
 				<h3> My Collection </h3>
 				<hr />
+				{this.renderAlert()}
 				<GridList cellHeight={300} spacing={1} cols={3}>
 					{this.state.collection.map(img => (
 						<GridListTile key={img.id} cols={img.cols || 1}>
@@ -128,6 +143,7 @@ const mapStatetoProps = state => {
 		authenticated: state.auth.authenticated,
 		error: state.auth.error,
 		collection: state.photo.collection,
+		photoError: state.photo.error,
 	};
 };
 
@@ -136,4 +152,5 @@ const BrowseWrapped = withStyles(styles)(Browse);
 export default connect(mapStatetoProps, {
 	mycollection,
 	deletePictureFromCollection,
+	resetPhotoErrors,
 })(BrowseWrapped);
