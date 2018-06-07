@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import axios from "axios";
-import { WithContext as ReactTags } from "react-tag-input";
-import styled from "styled-components";
-import styles from "./Tags.css";
-import "./Upload.css";
-import Image from "react-image-resizer";
+import React, { Component } from 'react';
+import axios from 'axios';
+import { WithContext as ReactTags } from 'react-tag-input';
+import styled from 'styled-components';
+import styles from './Tags.css';
+import './Upload.css';
+import Image from 'react-image-resizer';
 import FileUpload from '@material-ui/icons/FileUpload';
 import { Button, Input } from '@material-ui/core';
 
@@ -57,8 +57,8 @@ export default class Upload extends Component {
     super(props);
 
     this.state = {
-      image: "",
-      preview: "",
+      image: '',
+      preview: '',
       tags: []
       // suggestions: [
       //   {id: 'Nickname', text: 'Nickname'}

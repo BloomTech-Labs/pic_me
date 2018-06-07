@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Badge,
   Button,
@@ -12,11 +12,11 @@ import {
   // DropdownToggle,
   // DropdownMenu,
   // DropdownItem
-} from "reactstrap";
-import { connect } from "react-redux";
-import { withRouter, Link } from "react-router-dom";
-import { logout, getInfo } from "../actions";
-import logo from "../logo.png";
+} from 'reactstrap';
+import { connect } from 'react-redux';
+import { withRouter, Link } from 'react-router-dom';
+import { logout, getInfo } from '../actions';
+import logo from '../logo.png';
 
 // import { NavLink } from 'react-router-dom';
 

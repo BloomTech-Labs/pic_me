@@ -1,37 +1,37 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Provider } from "react-redux";
-import { createStore, applyMiddleware } from "redux";
-import { StripeProvider } from "react-stripe-elements";
-import thunk from "redux-thunk";
-import logger from "redux-logger";
-import reducer from "../reducers";
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import { StripeProvider } from 'react-stripe-elements';
+import thunk from 'redux-thunk';
+import logger from 'redux-logger';
+import reducer from '../reducers';
 
 // Common Components
-import Navigation from "./Navigation";
+import Navigation from './Navigation';
 
 // Gatekeeper HOC
-import Gatekeeper from "./Gatekeeper";
+import Gatekeeper from './Gatekeeper';
 
 // Views for Authentication
-import SignUp from "./SignUp";
-import Login from "./Login";
-import Logout from "./Logout";
+import SignUp from './SignUp';
+import Login from './Login';
+import Logout from './Logout';
 
 // Photo Views
-import Upload from "./picture/Upload";
-import Browse from "./picture/Browse";
-import MyUploads from "./picture/MyUploads";
-import MyCollection from "./picture/MyCollection";
+import Upload from './picture/Upload';
+import Browse from './picture/Browse';
+import MyUploads from './picture/MyUploads';
+import MyCollection from './picture/MyCollection';
 
 // General Views
-import Landing from "./Landing";
-import Settings from "./Settings";
-import Billings from "./Billings";
-import ForgotPassword from "./Forgotpassword";
-import Feature from "./Feature";
-import Mobil from "./Mobil";
-import Bread from "./Bread";
+import Landing from './Landing';
+import Settings from './Settings';
+import Billings from './Billings';
+import ForgotPassword from './Forgotpassword';
+import Feature from './Feature';
+import Mobil from './Mobil';
+import Bread from './Bread';
 
 const store = createStore(reducer, applyMiddleware(logger, thunk));
 
