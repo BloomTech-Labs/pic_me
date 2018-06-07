@@ -49,19 +49,11 @@ class MyUploads extends Component {
 	};
 
 	handleDelete = i => {
-		console.log(i);
-		// this.setState({
-		// 	uploads: [...this.state.uploads.map(img => {img.tags.filter((i, index) => index !== i)})]
-		// })
-		// 	uploads: this.state.uploads.map(img => {
-		// 		img.tags.filter((tag, index) => index !== tag)
-		// 	}
-		// }	
+		console.log(i);	
 	};
 
 	handleAddition = tag => {
 		console.log(tag);
-		// this.setState(state => ({ tags: [...state.tags, tag] }));
 	};
 
 	// handleDrag = (tag, currPos, newPos) => {
@@ -75,11 +67,7 @@ class MyUploads extends Component {
 	// };
 
 	handleTagClick = img => {
-		console.log(this.state.uploads.map(i => i.tags[img]));
-		
 		console.log(img);
-		// console.log(this.props.tags);
-		// console.log(`Tag at index ${index} was clicked`);
 	}
 
 	componentWillMount() {
@@ -89,7 +77,7 @@ class MyUploads extends Component {
 
 	componentDidMount() {
 		this.setState({ 
-			uploads: this.props.uploads, 
+			uploads: this.props.uploads,
 		});
 	}
 
@@ -104,11 +92,9 @@ class MyUploads extends Component {
 					{this.state.uploads.map(img => 
 						<li key={img.id}>
 							<img src={img.url} height={300} alt="myuploads" />
-							<p>{JSON.stringify(img.tags)}</p>
 						<ReactTags
 							inline
 							tags={img.tags}
-							// suggestions={suggestions}
 							handleDelete={this.handleDelete}
 							handleAddition={this.handleAddition}
 							handleDrag={this.handleDrag}
@@ -145,49 +131,6 @@ class MyUploads extends Component {
 						</li>
 					)}
 				</ul>
-
-
-				{/* <GridList cellHeight={600} spacing={1} cols={3}>
-					{this.state.uploads.map(img => (
-						<GridListTile key={img.id} cols={img.cols || 1}>
-							<img src={img.url} alt="myuploads" />
-							<GridListTileBar
-								title={img.tags.map(i => i.text).join(', ')}
-								titlePosition="bottom"
-								actionIcon={
-									<IconButton onClick={_ => this.toggle(img.id)}>
-										<DeleteIcon />
-									</IconButton>
-								}
-								actionPosition="right"
-							/>
-							<Modal
-								isOpen={this.state.modal}
-								toggle={this.toggle}
-								className={this.props.className}
-							>
-								<ModalHeader toggle={this.toggle}>
-									Are you sure you want to delete this upload??
-								</ModalHeader>
-								<ModalBody>
-									Delete this upload from your uploads (this CANNOT be
-									undone)?
-								</ModalBody>
-								<ModalFooter>
-									<Button
-										color="primary"
-										onClick={_ => this.deleteUploadButtonClickedHandler()}
-									>
-										Yes
-									</Button>{' '}
-									<Button color="secondary" onClick={this.toggle}>
-										Cancel
-									</Button>
-								</ModalFooter>
-							</Modal>
-						</GridListTile>
-					))}
-				</GridList> */}
 			</div>;
 	}
 }
