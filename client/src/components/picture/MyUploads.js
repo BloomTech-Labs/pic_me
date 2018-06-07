@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-// import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+// import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   GridList,
   GridListTile,
   GridListTileBar,
   IconButton,
   withStyles
-} from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import { deletemyuploads, myuploads } from "../../actions";
+} from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { deletemyuploads, myuploads } from '../../actions';
 import { 
 	Button, 
 	Modal, 
