@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { StripeProvider } from 'react-stripe-elements';
 import thunk from 'redux-thunk';
-import logger from 'redux-logger';
+// import logger from 'redux-logger';
 import reducer from '../reducers';
 
 // Common Components
@@ -31,9 +31,10 @@ import Billings from './Billings';
 import ForgotPassword from './Forgotpassword';
 import Feature from './Feature';
 import Mobil from './Mobil';
-import Bread from "./Bread";
+import Bread from './Bread';
 
-const store = createStore(reducer, applyMiddleware(logger, thunk));
+// const store = createStore(reducer, applyMiddleware(logger, thunk));
+const store = createStore(reducer, applyMiddleware(thunk));
 
 class App extends Component {
 	render() {

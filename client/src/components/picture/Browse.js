@@ -46,17 +46,25 @@ class Browse extends Component {
 		this.props.othermephotos();
 	}
 
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.othermes.length > 0) {
+			this.props.resetPhotoErrors();
+		}
+
+		this.setState({ othermes: nextProps.othermes });
+	}
+
 	renderAlert() {
-		if (this.props.error) {
+		if (this.props.error || this.props.photoError) {
 			return (
 				<div className="alert alert-danger">
-					<strong>Oops!</strong> {this.props.error}
+					<strong>Oops!</strong> {this.props.error || this.props.photoError}
 				</div>
 			);
-		} else if (this.props.photoError) {
+		} else if (this.props.message) {
 			return (
-				<div className="alert alert-danger">
-					<strong>Oops!</strong> {this.props.photoError}
+				<div className="alert alert-success">
+					<strong>Success!</strong> {this.props.message}
 				</div>
 			);
 		}
@@ -77,10 +85,6 @@ class Browse extends Component {
 
 	componentDidMount() {
 		this.setState({ othermes: this.props.othermes });
-	}
-
-	componentWillReceiveProps(nextProps) {
-		this.setState({ othermes: nextProps.othermes });
 	}
 
 	render() {
