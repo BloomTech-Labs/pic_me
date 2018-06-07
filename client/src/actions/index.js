@@ -458,7 +458,7 @@ export const deletemyuploads = photoUploadId => {
 	};
 };
 
-export const tags = _ => {
+export const mytags = _ => {
 	return dispatch => {
 		axios
 		.get(`${ROOT}/pictures/myuploads`)

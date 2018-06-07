@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { WithContext as ReactTags } from 'react-tag-input';
 import '../picture/Tags.css';
-import { deletemyuploads, myuploads, tags } from '../../actions';
+import { deletemyuploads, myuploads, mytags } from '../../actions';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 const keyCodes = {
@@ -28,7 +28,6 @@ class MyUploads extends Component {
 		super(props);
 		this.state = {
 			uploads: [],
-			tags: [],
 			modal: false,
 			selectedId: ''
 		};
@@ -49,22 +48,19 @@ class MyUploads extends Component {
 		this.toggle();
 	};
 
-	handleDelete = (id) => {
-		// const { tags } = this.state;
-		console.log(this.state.tags);
-		console.log(this.props.uploads);
-
-		// this.setState({
-		// 	tags: tags.filter((tag, index) => index !== i)
-		// });	
-		console.log(id);
-			
-		console.log(id);
+	handleDelete = (i) => {
+		console.log(i);
+		this.setState({
+			uploads: [...this.state.uploads.map(img => {img.tags.filter((i, index) => index !== i)})]
+		})
+		// 	uploads: this.state.uploads.map(img => {
+		// 		img.tags.filter((tag, index) => index !== tag)
+		// 	}
+		// }	
 	};
 
 	handleAddition = tag => {
 		console.log(tag);
-
 		// this.setState(state => ({ tags: [...state.tags, tag] }));
 	};
 
@@ -78,14 +74,17 @@ class MyUploads extends Component {
 	// 	this.setState({ tags: newTags });
 	// };
 
-	handleTagClick = (index) => {
-		console.log(this.props.uploads);
-		console.log(`Tag at index ${index} was clicked`);
+	handleTagClick = (img) => {
+		console.log(this.state.uploads.map(i => i.tags[img]));
+		
+		console.log(img);
+		// console.log(this.props.tags);
+		// console.log(`Tag at index ${index} was clicked`);
 	}
 
 	componentWillMount() {
 		this.props.myuploads();
-		this.props.tags();
+		this.props.mytags();
 	}
 
 	componentDidMount() {
@@ -105,6 +104,7 @@ class MyUploads extends Component {
 					{this.state.uploads.map(img => 
 						<li key={img.id}>
 							<img src={img.url} height={300} alt="myuploads" />
+							<p>{JSON.stringify(img.tags)}</p>
 						<ReactTags
 							inline
 							tags={img.tags}
@@ -202,7 +202,7 @@ const mapStatetoProps = state => {
 
 // const MyUploadsWrapped = withStyles(styles)(MyUploads);
 
-export default connect(mapStatetoProps, { myuploads, deletemyuploads, tags })(MyUploads)
+export default connect(mapStatetoProps, { myuploads, deletemyuploads, mytags })(MyUploads)
 // (
 // 	MyUploadsWrapped,
 // );
