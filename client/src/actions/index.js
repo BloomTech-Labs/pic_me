@@ -159,7 +159,7 @@ export const login = (email, password, history) => {
 			.then(({ data }) => {
 				// - Update state to indicate user is authenticated
 				dispatch({ type: AUTH_LOGIN_SUCCESS, payload: email });
-				dispatch({ type: GET_USER_INFO, payload: data });
+				dispatch({ type: GET_USER_INFO, payload: data.user });
 				history.push('/feature');
 				// history.go(-1);
 			})
@@ -191,16 +191,18 @@ export const mobil = (email, password, history) => {
 			.then(({ data }) => {
 				// - Update state to indicate user is authenticated
 				dispatch({ type: AUTH_LOGIN_SUCCESS, payload: email });
-				dispatch({ type: GET_USER_INFO, payload: data });
+				dispatch({ type: GET_USER_INFO, payload: data.user });
 				// history.push('/feature');
 				history.go(-1);
 			})
 			.catch(error => {
-				if (error.response.status === 401) {
-					dispatch({
-						type: AUTH_LOGIN_ERROR,
-						payload: `please check email and password and try again`,
-					});
+				if (error.response) {
+					if (error.response.status === 401) {
+						dispatch({
+							type: AUTH_LOGIN_ERROR,
+							payload: `please check email and password and try again`,
+						});
+					}
 				} else {
 					dispatch({
 						type: AUTH_LOGIN_ERROR,

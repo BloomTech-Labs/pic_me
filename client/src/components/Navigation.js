@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
 	Badge,
 	Button,
+	Container,
 	Collapse,
 	Navbar,
 	NavbarToggler,
@@ -16,7 +17,7 @@ import {
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { logout, getInfo } from '../actions';
-import logo from '../logo.png';
+import logo from '../static/logo.png';
 
 // import { NavLink } from 'react-router-dom';
 
@@ -101,7 +102,7 @@ class Navigation extends Component {
 
 		return (
 			<div className="bg-light">
-				<div className="container">
+				<Container>
 					<Navbar color="light" light expand="md">
 						<NavbarBrand tag={Link} to="/">
 							<img src={logo} alt="PicMe" />
@@ -148,7 +149,7 @@ class Navigation extends Component {
 							</Nav>
 						</Collapse>
 					</Navbar>
-				</div>
+				</Container>
 			</div>
 		);
 	}

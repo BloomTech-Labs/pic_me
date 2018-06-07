@@ -32,7 +32,7 @@ export default ComposedComponent => {
 					{this.props.user ? (
 						<ComposedComponent history={this.props.history} />
 					) : (
-						this.state.message
+						<h2 style={{ textAlign: 'center' }}>{this.state.message}</h2>
 					)}
 				</div>
 			);

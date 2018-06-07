@@ -47,9 +47,9 @@ class Browse extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.othermes.length > 0) {
-			this.props.resetPhotoErrors();
-		}
+		// if (nextProps.othermes.length > 0 && this.props.photoError === null) {
+		// this.props.resetPhotoErrors();
+		// }
 
 		this.setState({ othermes: nextProps.othermes });
 	}
@@ -90,7 +90,7 @@ class Browse extends Component {
 	render() {
 		return (
 			<div className="container">
-				<h2> Other Me </h2>
+				<h2> Pic Me </h2>
 				{this.renderAlert()}
 				<GridList cellHeight={300} spacing={1} cols={3}>
 					{this.state.othermes.map(img => (
