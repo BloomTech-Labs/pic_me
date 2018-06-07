@@ -125,7 +125,7 @@ class Navigation extends Component {
 									Settings
 								</NavLink>
 							</NavItem>
-							<form class="form-inline">
+							<form className="form-inline">
 							{this.dynamicLinks()}
 							</form>
 							</Nav>
