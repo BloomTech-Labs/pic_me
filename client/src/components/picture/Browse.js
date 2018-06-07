@@ -47,9 +47,9 @@ class Browse extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.othermes.length > 0) {
-			this.props.resetPhotoErrors();
-		}
+		// if (nextProps.othermes.length > 0 && this.props.photoError === null) {
+		// this.props.resetPhotoErrors();
+		// }
 
 		this.setState({ othermes: nextProps.othermes });
 	}
