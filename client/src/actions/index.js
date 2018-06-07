@@ -114,14 +114,14 @@ export const register = (
 				dispatch({ type: AUTH_LOGIN_START });
 				axios
 					.post(`${ROOT}/users/login`, { email, password })
-					.then(({ response }) => {
+					.then(_ => {
 						dispatch({ type: AUTH_LOGIN_SUCCESS, payload: email });
+						dispatch({ type: GET_USER_INFO, payload: data });
 						// dispatch({ type: AUTH_LOGIN_FINISH });
 						// dispatch({ type: AUTH_SIGNUP_FINISH });
 						history.push('/feature');
 					})
 					.catch(err => {
-						console.log(err);
 						dispatch({
 							type: AUTH_LOGIN_ERROR,
 							payload: err.response.data.message,
@@ -147,26 +147,28 @@ export const login = (email, password, history) => {
 
 		axios
 			.post(`${ROOT}/users/login`, { email, password })
-			.then(response => {
+			.then(({ data }) => {
 				// - Update state to indicate user is authenticated
 				dispatch({ type: AUTH_LOGIN_SUCCESS, payload: email });
-				dispatch({ type: GET_USER_INFO });
+				dispatch({ type: GET_USER_INFO, payload: data });
 				history.push('/feature');
 				// history.go(-1);
 			})
 			.catch(error => {
-				if (error.response.status === 401) {
-					dispatch({
-						type: AUTH_LOGIN_ERROR,
-						payload: `please check email and password and try again`,
-					});
-				} else {
-					dispatch({
-						type: AUTH_LOGIN_ERROR,
-						payload: error.data,
-					});
+				if (error.response) {
+					if (error.response.status === 401) {
+						dispatch({
+							type: AUTH_LOGIN_ERROR,
+							payload: `please check email and password and try again`,
+						});
+					} else {
+						dispatch({
+							type: AUTH_LOGIN_ERROR,
+							payload: error.data,
+						});
+					}
+					// dispatch({ type: AUTH_LOGIN_FINISH });
 				}
-				// dispatch({ type: AUTH_LOGIN_FINISH });
 			});
 	};
 };
@@ -177,10 +179,10 @@ export const mobil = (email, password, history) => {
 
 		axios
 			.post(`${ROOT}/users/login`, { email, password })
-			.then(response => {
+			.then(({ data }) => {
 				// - Update state to indicate user is authenticated
 				dispatch({ type: AUTH_LOGIN_SUCCESS, payload: email });
-				dispatch({ type: GET_USER_INFO });
+				dispatch({ type: GET_USER_INFO, payload: data });
 				// history.push('/feature');
 				history.go(-1);
 			})
