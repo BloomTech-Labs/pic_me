@@ -36,7 +36,7 @@ class MyUploads extends Component {
 	}
 
 	// toggle for modal window
-	toggle(imgId){
+	toggle = imgId => {
 		this.setState({
 			selectedId: imgId,
 			modal: !this.state.modal
@@ -48,11 +48,11 @@ class MyUploads extends Component {
 		this.toggle();
 	};
 
-	handleDelete = (i) => {
+	handleDelete = i => {
 		console.log(i);
-		this.setState({
-			uploads: [...this.state.uploads.map(img => {img.tags.filter((i, index) => index !== i)})]
-		})
+		// this.setState({
+		// 	uploads: [...this.state.uploads.map(img => {img.tags.filter((i, index) => index !== i)})]
+		// })
 		// 	uploads: this.state.uploads.map(img => {
 		// 		img.tags.filter((tag, index) => index !== tag)
 		// 	}
@@ -74,7 +74,7 @@ class MyUploads extends Component {
 	// 	this.setState({ tags: newTags });
 	// };
 
-	handleTagClick = (img) => {
+	handleTagClick = img => {
 		console.log(this.state.uploads.map(i => i.tags[img]));
 		
 		console.log(img);
