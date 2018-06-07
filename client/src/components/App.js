@@ -57,7 +57,11 @@ class App extends Component {
 								/>
 								<Route exact path="/signup" component={SignUp} />
 								<Route exact path="/login" component={Login} />
-								<Route exact path="/picture_upload" component={Upload} />
+								<Route
+									exact
+									path="/picture_upload"
+									component={Gatekeeper(Upload)}
+								/>
 								<Route
 									exact
 									path="/picture_my_uploads"
@@ -96,7 +100,7 @@ class App extends Component {
 									component={Gatekeeper(MyCollection)}
 								/>
 							</Switch>
-              {/* <Footer /> */}
+							{/* <Footer /> */}
 						</div>
 					</Router>
 				</StripeProvider>
