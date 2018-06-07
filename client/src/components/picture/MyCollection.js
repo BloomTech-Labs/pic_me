@@ -75,7 +75,8 @@ class Browse extends Component {
 	render() {
 		return (
 			<div className="container">
-				<h2> My Collection </h2>
+				<h3> My Collection </h3>
+				<hr />
 				<GridList cellHeight={300} spacing={1} cols={3}>
 					{this.state.collection.map(img => (
 						<GridListTile key={img.id} cols={img.cols || 1}>

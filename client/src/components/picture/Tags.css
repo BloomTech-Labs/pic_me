@@ -1,7 +1,7 @@
-.upload-btn {
+/* .upload-btn {
     font-size: 14px;
     border-radius: 4px;
-}
+} */
 /* .custom::-webkit-file-upload-button {
   visibility: hidden;
 }
@@ -45,7 +45,7 @@ div.ReactTags__tagInput input.ReactTags__tagInputField:focus {
     font-size: 14px;
     width: 100%;
     border: 1px solid #eee;
-    border-bottom-color: crimson;
+    border-bottom-color: #607D8B;
 }
 
 
