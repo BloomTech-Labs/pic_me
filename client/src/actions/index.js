@@ -38,6 +38,7 @@ export const RESETPASSWORD = 'RESETPASSWORD';
 
 // photo
 export const FETCH_MYUPLOADS = 'FETCH_MYUPLOADS';
+export const FETCH_TAGS = 'FETCH_TAGS';
 export const FETCH_OTHERMES = 'FETCH_OTHERMES';
 export const FETCH_OTHERMES_PICTURE = 'FETCH_OTHERMES_PICTURE';
 export const DELETE_MYUPLOADS = 'DELETE_MYUPLOADS';
@@ -454,6 +455,18 @@ export const deletemyuploads = photoUploadId => {
 				dispatch({ type: DELETE_MYUPLOADS, payload: photoUploadId });
 			})
 			.catch(err => console.log(err));
+	};
+};
+
+export const tags = _ => {
+	return dispatch => {
+		axios
+		.get(`${ROOT}/pictures/myuploads`)
+		.then(({ data }) => {
+			console.log('data tags', data.map(i => i.tags));
+			dispatch({ type: FETCH_TAGS, payload: data });
+		})
+		.catch(err => console.log(err));
 	};
 };
 

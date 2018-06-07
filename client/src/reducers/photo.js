@@ -6,6 +6,7 @@ import {
 	FETCH_MYCOLLECTION,
 	DELETE_COLLECTION_PICTURE,
 	PHOTO_CLAIM_FAIL,
+	FETCH_TAGS,
 	PHOTO_ERROR_RESET,
 } from '../actions';
 // import {
@@ -28,7 +29,12 @@ export default (photo = initialState, action) => {
 				...photo,
 				uploads: action.payload,
 			};
-
+		
+		case FETCH_TAGS:
+			return {
+				...photo,
+				uploads: action.payload,
+			};
 		// case FETCH_BROWSE:
 		// 	return {
 		// 		uploads: action.payload,

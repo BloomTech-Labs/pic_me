@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { WithContext as ReactTags } from 'react-tag-input';
 import '../picture/Tags.css';
-import { deletemyuploads, myuploads } from '../../actions';
+import { deletemyuploads, myuploads, tags } from '../../actions';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 const keyCodes = {
@@ -28,6 +28,7 @@ class MyUploads extends Component {
 		super(props);
 		this.state = {
 			uploads: [],
+			tags: [],
 			modal: false,
 			selectedId: ''
 		};
@@ -50,12 +51,14 @@ class MyUploads extends Component {
 
 	handleDelete = (id) => {
 		// const { tags } = this.state;
-		console.log(this.state);
+		console.log(this.state.tags);
 		console.log(this.props.uploads);
 
 		// this.setState({
 		// 	tags: tags.filter((tag, index) => index !== i)
-		// });		
+		// });	
+		console.log(id);
+			
 		console.log(id);
 	};
 
@@ -75,13 +78,20 @@ class MyUploads extends Component {
 	// 	this.setState({ tags: newTags });
 	// };
 
+	handleTagClick = (index) => {
+		console.log(this.props.uploads);
+		console.log(`Tag at index ${index} was clicked`);
+	}
+
 	componentWillMount() {
 		this.props.myuploads();
+		this.props.tags();
 	}
 
 	componentDidMount() {
-		console.log(this.props.uploads);
-		this.setState({ uploads: this.props.uploads });
+		this.setState({ 
+			uploads: this.props.uploads, 
+		});
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -93,7 +103,7 @@ class MyUploads extends Component {
 				<h2> My Uploads </h2>
 				<ul>
 					{this.state.uploads.map(img => 
-						<li key={img.id} tags={img.tags}>
+						<li key={img.id}>
 							<img src={img.url} height={300} alt="myuploads" />
 						<ReactTags
 							inline
@@ -103,6 +113,7 @@ class MyUploads extends Component {
 							handleAddition={this.handleAddition}
 							handleDrag={this.handleDrag}
 							delimiters={delimiters}
+							handleTagClick={this.handleTagClick}
 						/>
 						<Button onClick={_ => this.toggle(img.id)}>
 							Delete Upload
@@ -191,7 +202,7 @@ const mapStatetoProps = state => {
 
 // const MyUploadsWrapped = withStyles(styles)(MyUploads);
 
-export default connect(mapStatetoProps, { myuploads, deletemyuploads })(MyUploads)
+export default connect(mapStatetoProps, { myuploads, deletemyuploads, tags })(MyUploads)
 // (
 // 	MyUploadsWrapped,
 // );
