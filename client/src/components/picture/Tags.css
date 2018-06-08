@@ -32,6 +32,7 @@ div.ReactTags__tags {
 
 /* Styles for the input */
 div.ReactTags__tagInput {
+    padding: 6px;
     width: 200px;
     border-radius: 2px;
     display: inline-block;
