@@ -110,9 +110,7 @@ export default class Upload extends Component {
 							<hr />
 							<div className="content">
 									<button onClick={this.resetPreview}>Pick different upload</button>
-									{/* <div className="box"> */}
 										<Image className="box" src={preview} height={400} width={400} />
-									{/* </div> */}
 								<div>
 									<ReactTags
 										inline
@@ -160,7 +158,7 @@ export default class Upload extends Component {
 								<label className="fileLabel" htmlFor="file">Select a File</label>
 							</div>
 
-							<div>
+							{/* <div>
 								<ReactTags
 									inline
 									tags={tags}
@@ -169,9 +167,9 @@ export default class Upload extends Component {
 									handleDrag={this.handleDrag}
 									delimiters={delimiters}
 								/>
-							</div>
+							</div> */}
 
-							<div>
+							{/* <div>
 								<Button
 									variant="raised"
 									color="primary"
@@ -181,13 +179,10 @@ export default class Upload extends Component {
 									Upload Image
 									<FileUpload />
 								</Button>
-							</div>
+							</div> */}
 						</div>
 					</div>
 				</form>
-				<div className="content">
-					<Image src={preview} height={400} width={400} />
-				</div>
 			</Container>
 		);
 	}
