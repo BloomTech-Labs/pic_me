@@ -97,7 +97,7 @@ export default class Upload extends Component {
 
 		this.refs.image.value = '';
 	};
-
+	
 	render() {
 		let { preview, tags } = this.state;
 		console.log(preview === undefined);
