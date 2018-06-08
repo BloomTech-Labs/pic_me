@@ -104,42 +104,30 @@ export default class Upload extends Component {
 		let { preview, tags } = this.state;
 		console.log(preview === undefined);
 		if (preview) {
-			return (
-				<Container>
+			return <Container>
 					<form onSubmit={this.onSubmit}>
 						<div className="container">
 							<h3> Upload </h3>
 							<hr />
 							<div className="content">
-									<button onClick={this.resetPreview}>Pick different upload</button>
-										<Image className="box" src={preview} height={400} width={400} />
+								<Button variant="raised" color="primary" onClick={this.resetPreview}>
+									Change Upload?
+								</Button>
+								{/* className="box" */}
+								<Image src={preview} height={400} width={400} />
 								<div>
-									<ReactTags
-										inline
-										tags={tags}
-										handleDelete={this.handleDelete}
-										handleAddition={this.handleAddition}
-										handleDrag={this.handleDrag}
-										delimiters={delimiters}
-									/>
+									<ReactTags inline tags={tags} handleDelete={this.handleDelete} handleAddition={this.handleAddition} handleDrag={this.handleDrag} delimiters={delimiters} />
 								</div>
-
 								<div>
-									<Button
-										variant="raised"
-										color="primary"
-										type="submit"
-										onClick={this.onSubmit}
-									>
+									<Button variant="raised" color="primary" type="submit" onClick={this.onSubmit}>
 										Upload Image
-									<FileUpload />
+										<FileUpload />
 									</Button>
 								</div>
 							</div>
 						</div>
 					</form>
-				</Container>
-			)
+				</Container>;
 		} else {
 		return (
 			<Container>
