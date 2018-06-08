@@ -14,13 +14,22 @@ const Container = styled.div`
 	// display: flex;
 	// justify-content: center;
 	// align-items: center;
-	// margin-top: 10%;
+	// margin-top: 7%;
 `;
 
 const keyCodes = {
 	comma: 188,
 	enter: 13
 };
+
+// const style = {
+// 	image: {
+// 		// width: 100%;
+// 		maxWidth: '400px',
+// 		margin: '0 auto',
+// 		padding: '0 0 3em 0',
+// 	}
+// }
 
 const delimiters = [keyCodes.comma, keyCodes.enter];
 
@@ -113,7 +122,8 @@ export default class Upload extends Component {
 								<Button variant="raised" color="primary" onClick={this.resetPreview}>
 									Change Upload?
 								</Button>
-								<Image className="box" src={preview} height={400} width={400} />
+								{/* Figure out how to adjust width based on device. Widths < 400px look awkward */}
+								<Image src={preview} height={400} width={400} />
 								<div>
 									<ReactTags inline tags={tags} handleDelete={this.handleDelete} handleAddition={this.handleAddition} handleDrag={this.handleDrag} delimiters={delimiters} />
 								</div>
