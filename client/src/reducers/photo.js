@@ -1,5 +1,6 @@
 import {
 	FETCH_MYUPLOADS,
+	UPDATED_MYUPLOAD_TAG,
 	FETCH_MYUPLOADS_ERROR,
 	DELETE_MYUPLOADS,
 	FETCH_OTHERMES,
@@ -95,6 +96,16 @@ export default (photo = initialState, action) => {
 			return {
 				...photo,
 				error: null,
+			};
+
+		case UPDATED_MYUPLOAD_TAG:
+			const updatedPhoto = action.payload;
+
+			return {
+				...photo,
+				uploads: photo.uploads.map(
+					p => (p.id === updatedPhoto.id ? updatedPhoto : p),
+				),
 			};
 
 		default:

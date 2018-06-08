@@ -159,7 +159,7 @@ export default class Upload extends Component {
 
 							<div>
 								<Button
-									variant="variant"
+									variant="raised"
 									color="primary"
 									type="submit"
 									onClick={this.onSubmit}

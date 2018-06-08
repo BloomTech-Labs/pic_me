@@ -38,6 +38,7 @@ export const RESETPASSWORD = 'RESETPASSWORD';
 
 // photo
 export const FETCH_MYUPLOADS = 'FETCH_MYUPLOADS';
+export const UPDATED_MYUPLOAD_TAG = 'UPDATED_MYUPLOAD_TAG';
 export const FETCH_MYUPLOADS_ERROR = 'FETCH_MYUPLOADS_ERROR';
 export const FETCH_OTHERMES = 'FETCH_OTHERMES';
 export const FETCH_OTHERMES_ERROR = 'FETCH_OTHERMES_ERROR';
@@ -159,7 +160,7 @@ export const login = (email, password, history) => {
 			.then(({ data }) => {
 				// - Update state to indicate user is authenticated
 				dispatch({ type: AUTH_LOGIN_SUCCESS, payload: email });
-				dispatch({ type: GET_USER_INFO, payload: data });
+				dispatch({ type: GET_USER_INFO, payload: data.user });
 				history.push('/feature');
 				// history.go(-1);
 			})
@@ -191,16 +192,18 @@ export const mobil = (email, password, history) => {
 			.then(({ data }) => {
 				// - Update state to indicate user is authenticated
 				dispatch({ type: AUTH_LOGIN_SUCCESS, payload: email });
-				dispatch({ type: GET_USER_INFO, payload: data });
+				dispatch({ type: GET_USER_INFO, payload: data.user });
 				// history.push('/feature');
 				history.go(-1);
 			})
 			.catch(error => {
-				if (error.response.status === 401) {
-					dispatch({
-						type: AUTH_LOGIN_ERROR,
-						payload: `please check email and password and try again`,
-					});
+				if (error.response) {
+					if (error.response.status === 401) {
+						dispatch({
+							type: AUTH_LOGIN_ERROR,
+							payload: `please check email and password and try again`,
+						});
+					}
 				} else {
 					dispatch({
 						type: AUTH_LOGIN_ERROR,
@@ -535,6 +538,17 @@ export const deletePictureFromCollection = imgId => {
 			.delete(`${ROOT}/pictures/mycollection/${imgId}`)
 			.then(({ data }) => {
 				dispatch({ type: DELETE_COLLECTION_PICTURE, payload: imgId });
+			})
+			.catch(err => console.log(err));
+	};
+};
+
+export const updateTagsOf = (imgId, newTags) => {
+	return dispatch => {
+		axios
+			.put(`${ROOT}/pictures/myuploads/${imgId}`, { tags: newTags.split(', ') })
+			.then(({ data }) => {
+				dispatch({ type: UPDATED_MYUPLOAD_TAG, payload: data });
 			})
 			.catch(err => console.log(err));
 	};

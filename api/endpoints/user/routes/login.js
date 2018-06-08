@@ -38,7 +38,7 @@ router
 	 * 401 Unauthorized
 	 */
 	.post(validate.login, passport.authenticate('local'), (req, res) => {
-		r.send(res, 200, { message: `successfully logged in` });
+		r.send(res, 200, { user: req.user, message: `successfully logged in` });
 	});
 
 /**
