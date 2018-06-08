@@ -122,7 +122,7 @@ class Navigation extends Component {
 								</NavItem>
 								<NavItem key={6}>
 									<NavLink tag={Link} to="/picture_browse">
-										Browse
+										Pic Me
 									</NavLink>
 								</NavItem>
 								<NavItem key={7}>

@@ -44,6 +44,29 @@ router
 	.route('/:id')
 
 	/**
+	 * PUT /api/pictures/myupoads/:id
+	 *
+	 * edits the tags of the uploaded picture
+	 *
+	 * tags are formatted as:
+	 * [{ id: TAG1, text: TAG1 }, { id: TAG2, text: TAG2 }, { ... }]
+	 *
+	 * because `sanitize.pictures()` expects an Array and returns an Array,
+	 * put updatedPhoto into an Array and
+	 * just choose the 0-th element in returned Array
+	 */
+	.put(authenticate.sid, (req, res) => {
+		const tags = req.body.tags.map(t => ({ id: t, text: t }));
+
+		photoCTR
+			.updateTags(req.params.id, tags)
+			.then(updatedPhoto =>
+				r.send(res, 200, sanitize.pictures([updatedPhoto])[0]),
+			)
+			.catch(err => r.error(res, err, `error updating tags of photo`));
+	})
+
+	/**
 	 * DELETE /api/pictures/myuploads/:id
 	 *
 	 * deletes the photo reference to the logged in user's upload
