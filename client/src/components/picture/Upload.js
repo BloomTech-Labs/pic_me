@@ -75,6 +75,7 @@ export default class Upload extends Component {
 		e.preventDefault();
 		this.setState({
 			preview: undefined,
+			tags: [],
 		})
 		console.log('reset clicked');
 	}
@@ -94,8 +95,9 @@ export default class Upload extends Component {
 				console.log('upload successful');
 			})
 			.catch(err => console.log(err));
-
-		this.refs.image.value = '';
+		
+		this.resetPreview(e)
+		// this.refs.image.value = '';
 	};
 	
 	render() {
