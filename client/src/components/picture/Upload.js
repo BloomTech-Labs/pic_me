@@ -113,8 +113,7 @@ export default class Upload extends Component {
 								<Button variant="raised" color="primary" onClick={this.resetPreview}>
 									Change Upload?
 								</Button>
-								{/* className="box" */}
-								<Image src={preview} height={400} width={400} />
+								<Image className="box" src={preview} height={400} width={400} />
 								<div>
 									<ReactTags inline tags={tags} handleDelete={this.handleDelete} handleAddition={this.handleAddition} handleDrag={this.handleDrag} delimiters={delimiters} />
 								</div>
@@ -147,29 +146,6 @@ export default class Upload extends Component {
 								/>
 								<label className="fileLabel" htmlFor="file">Select a File</label>
 							</div>
-
-							{/* <div>
-								<ReactTags
-									inline
-									tags={tags}
-									handleDelete={this.handleDelete}
-									handleAddition={this.handleAddition}
-									handleDrag={this.handleDrag}
-									delimiters={delimiters}
-								/>
-							</div> */}
-
-							{/* <div>
-								<Button
-									variant="raised"
-									color="primary"
-									type="submit"
-									onClick={this.onSubmit}
-								>
-									Upload Image
-									<FileUpload />
-								</Button>
-							</div> */}
 						</div>
 					</div>
 				</form>
