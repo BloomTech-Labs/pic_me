@@ -106,7 +106,7 @@ class About extends Component {
                         className={classes.avartar}
                       />
                     }
-                    title="Julian Jay kohlman"
+                    title="Julian J. Kohlman"
                   />
                   <CardContent>
                     A persistent learner who enjoys solving problems from the
