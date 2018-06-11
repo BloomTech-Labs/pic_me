@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Jumbotron,
   Button,
@@ -9,11 +9,11 @@ import {
   CardText,
   CardTitle,
   CardDeck
-} from "reactstrap";
-import { Link } from "react-router-dom";
-import cardimg1 from "../static/landing_01.jpg";
-import cardimg2 from "../static/landing_02.jpg";
-import cardimg3 from "../static/landing_03.jpg";
+} from 'reactstrap';
+import { Link } from 'react-router-dom';
+import cardimg1 from '../static/landing_01.jpg';
+import cardimg2 from '../static/landing_02.jpg';
+import cardimg3 from '../static/landing_03.jpg';
 
 class Landing extends Component {
   render() {
@@ -31,7 +31,7 @@ class Landing extends Component {
               quis ultrices felis magna ac, ac ridiculus est massa ligula sint
               donec. Etiam eget at neque. Mauris tristique penatibus placerat
               sed eu sit, turpis porta aut erat ac, sagittis asperiores
-              vestibulum magna dolor enim lorem.{" "}
+              vestibulum magna dolor enim lorem.{' '}
             </p>
             <hr className="my-2" />
             <p>
@@ -42,9 +42,9 @@ class Landing extends Component {
                 tag={Link}
                 to="/SignUp"
               >
-                {" "}
-                Sign Up{" "}
-              </Button>{" "}
+                {' '}
+                Sign Up{' '}
+              </Button>{' '}
               <Button
                 className="btn-secondary btn-lg"
                 outline
@@ -52,8 +52,8 @@ class Landing extends Component {
                 tag={Link}
                 to="/Login"
               >
-                {" "}
-                Log In{" "}
+                {' '}
+                Log In{' '}
               </Button>
             </p>
           </div>

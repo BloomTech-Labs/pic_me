@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import {
   Avatar,
   Button,
@@ -10,12 +10,12 @@ import {
   CardActions,
   Grid,
   Typography
-} from "@material-ui/core";
-import { Link } from "react-router-dom";
-import lambda from "../static/Lambda_Symbol.png";
-import Elly from "../static/elly.jpeg";
-import Julian from "../static/julian.jpeg";
-import Sam from "../static/sam.jpeg";
+} from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import lambda from '../static/Lambda_Symbol.png';
+import Elly from '../static/elly.jpeg';
+import Julian from '../static/julian.jpeg';
+import Sam from '../static/sam.jpeg';
 
 const styles = theme => ({
   root: {
@@ -34,10 +34,10 @@ const styles = theme => ({
   },
   media: {
     height: 0,
-    paddingTop: "56.25%" // 16:9
+    paddingTop: '56.25%' // 16:9
   },
   actions: {
-    display: "flex"
+    display: 'flex'
   }
 });
 
@@ -50,9 +50,10 @@ class About extends Component {
           <Grid item xs={12}>
             <Grid container justify="center">
               <Typography variant="subheading">
-                Pic Me started as a Capstone Project at{" "}
+                Pic Me started as a Capstone Project at{' '}
                 <a href="https://lambdaschool.com/">
-                  <img src={lambda} alt="lambda logo" width="27" height="29" /> Lambda School
+                  <img src={lambda} alt="lambda logo" width="27" height="29" />{' '}
+                  Lambda School
                 </a>
               </Typography>
             </Grid>
@@ -78,15 +79,15 @@ class About extends Component {
                   <CardActions className={classes.actions}>
                     <Button
                       size="small"
-											component={Link}
-											to="https://www.linkedin.com/in/ellysalley/"
+                      component={Link}
+                      to="https://www.linkedin.com/in/ellysalley/"
                       color="primary"
                     >
                       LinkedIn
                     </Button>
                     <Button
-											size="small"
-											component={Link}
+                      size="small"
+                      component={Link}
                       to="https://github.com/ellysalley"
                       color="primary"
                     >
@@ -113,16 +114,16 @@ class About extends Component {
                   </CardContent>
                   <CardActions className={classes.actions}>
                     <Button
-											size="small"
-											component={Link}
+                      size="small"
+                      component={Link}
                       to="https://www.linkedin.com/in/julian-j-kohlman-563a758b/"
                       color="primary"
                     >
                       LinkedIn
                     </Button>
                     <Button
-											size="small"
-											component={Link}
+                      size="small"
+                      component={Link}
                       to="https://github.com/juliankohlman"
                       color="primary"
                     >
@@ -145,16 +146,16 @@ class About extends Component {
                   </CardContent>
                   <CardActions className={classes.actions}>
                     <Button
-											size="small"
-											component={Link}
+                      size="small"
+                      component={Link}
                       to="https://www.linkedin.com/in/chasoonjin/"
                       color="primary"
                     >
                       LinkedIn
                     </Button>
                     <Button
-											size="small"
-											component={Link}
+                      size="small"
+                      component={Link}
                       to="https://github.com/samscha"
                       color="primary"
                     >
