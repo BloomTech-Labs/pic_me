@@ -6,7 +6,7 @@ class Footer extends Component {
   render() {
     return (
       <div>
-        <Typography variant="caption" gutterButtom align="center">
+        <Typography variant="caption" align="center">
           about the{' '}
           <Button size="small" component={Link} to="/about">
             team
