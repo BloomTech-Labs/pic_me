@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import { Navbar, Container } from 'reactstrap';
+import React, { Component } from "react";
+import { Typography, Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 class Footer extends Component {
   render() {
     return (
       <div>
-        <Navbar>
-				<Container>
-          <span className="navbar-text text-black-50">
-            <small>Meet the team behind PicMe</small>
-          </span>
-				</Container>
-        </Navbar>
+        <Typography variant="caption" gutterButtom align="center">
+          about the{" "}
+          <Button size="small" component={Link} to="/about">
+            team
+          </Button>
+        </Typography>
       </div>
     );
   }
