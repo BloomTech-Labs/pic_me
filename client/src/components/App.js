@@ -9,7 +9,8 @@ import reducer from '../reducers';
 
 // Common Components
 import Navigation from './Navigation';
-// import Footer from './Footer';
+import Footer from './Footer';
+import About from './About';
 
 // Gatekeeper HOC
 import Gatekeeper from './Gatekeeper';
@@ -99,8 +100,9 @@ class App extends Component {
 									path="/picture_my_collection"
 									component={Gatekeeper(MyCollection)}
 								/>
+								<Route exact path="/about" component={About} />
 							</Switch>
-							{/* <Footer /> */}
+							<Footer />
 						</div>
 					</Router>
 				</StripeProvider>

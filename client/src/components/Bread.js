@@ -10,6 +10,7 @@ const routes = {
   '/picture_my_collection': 'My Collection', 
   '/billing': 'Billing',
   '/settings': 'Settings',
+  '/about': 'About',
 };
 
 const findRouteName = url => routes[url];
