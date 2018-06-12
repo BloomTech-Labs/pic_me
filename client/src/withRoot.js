@@ -1,7 +1,7 @@
 import React from 'react';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import lightBlue from '@material-ui/core/colors/lightBlue';
-import blueGrey from '@material-ui/core/colors/blueGrey';
+import cyan from '@material-ui/core/colors/cyan';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import 'typeface-roboto'
 
@@ -10,9 +10,9 @@ import 'typeface-roboto'
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: blueGrey[300],
-      main: blueGrey[500],
-      dark: blueGrey[700],
+      light: cyan[300],
+      main: cyan[500],
+      dark: cyan[700],
     },
     secondary: {
       light: lightBlue[300],
