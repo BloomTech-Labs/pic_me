@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { reduxForm, Field } from 'redux-form';
 import { register, resetErrors, logout } from '../../actions';
-import { Grid, Button, TextField, Typography } from '@material-ui/core';
+import { Card, CardContent, Grid, Button, TextField, Typography } from '@material-ui/core';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faTwitter from '@fortawesome/fontawesome-free-brands/faTwitter';
 import withRoot from '../../withRoot';
@@ -14,18 +14,24 @@ const styles = theme => ({
   root: {
     flexGrow: 1
 	},
-	button: {
-    margin: theme.spacing.unit,
+  button: {
+    marginTop: 20,
+    marginBottom: 10
   },
+  card: {
+    minWidth: 380,
+    padding: 20
+  }
 });
 
-const renderTextField = ({ input, label }) => (
+const renderTextField = ({ input, label, type }) => (
   <TextField
-    id={label}
-    placeholder={label}
+    label={label}
+		placeholder={label}
+		type={type}
     fullWidth
     {...input}
-    margin="dense"
+    // margin="dense"
   />
 );
 
@@ -65,43 +71,46 @@ class Signup extends Component {
     const { classes, handleSubmit, pristine, submitting } = this.props;
     return (
       <div>
-        <Grid className={classes.root} container spacing={16}>
-          <Grid item xs>
-            <Grid container justify="center">
+        <Grid className={classes.root} container justify="center">
+          <Card className={classes.card}>
+            <div>
               {this.renderAlert()}
-            </Grid>
-            <Grid container justify="center">
+            </div>
+            <div>
               <Button
 								className={classes.button}
                 variant="raised"
-                color="secondary"
+								color="secondary"
+								fullWidth
                 href="https://labpicme.herokuapp.com/api/users/auth/twitter"
               >
                 <FontAwesomeIcon icon={faTwitter} />
                 Sign up with twitter
               </Button>
-            </Grid>
-            <Grid container justify="center">
+            </div>
+            <div>
               <form onSubmit={handleSubmit(this.submitFormHandler)}>
                 <div>
                   <Field
-                    name="email"
+										name="email"
+										label="email"
                     component={renderTextField}
-                    label="email"
                   />
                 </div>
                 <div>
                   <Field
                     name="password"
                     component={renderTextField}
-                    label="password"
+										label="password"
+										type="password"
                   />
                 </div>
                 <div>
                   <Field
                     name="confirmPassword"
                     component={renderTextField}
-                    label="confirm password"
+										label="confirm password"
+										type="password"
                   />
                 </div>
                 <div>
@@ -118,27 +127,28 @@ class Signup extends Component {
                     label="last name"
                   />
                 </div>
-                <Grid container justify="center">
+                <div>
                   <Button
 										className={classes.button}
                     variant="raised"
                     size="large"
-                    type="submit"
+										type="submit"
+										fullWidth
                     disabled={pristine || submitting}
                   >
                     Sign up
                   </Button>
-                </Grid>
+                </div>
               </form>
-            </Grid>
-            <Grid container justify="center">
+            </div>
+            <CardContent>
               <Link to="/login">
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="body1" gutterBottom align="center">
                   Have an account? Log in
                 </Typography>
               </Link>
-            </Grid>
-          </Grid>
+            </CardContent>
+          </Card>
         </Grid>
       </div>
     );

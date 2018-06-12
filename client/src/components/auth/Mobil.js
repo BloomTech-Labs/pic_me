@@ -22,11 +22,11 @@ const styles = theme => ({
     flexGrow: 1
   },
   button: {
-    marginTop: 30,
+    marginTop: 20,
     marginBottom: 10
   },
   card: {
-    minWidth: 350,
+    minWidth: 380,
     padding: 20
   }
 });
@@ -112,13 +112,13 @@ class Mobil extends Component {
             </div>
             <CardContent>
               <Link to="/signup">
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="body1" gutterBottom align="center">
                   Don't have an account? Sign up
                 </Typography>
               </Link>
 
               <Link to="/forgotpassword">
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="body1" gutterBottom align="center">
                   Forgot password?
                 </Typography>
               </Link>
