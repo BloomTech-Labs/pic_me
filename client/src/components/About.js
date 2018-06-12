@@ -11,7 +11,7 @@ import {
   Grid,
   Typography
 } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import lambda from '../static/Lambda_Symbol.png';
 import Elly from '../static/elly.jpeg';
 import Julian from '../static/julian.jpeg';
@@ -23,7 +23,8 @@ const styles = theme => ({
     flexGrow: 1
   },
   card: {
-    maxWidth: 345
+    maxWidth: 345,
+    height: 230,
   },
   control: {
     padding: theme.spacing.unit * 2
@@ -82,16 +83,14 @@ class About extends Component {
                   <CardActions className={classes.actions}>
                     <Button
                       size="small"
-                      component={Link}
-                      to="https://www.linkedin.com/in/ellysalley/"
+                      href="https://www.linkedin.com/in/ellysalley/"
                       color="primary"
                     >
                       LinkedIn
                     </Button>
                     <Button
                       size="small"
-                      component={Link}
-                      to="https://github.com/ellysalley"
+                      href="https://github.com/ellysalley"
                       color="primary"
                     >
                       GitHub
@@ -120,16 +119,14 @@ class About extends Component {
                   <CardActions className={classes.actions}>
                     <Button
                       size="small"
-                      component={Link}
-                      to="https://www.linkedin.com/in/julian-j-kohlman-563a758b/"
+                      href="https://www.linkedin.com/in/julian-j-kohlman-563a758b/"
                       color="primary"
                     >
                       LinkedIn
                     </Button>
                     <Button
                       size="small"
-                      component={Link}
-                      to="https://github.com/juliankohlman"
+                      href="https://github.com/juliankohlman"
                       color="primary"
                     >
                       GitHub
@@ -154,16 +151,14 @@ class About extends Component {
                   <CardActions className={classes.actions}>
                     <Button
                       size="small"
-                      component={Link}
-                      to="https://www.linkedin.com/in/chasoonjin/"
+                      href="https://www.linkedin.com/in/chasoonjin/"
                       color="primary"
                     >
                       LinkedIn
                     </Button>
                     <Button
                       size="small"
-                      component={Link}
-                      to="https://github.com/samscha"
+                      href="https://github.com/samscha"
                       color="primary"
                     >
                       GitHub
