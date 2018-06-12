@@ -32,7 +32,7 @@ router
 	 */
 	.get(
 		passport.authenticate('twitter', { failureRedirect: '/login' }),
-		function(req, res) {
+		(req, res) => {
 			res.redirect('/feature');
 		},
 	);

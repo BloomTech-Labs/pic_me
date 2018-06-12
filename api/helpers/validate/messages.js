@@ -66,3 +66,15 @@ exports.noUserFieldsChanged = {
 exports.noCredits = {
 	message: `no credits`,
 };
+
+exports.tags = {
+	notAnArray: {
+		message: `tags must be an Array`,
+	},
+	emptyArray: {
+		message: `tags cannot be empty`,
+	},
+	tagsNotAllStrings: {
+		message: `tags must all be strings`,
+	},
+};
