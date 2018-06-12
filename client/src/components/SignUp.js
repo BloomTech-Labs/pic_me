@@ -6,125 +6,126 @@ import { register, resetErrors, logout } from '../actions';
 // import { getInfo, getAllUsers, logout } from '../actions';
 
 class Signup extends Component {
-  componentWillMount() {
-    this.props.resetErrors();
-  }
+	componentWillMount() {
+		this.props.resetErrors();
+	}
 
-  submitFormHandler = ({
-    email,
-    password,
-    confirmPassword,
-    firstName,
-    lastName,
-  }) => {
-    this.props.register(
-      email,
-      password,
-      confirmPassword,
-      firstName,
-      lastName,
-      this.props.history,
-    );
-  };
+	submitFormHandler = ({
+		email,
+		password,
+		confirmPassword,
+		firstName,
+		lastName,
+	}) => {
+		this.props.register(
+			email,
+			password,
+			confirmPassword,
+			firstName,
+			lastName,
+			this.props.history,
+		);
+	};
+	renderAlert() {
+		if (this.props.error) {
+			return (
+				<div className="alert alert-danger">
+					<strong>Oops!</strong> {this.props.error}
+				</div>
+			);
+		}
+	}
+	render() {
+		return (
+			<div className="container col col-lg-2">
+				<form
+					className="Signup__form"
+					onSubmit={this.props.handleSubmit(this.submitFormHandler)}
+				>
+					<div className="SignupDescription">
+						{this.props.authenticating
+							? 'Signing up..'
+							: this.props.error === ''
+								? 'Sign up for an account'
+								: this.renderAlert()}
+					</div>
 
-  render() {
-    return (
-      <div className="Signup">
-        <form
-          className="Signup__form"
-          onSubmit={this.props.handleSubmit(this.submitFormHandler)}
-        >
-          <div className="SignupDescription">
-            {this.props.authenticating
-              ? 'Signing up..'
-              : this.props.error === ''
-                ? 'Sign up for an account'
-                : this.props.error}
-          </div>
+					<div>
+						<fieldset className="form-group">
+							<Field
+								className="form-control"
+								name="email"
+								component="input"
+								type="text"
+								placeholder="email"
+							/>
 
-          <div>
-            <fieldset>
-              <Field
-                className="InputFields"
-                name="email"
-                component="input"
-                type="text"
-                placeholder="email"
-              />
-            </fieldset>
+							<Field
+								className="form-control"
+								name="password"
+								component="input"
+								type="password"
+								placeholder="password"
+							/>
 
-            <fieldset>
-              <Field
-                className="InputFields"
-                name="password"
-                component="input"
-                type="password"
-                placeholder="password"
-              />
-            </fieldset>
+							<Field
+								className="form-control"
+								name="confirmPassword"
+								component="input"
+								type="password"
+								placeholder="confirm password"
+							/>
 
-            <fieldset>
-              <Field
-                className="InputFields"
-                name="confirmPassword"
-                component="input"
-                type="password"
-                placeholder="confirm password"
-              />
-            </fieldset>
+							<Field
+								className="form-control"
+								name="firstName"
+								component="input"
+								type="text"
+								placeholder="first name"
+							/>
 
-            <fieldset>
-              <Field
-                className="InputFields"
-                name="firstName"
-                component="input"
-                type="text"
-                placeholder="first name"
-              />
-            </fieldset>
+							<Field
+								className="form-control"
+								name="lastName"
+								component="input"
+								type="text"
+								placeholder="last name"
+							/>
+						</fieldset>
 
-            <fieldset>
-              <Field
-                className="InputFields"
-                name="lastName"
-                component="input"
-                type="text"
-                placeholder="last name"
-              />
-            </fieldset>
+						<button className="btn btn-primary" action="submit">
+							Sign up
+						</button>
 
-            <button className="SignupForm__button" action="submit">
-              Sign up
-            </button>
+						<NavLink className="SignupForm__NavLink" to="/login">
+							{' '}
+							Have an account? Log in
+						</NavLink>
+					</div>
+				</form>
 
-            <NavLink className="SignupForm__NavLink" to="/login">
-              Have an account? Log in
-            </NavLink>
-          </div>
-        </form>
-
-        {/* <div onClick={_ => this.props.getAllUsers()}>print all users</div> */}
-        <div onClick={_ => this.props.logout()}>logout</div>
-        {/* <div onClick={_ => this.props.getInfo()}>info</div> */}
-      </div>
-    );
-  }
+				{/* <div onClick={_ => this.props.getAllUsers()}>print all users</div> */}
+				{/* <button onClick={_ => this.props.logout()}>logout</button> */}
+				{/* <div onClick={_ => this.props.getInfo()}>info</div> */}
+			</div>
+		);
+	}
 }
 
 const mapStateToProps = state => ({
-  authenticating: state.auth.authenticating,
-  error: state.auth.error,
+	authenticated: state.auth.authenticated,
+	error: state.auth.error,
 });
 
 Signup = connect(mapStateToProps, {
-  // getInfo,
-  logout,
-  // getAllUsers,
-  register,
-  resetErrors,
+	// getInfo,
+	logout,
+	// getAllUsers,
+	register,
+	resetErrors,
 })(Signup);
 
 export default reduxForm({
-  form: 'signup',
-  fields: ['email', 'password', 'confirmPassword', 'firstName', 'lastName'],
+	form: 'signup',
+	fields: ['email', 'password', 'confirmPassword', 'firstName', 'lastName'],
 })(Signup);

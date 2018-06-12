@@ -1,43 +1,38 @@
-const userCTR = require('../users/controller');
-const send = require('./send');
+const r = require('./responses');
 
+/**
+ * middleware that checks to see if a req.user is present
+ *
+ * req.user is automatically created when passport deserializes the session cookie
+ */
 exports.sid = (req, res, next) => {
-  if (!req.user) {
-    res.status(422).send({ message: `session expired. please log in` });
-    return;
-  }
+	if (!req.user) {
+		r.send(res, 422, { message: `session expired. please log in` });
+		return;
+	}
 
-  next();
+	next();
+};
 
-  // const {
-  //   email,
-  //   password /* this is the hashed password deserialized by `passport` */,
-  // } = req.user;
+/**
+ * middleware that checks password for user
+ *
+ * we can assume req.user is present (this middelware MUST be placed
+ * BEFORE `authenticate.sid` middleware)
+ */
+exports.password = (req, res, next) => {
+	console.log(req.body);
+	req.user.comparePassword(req.body.user.password, (err, isMatch) => {
+		if (err) {
+			r.error(res, err, `error checking password`);
+			return;
+		}
 
-  // userCTR
-  //   .request({ email })
-  //   .then(user => {
-  //     if (!user) {
-  //       send(res, 500, { err, message: `user (${user.email}) not found` });
-  //       return;
-  //     }
+		if (!isMatch) {
+			r.send(res, 422, { message: `wrong password` });
+			return;
+		}
 
-  //     if (password !== user.password) {
-  //       send(res, 401, {
-  //         message: `passwords did not match. please check password`,
-  //       });
-  //       req.logout(); /* if session password does not match server password, force logout */
-  //       /* this happens if the user updated their password. cookie session no longer has correct password */
-  //       return;
-  //     }
-
-  //     /* user is found and password in session matches user's server-side password */
-  //     next();
-  //   })
-  //   .catch(err =>
-  //     res.status(500).send({
-  //       err,
-  //       message: `error retrieving information for user ${req.user}`,
-  //     }),
-  //   );
+		next();
+	});
 };
