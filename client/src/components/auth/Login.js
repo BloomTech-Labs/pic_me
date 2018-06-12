@@ -5,26 +5,39 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { reduxForm, Field } from 'redux-form';
 import { login, resetErrors } from '../../actions';
-import { Grid, Button, TextField, Typography } from '@material-ui/core';
+import {
+  Card,
+  CardContent,
+  Grid,
+  Button,
+  TextField,
+  Typography
+} from '@material-ui/core';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faTwitter from '@fortawesome/fontawesome-free-brands/faTwitter';
 import withRoot from '../../withRoot';
 
 const styles = theme => ({
-	root: {
-    flexGrow: 1,
+  root: {
+    flexGrow: 1
   },
   button: {
-    margin: theme.spacing.unit,
+    marginTop: 30,
+    marginBottom: 10
   },
+  card: {
+    minWidth: 350,
+    padding: 20
+  }
 });
 
-const renderTextField = ({ input, label }) => (
+const renderTextField = ({ input, label, type }) => (
   <TextField
-    id={label}
+    label={label}
     placeholder={label}
     fullWidth
     {...input}
+    type={type}
     margin="normal"
   />
 );
@@ -52,26 +65,23 @@ class Login extends Component {
     const { classes, handleSubmit, pristine, submitting } = this.props;
     return (
       <div>
-        <Grid className={classes.root} container spacing={16}>
-          <Grid item xs>
-            <Grid container justify="center">
-              {this.renderAlert()}
-            </Grid>
-            <Grid container justify="center">
+        <Grid className="classes.root" container justify="center">
+          <Card className={classes.card}>
+            <div>{this.renderAlert()}</div>
+            <div>
               <Button
                 variant="raised"
                 color="secondary"
+                fullWidth
                 className={classes.button}
                 href="https://labpicme.herokuapp.com/api/users/auth/twitter"
               >
                 <FontAwesomeIcon icon={faTwitter} />
                 Login with twitter
               </Button>
-            </Grid>
-            <Grid container justify="center">
-              <form
-                onSubmit={handleSubmit(this.submitFormHandler)}
-              >
+            </div>
+            <div>
+              <form onSubmit={handleSubmit(this.submitFormHandler)}>
                 <div>
                   <Field
                     name="email"
@@ -83,37 +93,38 @@ class Login extends Component {
                   <Field
                     name="password"
                     label="password"
+                    type="password"
                     component={renderTextField}
                   />
                 </div>
-                <Grid container justify="center">
+                <div>
                   <Button
                     className={classes.button}
                     variant="raised"
                     size="large"
                     type="submit"
+                    fullWidth
                     disabled={pristine || submitting}
                   >
                     Log in
                   </Button>
-                </Grid>
+                </div>
               </form>
-            </Grid>
-          	<Grid container justify="center">
+            </div>
+            <CardContent>
               <Link to="/signup">
                 <Typography variant="body1" gutterBottom>
                   Don't have an account? Sign up
                 </Typography>
               </Link>
-            </Grid>
-            <Grid container justify="center">
+
               <Link to="/forgotpassword">
                 <Typography variant="body1" gutterBottom>
                   Forgot password?
                 </Typography>
               </Link>
-            </Grid>
-          </Grid>
+            </CardContent>
+          </Card>
         </Grid>
       </div>
     );
@@ -142,6 +153,6 @@ Login = connect(
 const LoginWrapped = withRoot(withStyles(styles)(Login));
 
 export default reduxForm({
-  form: 'login'
-  // fields: ['email', 'password'],
+  form: 'login',
+  fields: ['email', 'password'],
 })(LoginWrapped);
