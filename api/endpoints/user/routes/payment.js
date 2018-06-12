@@ -39,7 +39,7 @@ router
 	 *    user: { ... }
 	 * }
 	 */
-	.post(authenticate.sid, stripeCTR.process, userCTR.updateTest, (req, res) => {
+	.post(authenticate.sid, stripeCTR.process, userCTR.update, (req, res) => {
 		r.send(res, 200, {
 			captured: req.captured,
 			user: sanitize.response(req.updatedUser),

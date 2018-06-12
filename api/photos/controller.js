@@ -16,8 +16,23 @@ exports.downloadPhoto = function(req, res, next) {};
 
 exports.addToCollection = function(req, res, next) {};
 
-exports.updateTags = (_id, tags) => {
-	return Photo.findByIdAndUpdate(_id, { tags }, { new: true });
+exports.updateTags = (req, res, next) => {
+	const tags = req.body.tags.map(t => ({ id: t, text: t }));
+
+	Photo.findByIdAndUpdate(
+		req.params.id,
+		{ tags },
+		{ new: true },
+		(err, updatedPhoto) => {
+			if (err) {
+				r.error(res, err, `error updating tags of photo`);
+				return;
+			}
+
+			req.updatedPhoto = updatedPhoto;
+			next();
+		},
+	);
 };
 
 exports.getPhotosOf = (req, res, next) => {
@@ -50,4 +65,30 @@ exports.getPhotosOf = (req, res, next) => {
 exports.request = parm => {
 	if (!parm) return Photo.find();
 	return Photo.findOne(parm);
+};
+
+/**
+ * add pictures to database
+ */
+exports.insertMany = (req, res, next) => {
+	const uploadedImages = req.files.map((i, idx) => {
+		let newImage = {};
+		newImage.tags = JSON.parse(req.body.tags);
+		newImage.url = i.transforms[0].location;
+		newImage.owner = req.user.id;
+		return newImage;
+	});
+
+	Photo.insertMany(uploadedImages, (err, docs) => {
+		if (err) {
+			r.error(res, err, 'failed to save images');
+			return;
+		}
+
+		const pictureIds = [];
+		docs.forEach(image => pictureIds.push(image._id));
+
+		req.pictureIds = pictureIds;
+		next();
+	});
 };

@@ -52,15 +52,8 @@ router
 	 * put updatedPhoto into an Array and
 	 * just choose the 0-th element in returned Array
 	 */
-	.put(authenticate.sid, (req, res) => {
-		const tags = req.body.tags.map(t => ({ id: t, text: t }));
-
-		photoCTR
-			.updateTags(req.params.id, tags)
-			.then(updatedPhoto =>
-				r.send(res, 200, sanitize.pictures([updatedPhoto])[0]),
-			)
-			.catch(err => r.error(res, err, `error updating tags of photo`));
+	.put(authenticate.sid, photoCTR.updateTags, (req, res) => {
+		r.send(res, 200, sanitize.pictures([req.updatedPhoto])[0]);
 	})
 
 	/**

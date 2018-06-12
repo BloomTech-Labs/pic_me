@@ -48,7 +48,7 @@ exports.retrieve = (req, res, next) => {
 	});
 };
 
-exports.updateTest = (req, res, next) => {
+exports.update = (req, res, next) => {
 	User.findByIdAndUpdate(req.user.id, req.parm, { new: true }, (err, doc) => {
 		if (err) {
 			r.error(res, err, `error updating user`);
@@ -70,10 +70,6 @@ exports.requestById = (req, res, next) => {
 		req.requestedUser = user;
 		next();
 	});
-};
-
-exports.update = (_id, user) => {
-	return User.findByIdAndUpdate(_id, user, { new: true });
 };
 
 exports.delete = (req, res, next) => {
@@ -168,4 +164,21 @@ exports.userPhotoDelete = (req, res, next) => {
 		req.updatedUser = updatedUser;
 		next();
 	});
+};
+
+exports.findOneAndUpdateUploadedPhotos = (req, res, next) => {
+	User.findOneAndUpdate(
+		{ _id: req.user.id },
+		{ $push: { uploads: req.pictureIds } },
+		{ new: true },
+		(err, updatedUser) => {
+			if (err) {
+				r.error(res, err, `server failed to add uploaded photo to user`);
+				return;
+			}
+
+			req.updatedUser = updatedUser;
+			next();
+		},
+	);
 };

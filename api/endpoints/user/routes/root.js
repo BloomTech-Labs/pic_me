@@ -103,7 +103,7 @@ router
 		authenticate.sid,
 		validate.update,
 		sanitize.update,
-		userCTR.updateTest,
+		userCTR.update,
 		(req, res) => {
 			r.send(res, 200, sanitize.response(req.updatedUser));
 		},
