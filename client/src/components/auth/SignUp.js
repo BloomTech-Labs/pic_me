@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { reduxForm, Field } from 'redux-form';
-import { register, resetErrors, logout } from '../actions';
+import { register, resetErrors, logout } from '../../actions';
 // import { getInfo, getAllUsers, logout } from '../actions';
 
 class Signup extends Component {

@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.8",
+    "@fortawesome/fontawesome-free-brands": "^5.0.13",
+    "@fortawesome/react-fontawesome": "^0.0.20",
     "@material-ui/core": "^1.1.0",
     "@material-ui/icons": "^1.1.0",
     "axios": "^0.18.0",
@@ -22,6 +25,7 @@
     "reactstrap": "^6.0.1",
     "redux": "^4.0.0",
     "redux-form": "^7.3.0",
+    "redux-form-material-ui": "^4.3.4",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "styled-components": "^3.3.2",

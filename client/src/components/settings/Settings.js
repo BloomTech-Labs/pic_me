@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import Account from './Account';
 import Profile from './Profile';
 import Deleteaccount from './Deleteaccount';
-import { getInfo } from '../actions';
+import { getInfo } from '../../actions';
 
 class Settings extends Component {
 	componentWillMount() {

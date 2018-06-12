@@ -16,6 +16,7 @@ import lambda from '../static/Lambda_Symbol.png';
 import Elly from '../static/elly.jpeg';
 import Julian from '../static/julian.jpeg';
 import Sam from '../static/sam.jpeg';
+import withRoot from '../withRoot';
 
 const styles = theme => ({
   root: {
@@ -73,8 +74,10 @@ class About extends Component {
                     title="Elly S. Han"
                   />
                   <CardContent>
-                    Software engineer with a psychology background. With 8 years
-                    of experience at Microsoft, startup, and mHealth.
+                    <Typography variant="body1" gutterBottom>
+                      Software engineer with a psychology background. With 8
+                      years of experience at Microsoft, startup, and mHealth.
+                    </Typography>
                   </CardContent>
                   <CardActions className={classes.actions}>
                     <Button
@@ -109,8 +112,10 @@ class About extends Component {
                     title="Julian J. Kohlman"
                   />
                   <CardContent>
-                    A persistent learner who enjoys solving problems from the
-                    backend, to the frontend.
+                    <Typography variant="body1" gutterBottom>
+                      A persistent learner who enjoys solving problems from the
+                      backend, to the frontend.
+                    </Typography>
                   </CardContent>
                   <CardActions className={classes.actions}>
                     <Button
@@ -141,8 +146,10 @@ class About extends Component {
                     title="Samuel Cha"
                   />
                   <CardContent>
-                    A software engineer that dreams of making “life” apps with
-                    rich websites and clean backends.
+                    <Typography variant="body1" gutterBottom>
+                      A software engineer that dreams of making “life” apps with
+                      rich websites and clean backends.
+                    </Typography>
                   </CardContent>
                   <CardActions className={classes.actions}>
                     <Button
@@ -176,4 +183,4 @@ About.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(About);
+export default withRoot(withStyles(styles)(About));

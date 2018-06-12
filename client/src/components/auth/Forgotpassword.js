@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { forgotPassword } from '../actions';
+import { forgotPassword } from '../../actions';
 
 class Fogotpassword extends Component {
   constructor(props) {

@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { StripeProvider } from 'react-stripe-elements';
 import thunk from 'redux-thunk';
-// import logger from 'redux-logger';
+import logger from 'redux-logger';
 import reducer from '../reducers';
 
 // Common Components
@@ -16,9 +16,11 @@ import About from './About';
 import Gatekeeper from './Gatekeeper';
 
 // Views for Authentication
-import SignUp from './SignUp';
-import Login from './Login';
-import Logout from './Logout';
+import SignUp from './auth/SignUp';
+import Login from './auth/Login';
+import Logout from './auth/Logout';
+import ForgotPassword from './auth/Forgotpassword';
+import Mobil from './auth/Mobil';
 
 // Photo Views
 import Upload from './picture/Upload';
@@ -28,15 +30,13 @@ import MyCollection from './picture/MyCollection';
 
 // General Views
 import Landing from './Landing';
-import Settings from './Settings';
+import Settings from './settings/Settings';
 import Billings from './Billings';
-import ForgotPassword from './Forgotpassword';
 import Feature from './Feature';
-import Mobil from './Mobil';
 import Bread from './Bread';
 
-// const store = createStore(reducer, applyMiddleware(logger, thunk));
-const store = createStore(reducer, applyMiddleware(thunk));
+const store = createStore(reducer, applyMiddleware(logger, thunk));
+// const store = createStore(reducer, applyMiddleware(thunk));
 
 class App extends Component {
 	render() {
