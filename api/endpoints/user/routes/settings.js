@@ -41,41 +41,23 @@ router
 	 *
 	 * returns:
 	 * {
-	 *    user:
-	 *    {
-	 *       email: 'my_edited@email.com',
-	 *       firstName: 'mary',
-	 *       lastName: 'jane',
-	 *       balance: 0,
-	 *       nickNames: ['Mary', 'MJ'],
-	 *       photos: [],
-	 *       uploads: []
-	 *    }
+	 *    email: 'my_edited@email.com',
+	 *    firstName: 'mary',
+	 *    lastName: 'jane',
+	 *    balance: 0,
+	 *    nickNames: ['Mary', 'MJ'],
+	 *    photos: [],
+	 *    uploads: []
 	 * }
 	 */
 	.put(
 		authenticate.sid,
 		validate.settingsData,
 		sanitize.settingsData,
+		userCTR.requestById,
+		userCTR.save,
 		(req, res) => {
-			userCTR
-				.requestById(req.user.id)
-				.then(user => {
-					const { email, password } = req.settings;
-
-					if (email) user.email = email;
-					if (password) user.password = password;
-
-					userCTR
-						.save(user)
-						.then(savedUser => {
-							// req.logout();
-
-							r.send(res, 200, sanitize.response(savedUser));
-						})
-						.catch(err => r.error(res, err, `error updating user settings`));
-				})
-				.catch(err => r.error(res, err, `error finding user by id`));
+			r.send(res, 200, sanitize.response(savedUser));
 		},
 	);
 

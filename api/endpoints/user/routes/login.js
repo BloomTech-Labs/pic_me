@@ -31,7 +31,8 @@ router
 	 *
 	 * returns:
 	 * {
-	 *    message: 'successfully logged in'
+	 *    message: 'successfully logged in',
+	 *    user: { ... }
 	 * }
 	 *
 	 * if login fails:

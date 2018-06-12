@@ -10,6 +10,7 @@ const {
 	checkForChangedFields,
 	checkForChangedSettings,
 	checkBalance,
+	checkTags,
 } = require('./helper');
 
 /**
@@ -72,6 +73,12 @@ exports.settingsData = (req, res, next) => {
  */
 exports.credits = (req, res, next) => {
 	if (!checkBalance(res, req.user)) return;
+
+	next();
+};
+
+exports.updatedTags = (req, res, next) => {
+	if (!checkTags(res, req.body.tags)) return;
 
 	next();
 };
