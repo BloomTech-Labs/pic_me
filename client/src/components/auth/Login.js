@@ -14,6 +14,9 @@ const styles = theme => ({
 	root: {
     flexGrow: 1,
   },
+  button: {
+    margin: theme.spacing.unit,
+  },
 });
 
 const renderTextField = ({ input, label }) => (
@@ -50,7 +53,7 @@ class Login extends Component {
     return (
       <div>
         <Grid className={classes.root} container spacing={16}>
-          <Grid key={0} item xs>
+          <Grid item xs>
             <Grid container justify="center">
               {this.renderAlert()}
             </Grid>
@@ -58,6 +61,7 @@ class Login extends Component {
               <Button
                 variant="raised"
                 color="secondary"
+                className={classes.button}
                 href="https://labpicme.herokuapp.com/api/users/auth/twitter"
               >
                 <FontAwesomeIcon icon={faTwitter} />
@@ -67,7 +71,6 @@ class Login extends Component {
             <Grid container justify="center">
               <form
                 onSubmit={handleSubmit(this.submitFormHandler)}
-                className={classes.container}
               >
                 <div>
                   <Field
@@ -85,6 +88,7 @@ class Login extends Component {
                 </div>
                 <Grid container justify="center">
                   <Button
+                    className={classes.button}
                     variant="raised"
                     size="large"
                     type="submit"
