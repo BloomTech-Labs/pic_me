@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { WithContext as ReactTags } from 'react-tag-input';
 import styled from 'styled-components';
-// import styles from './Tags.css';
 import './Upload.css';
+import './Tags.css';
 import Image from 'react-image-resizer';
 import FileUpload from '@material-ui/icons/FileUpload';
 import { Button, Input } from '@material-ui/core';
@@ -14,41 +14,22 @@ const Container = styled.div`
 	// display: flex;
 	// justify-content: center;
 	// align-items: center;
-	// margin-top: 10%;
+	// margin-top: 7%;
 `;
-
-// const Input = styled.input`
-// 	font-size: 14px;
-// 	margin-bottom: 10px;
-// `;
-
-// const TagForm = styled.form`
-// 	// margin: 20px;
-// 	font-size: 12px;
-// `;
-
-// const FileInput = styled.input`
-// 	// background: #2953A0;
-// 	// height: 31px;
-// 	margin 0 5px;
-// `;
-
-// const FormLabel = styled.label`
-// 	height: 31px;
-// 	margin: auto;
-// `;
-
-// const UploadButton = styled.button`
-// 	height: 31px;
-// 	margin 0 5px;
-// 	// background: #2953A0;
-// 	border-radius: 4px;
-// `;
 
 const keyCodes = {
 	comma: 188,
-	enter: 13,
+	enter: 13
 };
+
+// const style = {
+// 	image: {
+// 		// width: 100%;
+// 		maxWidth: '400px',
+// 		margin: '0 auto',
+// 		padding: '0 0 3em 0',
+// 	}
+// }
 
 const delimiters = [keyCodes.comma, keyCodes.enter];
 
@@ -58,18 +39,15 @@ export default class Upload extends Component {
 
 		this.state = {
 			image: '',
-			preview: '',
-			tags: [],
-			// suggestions: [
-			//   {id: 'Nickname', text: 'Nickname'}
-			// ]
+			preview: undefined,
+			tags: []
 		};
 	}
 
 	handleDelete = i => {
 		const { tags } = this.state;
 		this.setState({
-			tags: tags.filter((tag, index) => index !== i),
+			tags: tags.filter((tag, index) => index !== i)
 		});
 	};
 
@@ -95,12 +73,21 @@ export default class Upload extends Component {
 		reader.onloadend = () => {
 			this.setState({
 				image: image,
-				preview: reader.result,
+				preview: reader.result
 			});
 		};
 
 		reader.readAsDataURL(image);
 	};
+
+	resetPreview = e => {
+		e.preventDefault();
+		this.setState({
+			preview: undefined,
+			tags: [],
+		})
+		console.log('reset clicked');
+	}
 
 	onSubmit = e => {
 		e.preventDefault();
@@ -117,13 +104,40 @@ export default class Upload extends Component {
 				console.log('upload successful');
 			})
 			.catch(err => console.log(err));
-
-		this.refs.image.value = '';
+		
+		this.resetPreview(e)
+		// this.refs.image.value = '';
 	};
-
+	
 	render() {
 		let { preview, tags } = this.state;
-
+		console.log(preview === undefined);
+		if (preview) {
+			return <Container>
+					<form onSubmit={this.onSubmit}>
+						<div className="container">
+							<h3> Upload </h3>
+							<hr />
+							<div className="content">
+								<Button variant="raised" color="primary" onClick={this.resetPreview}>
+									Change Upload?
+								</Button>
+								{/* Figure out how to adjust width based on device. Widths < 400px look awkward */}
+								<Image src={preview} height={400} width={400} />
+								<div>
+									<ReactTags inline tags={tags} handleDelete={this.handleDelete} handleAddition={this.handleAddition} handleDrag={this.handleDrag} delimiters={delimiters} />
+								</div>
+								<div>
+									<Button variant="raised" color="primary" type="submit" onClick={this.onSubmit}>
+										Upload Image
+										<FileUpload />
+									</Button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</Container>;
+		} else {
 		return (
 			<Container>
 				<form onSubmit={this.onSubmit}>
@@ -140,41 +154,13 @@ export default class Upload extends Component {
 									onChange={this.onChange}
 									className="inputfile"
 								/>
-								<label htmlFor="file">Select a File</label>
-
-								{/* <label htmlFor="file">Select a File</label> */}
-							</div>
-
-							<div>
-								<ReactTags
-									inline
-									tags={tags}
-									// suggestions={suggestions}
-									handleDelete={this.handleDelete}
-									handleAddition={this.handleAddition}
-									handleDrag={this.handleDrag}
-									delimiters={delimiters}
-								/>
-							</div>
-
-							<div>
-								<Button
-									variant="raised"
-									color="primary"
-									type="submit"
-									onClick={this.onSubmit}
-								>
-									Upload Image
-									<FileUpload />
-								</Button>
+								<label className="fileLabel" htmlFor="file">Select a File</label>
 							</div>
 						</div>
 					</div>
 				</form>
-				<div className="content">
-					<Image src={preview} height={400} width={400} />
-				</div>
 			</Container>
 		);
+	}
 	}
 }

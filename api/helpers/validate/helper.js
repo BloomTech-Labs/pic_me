@@ -290,3 +290,30 @@ exports.checkBalance = (res, user) => {
 
 	return true;
 };
+
+exports.checkTags = (res, tags) => {
+	if (!Array.isArray(tags)) {
+		r.send(res, 422, message.tags.notAnArray);
+		return;
+	}
+
+	if (tags.length <= 0) {
+		r.send(res, 422, message.tags.emptyArray);
+		return;
+	}
+
+	let tagsAllStrings = true;
+
+	for (let i = 0; i < tags.length; i++) {
+		if (typeof tags[i] !== 'string') {
+			tagsAllStrings = false;
+		}
+	}
+
+	if (!tagsAllStrings) {
+		r.send(res, 422, message.tags.tagsNotAllStrings);
+		return;
+	}
+
+	return true;
+};

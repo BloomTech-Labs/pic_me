@@ -32,15 +32,8 @@ router
 	 *    { etc   }
 	 * ]
 	 */
-	.get(authenticate.sid, (req, res) => {
-		dev
-			? userCTR
-					.request()
-					.then(users => r.send(res, 200, users))
-					.catch(err =>
-						r.send(res, 500, { err, message: `server error retrieving users` }),
-					)
-			: null;
+	.get(authenticate.sid, userCTR.retrieve, (req, res) => {
+		dev ? r.send(res, 200, req.foundUsers) : null;
 	});
 
 module.exports = router;

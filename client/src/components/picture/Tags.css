@@ -32,6 +32,7 @@ div.ReactTags__tags {
 
 /* Styles for the input */
 div.ReactTags__tagInput {
+    padding: 6px;
     width: 200px;
     border-radius: 2px;
     display: inline-block;
@@ -45,7 +46,7 @@ div.ReactTags__tagInput input.ReactTags__tagInputField:focus {
     font-size: 14px;
     width: 100%;
     border: 1px solid #eee;
-    border-bottom-color: #607D8B;
+    border-bottom-color: #3f51b5;
 }
 
 
@@ -53,7 +54,7 @@ div.ReactTags__tagInput input.ReactTags__tagInputField:focus {
 div.ReactTags__selected span.ReactTags__tag {
     border: 1px solid #ddd;
     background: #eee;
-    font-size: 12px;
+    font-size: 14px;
     display: inline-block;
     padding: 5px;
     margin: 0 5px;
