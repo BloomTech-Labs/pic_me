@@ -35,8 +35,8 @@ import Billings from './Billings';
 import Feature from './Feature';
 import Bread from './Bread';
 
-const store = createStore(reducer, applyMiddleware(logger, thunk));
-// const store = createStore(reducer, applyMiddleware(thunk));
+// const store = createStore(reducer, applyMiddleware(logger, thunk));
+const store = createStore(reducer, applyMiddleware(thunk));
 
 class App extends Component {
 	render() {
