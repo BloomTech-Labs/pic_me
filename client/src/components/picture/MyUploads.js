@@ -9,6 +9,7 @@ import {
 	withStyles,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Edit from '@material-ui/icons/Edit';
 import {
 	deletemyuploads,
 	myuploads,
@@ -113,21 +114,29 @@ class MyUploads extends Component {
 				{this.renderAlert()}
 				<GridList cellHeight={300} spacing={1} cols={3}>
 					{this.state.uploads.map(img => (
-						<GridListTile
-							key={img.id}
-							cols={img.cols || 1}
-							onClick={_ => this.editTagsOf(img.id, img.tags)}
-						>
+						<GridListTile key={img.id} cols={img.cols || 1}>
 							<img src={img.url} alt="myuploads" />
 							<GridListTileBar
-								title={img.tags.map(i => i.text).join(', ')}
-								titlePosition="bottom"
+								titlePosition="top"
 								actionIcon={
 									<IconButton
 										className={classes.icon}
 										onClick={_ => this.toggle(img.id)}
 									>
 										<DeleteIcon />
+									</IconButton>
+								}
+								actionPosition="right"
+							/>
+							<GridListTileBar
+								title={img.tags.map(i => i.text).join(', ')}
+								titlePosition="bottom"
+								actionIcon={
+									<IconButton
+										className={classes.icon}
+										onClick={_ => this.editTagsOf(img.id, img.tags)}
+									>
+										<Edit />
 									</IconButton>
 								}
 								actionPosition="right"
