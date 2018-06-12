@@ -23,8 +23,7 @@ const styles = theme => ({
     flexGrow: 1
   },
   card: {
-    maxWidth: 345,
-    height: 230,
+    maxWidth: 340,
   },
   control: {
     padding: theme.spacing.unit * 2
@@ -76,7 +75,7 @@ class About extends Component {
                   />
                   <CardContent>
                     <Typography variant="body1" gutterBottom>
-                      Software engineer with a psychology background. Have 8
+                      Elly is a software engineer with a psychology background. Have 8
                       years experience at Microsoft, startup, and mHealth.
                     </Typography>
                   </CardContent>
@@ -112,7 +111,7 @@ class About extends Component {
                   />
                   <CardContent>
                     <Typography variant="body1" gutterBottom>
-                      A persistent learner who enjoys solving problems from the
+                      Julian is a persistent learner who enjoys solving problems from the
                       backend, to the frontend.
                     </Typography>
                   </CardContent>
@@ -144,7 +143,7 @@ class About extends Component {
                   />
                   <CardContent>
                     <Typography variant="body1" gutterBottom>
-                      A software engineer that dreams of making “life” apps with
+                      Sam is a software engineer that dreams of making “life” apps with
                       rich websites and clean backends.
                     </Typography>
                   </CardContent>
