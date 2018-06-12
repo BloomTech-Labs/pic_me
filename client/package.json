@@ -25,7 +25,6 @@
     "reactstrap": "^6.0.1",
     "redux": "^4.0.0",
     "redux-form": "^7.3.0",
-    "redux-form-material-ui": "^4.3.4",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "styled-components": "^3.3.2",

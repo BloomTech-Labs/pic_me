@@ -75,8 +75,8 @@ class About extends Component {
                   />
                   <CardContent>
                     <Typography variant="body1" gutterBottom>
-                      Software engineer with a psychology background. With 8
-                      years of experience at Microsoft, startup, and mHealth.
+                      Software engineer with a psychology background. Have 8
+                      years experience at Microsoft, startup, and mHealth.
                     </Typography>
                   </CardContent>
                   <CardActions className={classes.actions}>
