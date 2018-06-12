@@ -1,5 +1,7 @@
 const Photo = require('./model');
 
+const r = require('../helpers/responses');
+
 exports.uploadPhoto = function(req, res, next) {
 	// upload should be added to user uploads too
 	const photo = new Photo(img);
@@ -16,19 +18,27 @@ exports.addToCollection = function(req, res, next) {};
 
 exports.updateTags = function(req, res, next) {};
 
-exports.getPhotosOf = nickNames => {
+exports.getPhotosOf = (req, res, next) => {
 	let nickNamesString = '';
 
 	nickNamesString += `[`;
 
-	nickNames.forEach(n => (nickNamesString += `"${n}", `));
+	req.user.nickNames.forEach(n => (nickNamesString += `"${n}", `));
 
 	nickNamesString = nickNamesString.slice(0, nickNamesString.length - 2);
 	nickNamesString += `]`;
 
-	return Photo.$where(
+	Photo.$where(
 		`this.tags.map(t => t.text).some(e => ${nickNamesString}.includes(e))`,
-	);
+	).exec((err, photos) => {
+		if (err) {
+			r.error(res, err, `error finding photos of you`);
+			return;
+		}
+
+		req.othermes = photos;
+		next();
+	});
 };
 
 /**

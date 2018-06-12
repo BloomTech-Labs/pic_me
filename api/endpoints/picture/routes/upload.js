@@ -43,15 +43,15 @@ router
 	.post(authenticate.sid, upload.array('image'), (req, res) => {
 		const uploaded = req.files;
 		const ownerId = req.user.id;
-		console.log('in /upload');
+		// console.log('in /upload');
 
 		const uploadedImages = uploaded.map((i, idx) => {
 			let newImage = {};
-			console.log('Tags =>', req.body.tags);
+			// console.log('Tags =>', req.body.tags);
 			newImage.tags = JSON.parse(req.body.tags);
 			newImage.url = i.transforms[0].location;
 			newImage.owner = req.user.id;
-			console.log('newimage', newImage);
+			// console.log('newimage', newImage);
 			return newImage;
 		});
 
@@ -67,9 +67,9 @@ router
 				pictureIds.push(image._id);
 			});
 
-			console.log('picture ids', pictureIds);
-			console.log('fpicture ids 0', pictureIds[0]);
-			console.log('typeofpicture ids', typeof pictureIds[0]);
+			// console.log('picture ids', pictureIds);
+			// console.log('fpicture ids 0', pictureIds[0]);
+			// console.log('typeofpicture ids', typeof pictureIds[0]);
 
 			user
 				.findOneAndUpdate(

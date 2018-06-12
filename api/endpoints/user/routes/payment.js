@@ -1,17 +1,9 @@
 const router = require('express').Router();
 
 /**
- * env config:
- * STRIPE_SECRET=sk_test_BQokikJOvBiI2HlWgH4olfQ2
- *
- * demo test secret key above, found below:
- * https://stripe.com/docs/charges
- *
- * to find your api keys:
- * https://dashboard.stripe.com/account/apikeys
- *
+ * controller that interacts with Stripe api
  */
-const stripe = require('stripe')(process.env.STRIPE_SECRET);
+const stripeCTR = require('../../stripe');
 
 /**
  * controller that interacts with the users table in database
@@ -43,63 +35,15 @@ router
 	 *
 	 * returns:
 	 * {
-	 *    message: 'successfully logged out'
+	 *    captured: true,
+	 *    user: { ... }
 	 * }
 	 */
-	.post(authenticate.sid, (req, res) => {
-		const token = req.body.stripeToken;
-		const typeOfCharge = req.body.typeOfCharge;
-
-		/**
-		 * env config:
-		 * STRIPE_PAYMENTS={"currency":"usd","sm":"199","lg":"999","description":{"sm":"small charge","lg":"large charge"}}
-		 *
-		 * remember that charges are in CENTS so:
-		 * 199 = $1.99
-		 * 999 = $9.99
-		 *
-		 * the minimum charge (as of June 1, 2018) is $0.50, or 50 cents
-		 */
-		const stripeSettings = JSON.parse(process.env.STRIPE_PAYMENTS);
-
-		const amount = +stripeSettings[typeOfCharge];
-		const currency = stripeSettings.currency;
-		const description = stripeSettings.description[typeOfCharge];
-		const balance = stripeSettings.balance[typeOfCharge];
-
-		stripe.charges
-			.create({
-				amount,
-				currency,
-				description,
-				source: token,
-			})
-			.then(response => {
-				/**
-				 * if payment is successfully captured, add credits to account,
-				 * otherwise send error message
-				 */
-				if (response.captured) {
-					userCTR
-						.update(req.user.id, { $inc: { balance } })
-						.then(updatedUser => {
-							r.send(res, 200, {
-								captured: response.captured,
-								user: sanitize.response(updatedUser),
-							});
-						})
-						.catch(err =>
-							r.send(res, 500, { err, message: `error updating credits` }),
-						);
-
-					return;
-				}
-
-				r.send(res, 500, { message: `failed to verify payment` });
-			})
-			.catch(err =>
-				r.send(res, 500, { err, message: `error charging payment` }),
-			);
+	.post(authenticate.sid, stripeCTR.process, userCTR.updateTest, (req, res) => {
+		r.send(res, 200, {
+			captured: req.captured,
+			user: sanitize.response(req.updatedUser),
+		});
 	});
 
 module.exports = router;

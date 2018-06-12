@@ -51,23 +51,17 @@ router
 	 *
 	 * returns:
 	 * {
-	 *    user:
-	 *    {
-	 *       email: 'my@email.com',
-	 *       firstName: 'john',
-	 *       lastName: 'doe',
-	 *       balance: 0,
-	 *       nickNames: ['John'],
-	 *       photos: [],
-	 *       uploads: []
-	 *    }
+	 *    email: 'my@email.com',
+	 *    firstName: 'john',
+	 *    lastName: 'doe',
+	 *    balance: 0,
+	 *    nickNames: ['John'],
+	 *    photos: [],
+	 *    uploads: []
 	 * }
 	 */
-	.post(validate.signup, sanitize.user, (req, res) => {
-		userCTR
-			.create(req.newUser)
-			.then(savedUser => r.send(res, 201, sanitize.response(savedUser)))
-			.catch(err => r.error(res, err, `server failed to save new user`));
+	.post(validate.signup, sanitize.user, userCTR.create, (req, res) => {
+		r.send(res, 201, sanitize.response(req.savedUser));
 	})
 
 	/**
@@ -94,25 +88,26 @@ router
 	 * }
 	 *
 	 * returns:
+	 * user:
 	 * {
-	 *    user:
-	 *    {
-	 *       email: 'my@email.com',
-	 *       firstName: 'mary',
-	 *       lastName: 'jane',
-	 *       balance: 0,
-	 *       nickNames: ['Mary', 'MJ'],
-	 *       photos: [],
-	 *       uploads: []
-	 *    }
+	 *    email: 'my@email.com',
+	 *    firstName: 'mary',
+	 *    lastName: 'jane',
+	 *    balance: 0,
+	 *    nickNames: ['Mary', 'MJ'],
+	 *    photos: [],
+	 *    uploads: []
 	 * }
 	 */
-	.put(authenticate.sid, validate.update, sanitize.update, (req, res) => {
-		userCTR
-			.update(req.user.id, req.editedUser)
-			.then(editedUser => r.send(res, 200, sanitize.response(editedUser)))
-			.catch(err => r.error(res, err, `server failed to edit user`));
-	})
+	.put(
+		authenticate.sid,
+		validate.update,
+		sanitize.update,
+		userCTR.updateTest,
+		(req, res) => {
+			r.send(res, 200, sanitize.response(req.updatedUser));
+		},
+	)
 
 	/**
 	 * DELETE /api/users
@@ -125,15 +120,10 @@ router
 	 * redirect to logout page
 	 *
 	 */
-	.delete(authenticate.sid, (req, res) => {
-		userCTR
-			.delete(req.user.id)
-			.then(_ => {
-				req.logout();
+	.delete(authenticate.sid, userCTR.delete, (req, res) => {
+		req.logout();
 
-				r.send(res, 200, { message: `user successfully deleted` });
-			})
-			.catch(err => r.error(res, err, `server failed to delete user`));
+		r.send(res, 200, { message: `user successfully deleted` });
 	});
 
 module.exports = router;

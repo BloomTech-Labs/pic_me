@@ -29,11 +29,8 @@ router
 	 *
 	 * retrieves all uploaded photos for logged in user
 	 */
-	.get(authenticate.sid, (req, res) => {
-		userCTR
-			.uploads(req.user.id)
-			.then(user => r.send(res, 200, sanitize.pictures(user.uploads)))
-			.catch(err => r.error(res, err, `server error retrieving user uploads`));
+	.get(authenticate.sid, userCTR.uploads, (req, res) => {
+		r.send(res, 200, sanitize.pictures(req.userUploads));
 	});
 
 /**
@@ -52,11 +49,13 @@ router
 	 *       deleting actual photos is NOT allowed right now
 	 *       there should be a disclaimed when uploading photos about this
 	 */
-	.delete(authenticate.sid, (req, res) => {
-		userCTR
-			.photoUploadDelete(req.user.id, req.params.id)
-			.then(result => r.send(res, 200, result))
-			.catch(err => r.error(res, err, `error deleting photo`));
-	});
+	.delete(
+		authenticate.sid,
+		userCTR.requestById,
+		userCTR.photoUploadDelete,
+		(req, res) => {
+			r.send(res, 200, sanitize.response(req.updatedUser));
+		},
+	);
 
 module.exports = router;
