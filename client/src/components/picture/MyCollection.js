@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 // import ArrowDownwardIcon from '@material-ui/icons/Star';
 import Delete from '@material-ui/icons/Delete';
+import GetApp from '@material-ui/icons/GetApp';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {
 	mycollection,
@@ -70,6 +71,10 @@ class Browse extends Component {
 		this.setState({ collection: nextProps.collection });
 	}
 
+	openThis = uri => {
+		window.open(uri, '_blank');
+	};
+
 	renderAlert() {
 		if (this.props.error || this.props.photoError) {
 			return (
@@ -96,6 +101,15 @@ class Browse extends Component {
 					{this.state.collection.map(img => (
 						<GridListTile key={img.id} cols={img.cols || 1}>
 							<img src={img.url} alt="myuploads" />
+							<GridListTileBar
+								titlePosition="top"
+								actionIcon={
+									<IconButton onClick={_ => this.openThis(img.url)}>
+										<GetApp className="text-white" />
+									</IconButton>
+								}
+								actionPosition="left"
+							/>
 							<GridListTileBar
 								title={img.tags.map(i => i.text).join(', ')}
 								titlePosition="bottom"

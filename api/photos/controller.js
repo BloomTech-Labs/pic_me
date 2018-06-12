@@ -16,7 +16,9 @@ exports.downloadPhoto = function(req, res, next) {};
 
 exports.addToCollection = function(req, res, next) {};
 
-exports.updateTags = function(req, res, next) {};
+exports.updateTags = (_id, tags) => {
+	return Photo.findByIdAndUpdate(_id, { tags }, { new: true });
+};
 
 exports.getPhotosOf = (req, res, next) => {
 	let nickNamesString = '';

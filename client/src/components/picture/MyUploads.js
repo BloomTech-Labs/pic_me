@@ -9,7 +9,12 @@ import {
 	withStyles,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { deletemyuploads, myuploads, resetPhotoErrors } from '../../actions';
+import {
+	deletemyuploads,
+	myuploads,
+	resetPhotoErrors,
+	updateTagsOf,
+} from '../../actions';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 const styles = theme => ({
@@ -87,6 +92,17 @@ class MyUploads extends Component {
 		}
 	}
 
+	editTagsOf = (imgId, tags) => {
+		let newTags = prompt(
+			`Add or edit these tags (TAG1, TAG2, TAG3, TAG4, TAG5)`,
+			`${tags.map(i => i.text).join(', ')}`,
+		);
+
+		if (newTags) {
+			this.props.updateTagsOf(imgId, newTags);
+		}
+	};
+
 	render() {
 		const { classes } = this.props;
 
@@ -97,7 +113,11 @@ class MyUploads extends Component {
 				{this.renderAlert()}
 				<GridList cellHeight={300} spacing={1} cols={3}>
 					{this.state.uploads.map(img => (
-						<GridListTile key={img.id} cols={img.cols || 1}>
+						<GridListTile
+							key={img.id}
+							cols={img.cols || 1}
+							onClick={_ => this.editTagsOf(img.id, img.tags)}
+						>
 							<img src={img.url} alt="myuploads" />
 							<GridListTileBar
 								title={img.tags.map(i => i.text).join(', ')}
@@ -159,4 +179,5 @@ export default connect(mapStatetoProps, {
 	myuploads,
 	deletemyuploads,
 	resetPhotoErrors,
+	updateTagsOf,
 })(MyUploadsWrapped);

@@ -61,6 +61,7 @@ router
 	 * make sure user has credits, then
 	 * retrieve picture, then
 	 * add photo ref to user's photo
+	 * if successful, add credits to original user
 	 */
 	.post(authenticate.sid, validate.credits, (req, res) => {
 		photoCTR
@@ -75,7 +76,16 @@ router
 						{ $push: { photos: photoId }, $inc: { balance: -1 } },
 						{ new: true },
 					)
-					.then(updatedUser => r.send(res, 200, sanitize.response(updatedUser)))
+					.then(updatedUser => {
+						const ownerId = photo.owner;
+
+						userCTR
+							.update(photo.owner, { $inc: { balance: 1 } })
+							.then(_ => r.send(res, 200, sanitize.response(updatedUser)))
+							.catch(err =>
+								r.error(res, err, `failed to credit owner of phoo`),
+							);
+					})
 					.catch(err =>
 						r.error(res, err, `server failed to add photo to collection`),
 					);
