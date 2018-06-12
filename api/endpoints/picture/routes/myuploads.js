@@ -15,6 +15,7 @@ const photoCTR = require('../../../photos/controller');
  */
 const authenticate = require('../../../helpers/authenticate');
 const r = require('../../../helpers/responses');
+const validate = require('../../../helpers/validate');
 const sanitize = require('../../../helpers/sanitize');
 
 /**
@@ -52,9 +53,14 @@ router
 	 * put updatedPhoto into an Array and
 	 * just choose the 0-th element in returned Array
 	 */
-	.put(authenticate.sid, photoCTR.updateTags, (req, res) => {
-		r.send(res, 200, sanitize.pictures([req.updatedPhoto])[0]);
-	})
+	.put(
+		authenticate.sid,
+		validate.updatedTags,
+		photoCTR.updateTags,
+		(req, res) => {
+			r.send(res, 200, sanitize.pictures([req.updatedPhoto])[0]);
+		},
+	)
 
 	/**
 	 * DELETE /api/pictures/myuploads/:id
