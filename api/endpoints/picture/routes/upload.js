@@ -44,7 +44,7 @@ router
 		authenticate.sid,
 		upload.array('image'),
 		photoCTR.insertMany,
-		userCTR.findOneAndUpdateUploadedPhotos,
+		userCTR.addPhotoToUpload,
 		(req, res) => {
 			r.send(res, 200, sanitize.response(req.updatedUser));
 		},

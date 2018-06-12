@@ -2,20 +2,6 @@ const Photo = require('./model');
 
 const r = require('../helpers/responses');
 
-exports.uploadPhoto = function(req, res, next) {
-	// upload should be added to user uploads too
-	const photo = new Photo(img);
-	return photo.save();
-};
-
-exports.deletePhoto = _id => {
-	return Photo.findByIdAndRemove({ _id });
-};
-
-exports.downloadPhoto = function(req, res, next) {};
-
-exports.addToCollection = function(req, res, next) {};
-
 exports.updateTags = (req, res, next) => {
 	const tags = req.body.tags.map(t => ({ id: t, text: t }));
 
@@ -58,13 +44,25 @@ exports.getPhotosOf = (req, res, next) => {
 	});
 };
 
-/**
- * parm should be an object (example below):
- * { _id: 5b170c9f84d87a0014b5a042 }
- */
-exports.request = parm => {
-	if (!parm) return Photo.find();
-	return Photo.findOne(parm);
+exports.request = (req, res, next) => {
+	const parm = req.params.id;
+	let query;
+
+	if (!parm) {
+		query = Photo.find();
+	} else {
+		query = Photo.find({ _id: parm });
+	}
+
+	query.exec((err, photos) => {
+		if (err) {
+			r.error(res, err, `error locating picture`);
+			return;
+		}
+
+		req.photos = photos;
+		next();
+	});
 };
 
 /**

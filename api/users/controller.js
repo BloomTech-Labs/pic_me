@@ -166,7 +166,7 @@ exports.userPhotoDelete = (req, res, next) => {
 	});
 };
 
-exports.findOneAndUpdateUploadedPhotos = (req, res, next) => {
+exports.addPhotoToUpload = (req, res, next) => {
 	User.findOneAndUpdate(
 		{ _id: req.user.id },
 		{ $push: { uploads: req.pictureIds } },
@@ -178,6 +178,47 @@ exports.findOneAndUpdateUploadedPhotos = (req, res, next) => {
 			}
 
 			req.updatedUser = updatedUser;
+			next();
+		},
+	);
+};
+
+/**
+ * since there is only one photo we are adding (for now), and
+ * we know that photoCTR.request will return an Array with one element
+ * (since we have a parm, or parameter we are passing from the front-end)
+ * push the 0th element's _id from req.photos to user's collection
+ */
+exports.addPhotoToCollection = (req, res, next) => {
+	User.findOneAndUpdate(
+		{ _id: req.user.id },
+		{ $push: { photos: req.photos[0]._id }, $inc: { balance: -1 } },
+		{ new: true },
+		(err, updatedUser) => {
+			if (err) {
+				r.error(res, err, `error adding photo to collection`);
+				return;
+			}
+
+			req.updatedUser = updatedUser;
+			next();
+		},
+	);
+};
+
+exports.creditPhotoOwner = (req, res, next) => {
+	const ownerId = req.photos[0].owner;
+
+	User.findByIdAndUpdate(
+		{ _id: ownerId },
+		{ $inc: { balance: 1 } },
+		{ new: true },
+		err => {
+			if (err) {
+				r.error(res, err, `error crediting owner of photo`);
+				return;
+			}
+
 			next();
 		},
 	);

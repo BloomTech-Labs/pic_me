@@ -63,34 +63,15 @@ router
 	 * add photo ref to user's photo
 	 * if successful, add credits to original user
 	 */
-	.post(authenticate.sid, validate.credits, (req, res) => {
-		photoCTR
-			.request({ _id: req.params.id })
-			.then(photo => {
-				const photoId = [];
-				photoId.push(photo._id);
-
-				userCTR.user
-					.findOneAndUpdate(
-						{ _id: req.user.id },
-						{ $push: { photos: photoId }, $inc: { balance: -1 } },
-						{ new: true },
-					)
-					.then(updatedUser => {
-						const ownerId = photo.owner;
-
-						userCTR
-							.update(photo.owner, { $inc: { balance: 1 } })
-							.then(_ => r.send(res, 200, sanitize.response(updatedUser)))
-							.catch(err =>
-								r.error(res, err, `failed to credit owner of phoo`),
-							);
-					})
-					.catch(err =>
-						r.error(res, err, `server failed to add photo to collection`),
-					);
-			})
-			.catch(err => r.error(res, err, `server failed to locate picture`));
-	});
+	.post(
+		authenticate.sid,
+		validate.credits,
+		photoCTR.request,
+		userCTR.addPhotoToCollection,
+		userCTR.creditPhotoOwner,
+		(req, res) => {
+			r.send(res, 200, sanitize.response(req.updatedUser));
+		},
+	);
 
 module.exports = router;
