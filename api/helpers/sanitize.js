@@ -11,10 +11,10 @@ exports.user = (req, res, next) => {
 };
 
 exports.update = (req, res, next) => {
-	req.editedUser = {};
+	req.parm = {};
 
 	Object.keys(req.body.user).forEach(
-		field => (req.editedUser[field] = req.body.user[field]),
+		field => (req.parm[field] = req.body.user[field]),
 	);
 
 	next();

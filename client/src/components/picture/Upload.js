@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import axios from 'axios';
 import { WithContext as ReactTags } from 'react-tag-input';
 import styled from 'styled-components';
-// import styles from './Tags.css';
 import './Upload.css';
+import './Tags.css';
 import Image from 'react-image-resizer';
 import FileUpload from '@material-ui/icons/FileUpload';
 import { Button, Input } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { upload } from '../../actions';
 import withRoot from '../../withRoot';
 
 axios.defaults.withCredentials = true;
@@ -20,34 +18,6 @@ const Container = styled.div`
   // align-items: center;
   // margin-top: 10%;
 `;
-
-// const Input = styled.input`
-// 	font-size: 14px;
-// 	margin-bottom: 10px;
-// `;
-
-// const TagForm = styled.form`
-// 	// margin: 20px;
-// 	font-size: 12px;
-// `;
-
-// const FileInput = styled.input`
-// 	// background: #2953A0;
-// 	// height: 31px;
-// 	margin 0 5px;
-// `;
-
-// const FormLabel = styled.label`
-// 	height: 31px;
-// 	margin: auto;
-// `;
-
-// const UploadButton = styled.button`
-// 	height: 31px;
-// 	margin 0 5px;
-// 	// background: #2953A0;
-// 	border-radius: 4px;
-// `;
 
 const styles = theme => ({
   button: {
@@ -69,11 +39,8 @@ class Upload extends Component {
 
     this.state = {
       image: '',
-      preview: '',
+      preview: undefined,
       tags: []
-      // suggestions: [
-      //   {id: 'Nickname', text: 'Nickname'}
-      // ]
     };
   }
 
@@ -113,97 +80,111 @@ class Upload extends Component {
     reader.readAsDataURL(image);
   };
 
+  resetPreview = e => {
+    e.preventDefault();
+    this.setState({
+      preview: undefined,
+      tags: []
+    });
+    console.log('reset clicked');
+  };
+
   onSubmit = e => {
-  	e.preventDefault();
-  	const { tags, image } = this.state;
-  	console.log('Tags:', tags);
+    e.preventDefault();
+    const { tags, image } = this.state;
+    console.log('Tags:', tags);
 
-  	let formData = new FormData();
+    let formData = new FormData();
 
-  	formData.append('tags', JSON.stringify(tags));
-		formData.append('image', image);
-		return dispatch => {
-  	axios
-  		.post('/api/pictures/upload', formData)
-  		.then(({data}) => {
-				// console.log('upload successful');
-				dispatch({
-					message: `upload successful`,
-				});
-  		})
-			.catch(err => console.log(err));
-		this.refs.image.value = '';
-		}
-	};
+    formData.append('tags', JSON.stringify(tags));
+    formData.append('image', image);
+    axios
+      .post('/api/pictures/upload', formData)
+      .then(res => {
+        console.log('upload successful');
+      })
+      .catch(err => console.log(err));
+    this.resetPreview(e);
+
+    this.resetPreview(e);
+    // this.refs.image.value = '';
+  };
 
   render() {
     let { preview, tags } = this.state;
     const { classes } = this.props;
-
-    return (
-      <Container>
-        <form onSubmit={this.onSubmit}>
-          <div className="container">
-            <h3> Upload </h3>
-            <hr />
-            <div className="content">
-              <div className="box">
-                <Input
-                  type="file"
-                  id="file"
-                  name="image"
-                  ref="image"
-                  onChange={this.onChange}
-                  className="inputfile"
-                />
-                <label htmlFor="file">Select a File</label>
-              </div>
-
-              <div>
-                <ReactTags
-                  inline
-                  tags={tags}
-                  // suggestions={suggestions}
-                  handleDelete={this.handleDelete}
-                  handleAddition={this.handleAddition}
-                  handleDrag={this.handleDrag}
-                  delimiters={delimiters}
-                />
-              </div>
-
-              <div>
+    console.log(preview === undefined);
+    if (preview) {
+      return (
+        <Container>
+          <form onSubmit={this.onSubmit}>
+            <div className="container">
+              <h3> Upload </h3>
+              <hr />
+              <div className="content">
                 <Button
                   variant="raised"
-                  color="secondary"
-                  type="submit"
-                  className={classes.button}
-									onClick={this.onSubmit}
+                  onClick={this.resetPreview}
                 >
-                  Upload Image
-                  <FileUpload />
+                  Change Upload?
                 </Button>
+                {/* Figure out how to adjust width based on device. Widths < 400px look awkward */}
+                <Image src={preview} height={400} width={400} />
+                <div>
+                  <ReactTags
+                    inline
+                    tags={tags}
+                    handleDelete={this.handleDelete}
+                    handleAddition={this.handleAddition}
+                    handleDrag={this.handleDrag}
+                    delimiters={delimiters}
+                  />
+                </div>
+                <div>
+                  <Button
+                    variant="raised"
+                    color="secondary"
+                    type="submit"
+                    onClick={this.onSubmit}
+                    className={classes.button}
+                  >
+                    Upload Image
+                    <FileUpload />
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
-        </form>
-        <div className="content">
-          <Image src={preview} height={400} width={400} />
-        </div>
-      </Container>
-    );
+          </form>
+        </Container>
+      );
+    } else {
+      return (
+        <Container>
+          <form onSubmit={this.onSubmit}>
+            <div className="container">
+              <h3> Upload </h3>
+              <hr />
+              <div className="content">
+                <div className="box">
+                  <Input
+                    type="file"
+                    id="file"
+                    name="image"
+                    ref="image"
+                    onChange={this.onChange}
+                    className="inputfile"
+                  />
+                  <label className="fileLabel" htmlFor="file">
+                    Select a File
+                  </label>
+                </div>
+              </div>
+            </div>
+          </form>
+        </Container>
+      );
+    }
   }
 }
 
-const UploadWrapped = withRoot(withStyles(styles)(Upload));
-
-export default connect(
-	state => ({
-	authenticated: state.auth.authenticated,
-	error: state.auth.error,
-	uploads: state.photo.uploads,
-	photoError: state.photo.error,
-	}),
-  {
-		upload
-  }
-)(UploadWrapped);
+export default withRoot(withStyles(styles)(Upload));
