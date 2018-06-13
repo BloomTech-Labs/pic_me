@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import { reduxForm, Field } from 'redux-form';
 import { reduxForm } from 'redux-form';
-import { deleteaccount } from '../actions';
+import { deleteaccount } from '../../actions';
 
 class Deleteaccount extends Component {
 	componentWillMount() {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
-import { account, resetErrors } from '../actions';
+import { account, resetErrors } from '../../actions';
 // import Bread from "./Bread";
 
 class Account extends Component {

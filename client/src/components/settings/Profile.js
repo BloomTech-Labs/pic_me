@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
-import { profile, resetErrors } from '../actions';
+import { profile, resetErrors } from '../../actions';
 // import { load as loadData } from '../reducers/profile';
 // import Bread from "./Bread";
 
