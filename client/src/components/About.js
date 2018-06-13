@@ -25,17 +25,10 @@ const styles = theme => ({
   card: {
     maxWidth: 340,
   },
-  control: {
-    padding: theme.spacing.unit * 2
-  },
   avatar: {
     margin: 10,
     width: 60,
     height: 60
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%' // 16:9
   },
   actions: {
     display: 'flex'
@@ -50,7 +43,7 @@ class About extends Component {
         <Grid container className={classes.root} spacing={16}>
           <Grid item xs={12}>
             <Grid container justify="center">
-              <Typography variant="subheading">
+              <Typography gutterBottom>
                 Pic Me started as a Capstone Project at{' '}
                 <a href="https://lambdaschool.com/">
                   <img src={lambda} alt="lambda logo" width="27" height="29" />{' '}

@@ -419,13 +419,18 @@ export const authenticateUser = history => {
 	};
 };
 
-export const upload = data => {
-	return dispatch => {
-		axios
-			.post(`${ROOT}/pictures/upload`)
-			.then(res => console.log(res))
-			.catch(err => console.error(err));
-	};
+export const upload = _ => {
+	const { tags, image } = this.state;
+	let formData = new FormData();
+	
+	formData.append('tags', JSON.stringify(tags));
+	formData.append('image', image);
+	
+	axios
+		.post(`${ROOT}/pictures/upload`, formData)
+		.then(res => console.log('upload successful'))
+		.catch(err => console.error(err));
+	this.refs.image.value = '';
 };
 
 export const browse = _ => {
