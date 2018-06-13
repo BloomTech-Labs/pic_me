@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import {
-	Button,
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -39,9 +39,9 @@ class Browse extends Component {
       open: false,
       selectedId: ''
     };
-		// this.toggle = this.toggle.bind(this);
-		this.handleClickOpen=this.handleClickOpen.bind(this);
-		this.handleClose=this.handleClose.bind(this);
+    // this.toggle = this.toggle.bind(this);
+    this.handleClickOpen = this.handleClickOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   componentWillMount() {
@@ -80,24 +80,24 @@ class Browse extends Component {
   // 		modal: !this.state.modal,
   // 	});
   // }
-  handleClickOpen = (imgId) => {
-    this.setState({ 
-			open: true,
-			selectedId: imgId
-	 });
+  handleClickOpen = imgId => {
+    this.setState({
+      open: true,
+      selectedId: imgId
+    });
   };
 
-  handleClose = (imgId) => {
-    this.setState({ 
-			open: false,
-			selectedId: imgId,
-		});
+  handleClose = imgId => {
+    this.setState({
+      open: false,
+      selectedId: imgId
+    });
   };
 
   claimPictureButtonClickedHandler = _ => {
     this.props.claimPicture(this.state.selectedId);
-		// this.toggle();
-		this.handleClose();
+    // this.toggle();
+    this.handleClose();
   };
 
   componentDidMount() {
@@ -151,32 +151,35 @@ class Browse extends Component {
 									</Button>
 								</ModalFooter>
 							</Modal> */}
-              <Dialog
-                open={this.state.open}
-                onClose={this.handleClose}
-                area-labelledby="alert-dialog-title"
-                area-describedby="alert-dialog-description"
-              >
-                <DialogTitle id="alert-dialog-title">
-                  {"Is this you?"}
-                </DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="alert-dialog-description">
-									Pay 1 credit and add this photo to your collection?
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={this.handleClose} variant="raised">
-                    Cancle
-                  </Button>
-                  <Button onClick={_ => this.claimPictureButtonClickedHandler()} color="primary" variant="raised" autoFocus>
-                    Yes
-                  </Button>
-                </DialogActions>
-              </Dialog>
             </GridListTile>
           ))}
         </GridList>
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          area-labelledby="alert-dialog-title"
+          area-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{'Is this you?'}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Pay 1 credit and add this photo to your collection?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} variant="raised">
+              Cancle
+            </Button>
+            <Button
+              onClick={_ => this.claimPictureButtonClickedHandler()}
+              color="primary"
+              variant="raised"
+              autoFocus
+            >
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }

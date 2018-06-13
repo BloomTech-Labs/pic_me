@@ -17,8 +17,9 @@ import {
   IconButton
 } from '@material-ui/core';
 // import ArrowDownwardIcon from '@material-ui/icons/Star';
-import Delete from '@material-ui/icons/Delete';
+// import Delete from '@material-ui/icons/Delete';
 import GetApp from '@material-ui/icons/GetApp';
+import Close from '@material-ui/icons/Close';
 // import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {
   mycollection,
@@ -117,18 +118,20 @@ class Browse extends Component {
         {this.renderAlert()}
         <Grid container justify="center" spacing={16}>
           {this.state.collection.map(img => (
-            <Grid item>
+            <Grid item key={img.id}> 
               <Card className={classes.card}>
-                <CardHeader title={img.tags.map(i => i.text).join(', ')} />
-                <CardMedia className={classes.media} image={img.url} />
-                <CardActions className={classes.actions} disableActionSpacing>
+							<CardActions className={classes.actions} disableActionSpacing>
+							<IconButton onClick={_ => this.handleClickOpen(img.id)}>
+                    <Close />
+                  </IconButton>
                   <IconButton onClick={_ => this.openThis(img.url)}>
                     <GetApp />
                   </IconButton>
-                  <IconButton onClick={_ => this.handleClickOpen(img.id)}>
-                    <Delete />
-                  </IconButton>
+
                 </CardActions>
+
+                <CardMedia className={classes.media} image={img.url} />
+                <CardHeader title={img.tags.map(i => i.text).join(', ')} />
               </Card>
             </Grid>
           ))}

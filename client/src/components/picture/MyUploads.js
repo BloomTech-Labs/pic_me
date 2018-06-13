@@ -14,9 +14,11 @@ import {
   DialogContentText,
   DialogTitle,
   Grid,
-  IconButton
+	IconButton,
+	// TextField,
 } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+import Close from '@material-ui/icons/Close';
+// import { reduxForm, Field } from 'redux-form';
 import {
   deletemyuploads,
   myuploads,
@@ -42,10 +44,10 @@ class MyUploads extends Component {
     this.state = {
       uploads: [],
       open: false,
-      selectedId: ''
+			selectedId: '',
     };
 
-    this.handleClickOpen = this.handleClickOpen.bind(this);
+		this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
   }
 
@@ -66,7 +68,7 @@ class MyUploads extends Component {
   deleteUploadButtonClickedHandler = _ => {
     this.props.deletemyuploads(this.state.selectedId);
     this.handleClose();
-  };
+	};
 
   componentWillMount() {
     this.props.myuploads();
@@ -103,7 +105,7 @@ class MyUploads extends Component {
     let newTags = prompt(
       `Add or edit these tags (TAG1, TAG2, TAG3, TAG4, TAG5)`,
       `${tags.map(i => i.text).join(', ')}`
-    );
+		);
 
     if (newTags) {
       this.props.updateTagsOf(imgId, newTags);
@@ -120,11 +122,12 @@ class MyUploads extends Component {
         {this.renderAlert()}
         <Grid container justify="center" spacing={16}>
           {this.state.uploads.map(img => (
-            <Grid item>
+            <Grid item key={img.id}>
               <Card className={classes.card}>
                 <CardActions>
-                  <IconButton onClick={_ => this.handleClickOpen(img.id)}>
-                    <CloseIcon />
+									<IconButton 
+										onClick={_ => this.handleClickOpen(img.id)}>
+                    <Close />
                   </IconButton>
                 </CardActions>
                 <CardMedia className={classes.media} image={img.url} />
@@ -155,7 +158,7 @@ class MyUploads extends Component {
               Cancle
             </Button>
             <Button
-              onClick={_ => this.deleteUploadButtonClickedHandler()}
+						onClick={_ => this.deleteUploadButtonClickedHandler()}
               color="primary"
               variant="raised"
               autoFocus
@@ -164,24 +167,63 @@ class MyUploads extends Component {
             </Button>
           </DialogActions>
         </Dialog>
+				{/* <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          area-labelledby="form-dialog-title"
+          area-describedby="form-dialog-description"
+        >
+          <DialogTitle id="form-dialog-title">
+            {'Tags'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="form-dialog-description">
+						Add or edit these tags (TAG1, TAG2, TAG3, TAG4, TAG5)
+            </DialogContentText>
+          </DialogContent>
+					<Field
+						name="tags"
+						label="tags"
+						component={
+							<TextField
+              autoFocus
+              margin="dense"
+              id="tags"
+              label="tags"
+              type="text"
+              fullWidth
+            	/>
+						}
+          />
+          <DialogActions>
+            <Button onClick={this.handleClose} variant="raised">
+              Cancle
+            </Button>
+            <Button
+							onClick={_ => this.updatetagClickedHandler()}
+              color="primary"
+              variant="raised"
+              autoFocus
+            >
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog> */}
       </div>
     );
   }
 }
 
-const mapStatetoProps = state => {
-  return {
-    authenticated: state.auth.authenticated,
-    error: state.auth.error,
-    uploads: state.photo.uploads,
-    photoError: state.photo.error
-  };
-};
-
 const MyUploadsWrapped = withRoot(withStyles(styles)(MyUploads));
 
 export default connect(
-  mapStatetoProps,
+	state => ({
+	authenticated: state.auth.authenticated,
+	error: state.auth.error,
+	uploads: state.photo.uploads,
+	photoError: state.photo.error,
+	// initialValues: state.photo,
+	}),
   {
     myuploads,
     deletemyuploads,
@@ -189,3 +231,7 @@ export default connect(
     updateTagsOf
   }
 )(MyUploadsWrapped);
+// export default reduxForm({
+// 	form: 'myuploads',
+// 	enableReinitialize: true,
+// })(MyUploadsWrapped);

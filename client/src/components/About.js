@@ -23,20 +23,12 @@ const styles = theme => ({
     flexGrow: 1
   },
   card: {
-    maxWidth: 345,
-    height: 230,
-  },
-  control: {
-    padding: theme.spacing.unit * 2
+    maxWidth: 340,
   },
   avatar: {
     margin: 10,
     width: 60,
     height: 60
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%' // 16:9
   },
   actions: {
     display: 'flex'
@@ -51,7 +43,7 @@ class About extends Component {
         <Grid container className={classes.root} spacing={16}>
           <Grid item xs={12}>
             <Grid container justify="center">
-              <Typography variant="subheading">
+              <Typography gutterBottom>
                 Pic Me started as a Capstone Project at{' '}
                 <a href="https://lambdaschool.com/">
                   <img src={lambda} alt="lambda logo" width="27" height="29" />{' '}
@@ -76,7 +68,7 @@ class About extends Component {
                   />
                   <CardContent>
                     <Typography variant="body1" gutterBottom>
-                      Software engineer with a psychology background. Have 8
+                      Elly is a software engineer with a psychology background. Have 8
                       years experience at Microsoft, startup, and mHealth.
                     </Typography>
                   </CardContent>
@@ -112,7 +104,7 @@ class About extends Component {
                   />
                   <CardContent>
                     <Typography variant="body1" gutterBottom>
-                      A persistent learner who enjoys solving problems from the
+                      Julian is a persistent learner who enjoys solving problems from the
                       backend, to the frontend.
                     </Typography>
                   </CardContent>
@@ -144,7 +136,7 @@ class About extends Component {
                   />
                   <CardContent>
                     <Typography variant="body1" gutterBottom>
-                      A software engineer that dreams of making “life” apps with
+                      Sam is a software engineer that dreams of making “life” apps with
                       rich websites and clean backends.
                     </Typography>
                   </CardContent>
