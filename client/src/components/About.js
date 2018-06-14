@@ -68,7 +68,7 @@ class About extends Component {
                   />
                   <CardContent>
                     <Typography variant="body1" gutterBottom>
-                      Elly is a software engineer with a psychology background. Have 8
+                      Elly is a software engineer with a psychology background. Having 8
                       years experience at Microsoft, startup, and mHealth.
                     </Typography>
                   </CardContent>
