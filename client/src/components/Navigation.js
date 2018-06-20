@@ -19,8 +19,6 @@ import { withRouter, Link } from 'react-router-dom';
 import { logout, getInfo } from '../actions';
 import logo from '../static/logo.png';
 
-// import { NavLink } from 'react-router-dom';
-
 class Navigation extends Component {
 	constructor(props) {
 		super(props);
